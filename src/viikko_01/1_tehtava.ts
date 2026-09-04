@@ -30,12 +30,8 @@ type UserProfile = {
 
 };
 
-/* const user: UserProfile = {
-  id: 1,
-  user: "simo",
-  email: "simo@gmail.com",
-  status: "active",
-  location: [33.33, 66.66]
+/* const user: UserProfile = { id: 1, user: "simo", email: "simo@gmail.com",
+  status: "active", location: [33.33, 66.66]
 };
 
 console.log(user); */
@@ -48,16 +44,16 @@ console.log(user); */
 
 function createUser(
   // Funktion parametrit
-  id: number, 
-  username: string, 
-  email: string, 
+  id: number,
+  username: string,
+  email: string,
   location: Coordinate
 
-// Minkälainen palautettava olio on
+  // Minkälainen palautettava olio on
 ): UserProfile {
-// Tarkempi tyyppi
-  const user: UserProfile =  {
-  // Olion ominaisuudet yhdistetään funktion parametreihin
+  // Tarkempi tyyppi
+  const user: UserProfile = {
+    // Olion ominaisuudet yhdistetään funktion parametreihin
     id: id,
     user: username,
     email: email,
