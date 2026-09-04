@@ -1,0 +1,21 @@
+{
+  "name": "typescript_tehtavat",
+  "version": "1.0.0",
+  "description": "Web2-kurssin tehtavat ja kehittajablogi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UnPocoloc0/Typescript_tehtavat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/UnPocoloc0/Typescript_tehtavat/issues"
+  },
+  "homepage": "https://github.com/UnPocoloc0/Typescript_tehtavat#readme"
+}
