@@ -30,7 +30,7 @@ type UserProfile = {
 
 };
 
-const user: UserProfile = {
+/* const user: UserProfile = {
   id: 1,
   user: "simo",
   email: "simo@gmail.com",
@@ -38,4 +38,44 @@ const user: UserProfile = {
   location: [33.33, 66.66]
 };
 
-console.log(user);
+console.log(user); */
+
+/*
+4. Create and export a function createUser(id: number, username: string, email:
+   string, location: Coordinate): UserProfile that initializes the user with
+   status "pending".
+*/
+
+function createUser(
+  // Funktion parametrit
+  id: number, 
+  username: string, 
+  email: string, 
+  location: Coordinate
+
+// Minkälainen palautettava olio on
+): UserProfile {
+// Tarkempi tyyppi
+  const user: UserProfile =  {
+  // Olion ominaisuudet yhdistetään funktion parametreihin
+    id: id,
+    user: username,
+    email: email,
+    status: "pending",
+    location: location
+
+  };
+
+  return user;
+
+}
+const newUser = createUser(
+  1,
+  "Simo",
+  "simo@gmail.com",
+  [33.33, 66.66]
+);
+
+console.log(newUser);
+
+
