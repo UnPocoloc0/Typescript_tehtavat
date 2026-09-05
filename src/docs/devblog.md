@@ -81,14 +81,51 @@ eri puolilla koodia näkyy.
 
 #### Harjoitus 2
 
+-Rajapintojen määrittely oli melko suoraviivasta ja myös tuttua esim. 
+Java-ohjelmointikielestä. 
 
+-Switch-case oli myös rakenteena tuttu muista kielistä
+
+-Tein ohjelmaan myös mini-testausosion, jotta näin paremmin, mitä ohjelma tekee.
+Muuten kaikki tekeminen olisi jäänyt liian teorian asteelle. 
+-Hankala oli metodin paluuarvo, eli sen piti olla juuri oikeaan tyyppiä. Tämän
+syntaksi oli myös vierasta. kts. shape is Circle. 
+
+-Jos paluuarvo ei ollut mikään annetuista, niin tämän palauttaminen niin, että
+kääntäjä hyväksyy paluuarvon never oli hankala toteuttaa. 
 
 #### Harjoitus 3
 
+-Rajapinta -> Abstraktiluokka -> Konkreettinen toteutus. Abstrakti luokka
+toteuttaa rajapinnan ja konkreettinen luokka toteuttaa abstraktin luokan. 
+Tämä malli on myöstuttua Javasta, vaikka käytännön kokemusta tarvitsen tähän 
+paljon vielä lisää. Mutta ainakin ajatuksen tasolla ymmärrän, mistä tässä 
+eriyttämisessä on kyse.
 
+-Luokka ja sen ominaisuuksien alustaminen konstruktorilla on myös tuttua C#:sta.
 
+-Vähän menee eri kielet sekaisin syntaksellisesti, eli Java, C#, Swift jne.
+Vaikka TS-koodi muistuttaa toisia kieliä, niin muuttujan nimet voivat olla eri
+järjestyksessä, kuin mihin olen muissa kielissä tottunut.
 
+-Metodien allekirjoitus onnistui kohtalaisen hyvin, mutta kuitenkin itse metodin
+runko oli hankalampi toteuttaa
 
+-Tehtävä oli selvästi hankalampi edellisiin verrattuna ja vaati parempaa
+kokonaisuuden hahmottamista. Ehkä olisin voinut kirjoittaa enemmän ylätason
+kuvauksen suomenkielellä, mikä on ohjelman kokonaisarkkitehtuuri, myös
+pseudokoodina, mitä ohjelma tekee jne. 
+
+-Syntaksellisesti hankalia kohtia olivat kuvauksen muuttaminen taulukkomuotoon,
+yleisen tyypin käyttäminen metodeissa, kuvauksesta arvon hakeminen, abstraktin
+metodin jättäminen tyhjäksi. 
+-Hyödyllinen oppi oli yläluokan metodin ylikirjoittaminen omalla
+toteutuksella, samoin abstraktin metodin toteutus. Näitä pitää harjoitella
+tekemään todella paljon vielä lisää. 
+-Koen, että koko oliokonsepti kaipaa myös kertailua ja lisää käytännön tekemistä
+ja hyvä että nämä ideat tulevat vastaan monilla eri ohjelmointikielillä.
+-Tämä erottelu, perintä, ylikirjoittaminen on avainasemassa, jotta pystytään
+kirjoittamaan mahdollisimman selkeää koodia
 ---
 
 ## Viikko 2 (6.9.- 13.9.2020)

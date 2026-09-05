@@ -10,11 +10,11 @@ interface Entity {
 -abstract class BaseRepository<T extends Entity>:
  -private items: Map<string, T> = new Map() 
  -protected log(action: string, entityId: string): void (stores or prints log)
- -public add(item: T): void (stores item in Map and calls protected log("ADD",
-   item.id)) 
- -public getById(id: string): T | undefined (retrieves item by id) 
+ -public add(user: T): void (stores user in Map and calls protected log("ADD",
+   user.id)) 
+ -public getById(id: string): T | undefined (retrieves user by id) 
  -public getAll(): readonly T[] (returns array of all items) 
- -public abstract validate(item: T): boolean (abstract method) 
+ -public abstract validate(user: T): boolean (abstract method) 
 */
 // Tyypin pitää toteuttaa Entity-rajapinta
 abstract class BaseRepository<T extends Entity> {
@@ -23,10 +23,10 @@ abstract class BaseRepository<T extends Entity> {
     protected log(action: string, entityId: string): void {
         console.log(action, entityId);
     };
-    public add(item: T): void {
+    public add(user: T): void {
         // Annetaan avain ja arvo
-        this.items.set(item.id, item);
-        this.log("ADD", item.id)
+        this.items.set(user.id, user);
+        this.log("ADD", user.id)
     };
     public getById(id: string): T | undefined {
         return this.items.get(id);
@@ -36,7 +36,7 @@ abstract class BaseRepository<T extends Entity> {
         const itemsArray = Array.from(this.items.values());
         return itemsArray;
     };
-    public abstract validate(item: T): boolean;
+    public abstract validate(user: T): boolean;
 }
 
 
@@ -66,11 +66,11 @@ class User {
 }
 class UserRepository extends BaseRepository<User> {
     // Abstraktin luokan metodi
-    public validate(item: User): boolean {
-
-        return item.age >= 18 && item.name.length > 0;
+    public validate(user: User): boolean {
+        // Ei tarvita erillistä boolean muuttujaa
+        return user.age >= 18 && user.name.length > 0;
     }
-    // Allekirjoitus pitää olla sama, vaikka runko olisi erilainen
+    // Metodin allekirjoitus pitää olla sama, vaikka toteutus/ runko olisi erilainen
     public override add(user: User) {
         if (!this.validate(user)) {
             throw new Error("Invalid user");
