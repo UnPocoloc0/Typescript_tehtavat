@@ -126,6 +126,7 @@ tekemään todella paljon vielä lisää.
 ja hyvä että nämä ideat tulevat vastaan monilla eri ohjelmointikielillä.
 -Tämä erottelu, perintä, ylikirjoittaminen on avainasemassa, jotta pystytään
 kirjoittamaan mahdollisimman selkeää koodia
+
 ---
 
 ## Viikko 2 (6.9.- 13.9.2020)
