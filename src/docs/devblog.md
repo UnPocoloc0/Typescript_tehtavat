@@ -41,7 +41,6 @@ tiedostoja
 -Tutustuin tsx-työkaluun, joka ei tee käännöksiä levylle ja auttaa
 näkemään kehityksen tuloksen välittömästi ilman muunnosta TS -> JS
 
--
 
 Kuvaa tähän osioon millaisia harjoituksia teit
 
@@ -57,12 +56,35 @@ joko tulostavat tai sitten palauttavat jotain. Jos funktio laitetaan
 palauttamaan, niin tämä tyyppi pitää laittaa funktion määrittelyyn mukaan
 
 #### Harjoitus 1
+-Harjoittelin tyyppien tekemistä. Tyypit voivat olla ennalta määritetty ja
+rajattu haluttuihin arvoihin.
+-Tajusin, että harjoitukset eivät ole irrallisia, vaan jokainen harjoiuksen
+vaihe liittyy jollain tavalla edelliseen harjoitukseen. 
 
+-Tehtävänantoja oli välillä hankala lukea, koska nämä olivat yhdessä pötkössä ja
+ilman pilkutusta. Tämän takia oli hanakala tietää missä lauseiden rajat menivät. 
+Ratkaisin tämän niin, että laitoin pitkän ohjeen paloihin ja eri riveille, jota
+kävin kohta kerrallaan ratkaisemaan. Sama ajatus toimii mielestäni myös
+valmiissa koodissa. 
 
+-Vielä TypeScriptin syntaksi on vierasta. Menee sekaisin funktion parametrit
+erotetaan pilkulla, samoin olion ominaisuudet. Muissa kielissä olen tottunut
+puolipilkulla lopettamaan rivin
 
+-Hankalin asia oli, jos funktion palautustyyppi oli olio. Meni todella pahasti
+sekaisin, mikä on funktion parametri ja mikä on olion ominaisuus. Myös tämä
+olion ominaisuuksien yhdistäminen funktion parametreihin oli hankala hahmottaa. 
+
+-Tyypitys yleisesti on vielä todella hankala hahmottaa ja miten tämä käytännössä
+eri puolilla koodia näkyy. 
 
 
 #### Harjoitus 2
+
+
+
+#### Harjoitus 3
+
 
 
 

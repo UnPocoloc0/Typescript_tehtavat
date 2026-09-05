@@ -13,9 +13,13 @@ type UserStatus = "active" | "inactive" | "pending";
 type Coordinate = [latitude: number, longitude: number];
 
 /*
-3. Define a type alias UserProfile with properties: - id: readonly number -
-   user: string - email: string - status: UserStatus - location: Coordinate -
-   bio: optional string.
+3. Define a type alias UserProfile with properties: 
+  - id: readonly number 
+  - user: string 
+  - email: string 
+  - status: UserStatus 
+  - location: Coordinate 
+  - bio: optional string.
 */
 
 
@@ -30,15 +34,16 @@ type UserProfile = {
 
 };
 
-/* const user: UserProfile = { id: 1, user: "simo", email: "simo@gmail.com",
+/* TESTI:
+const user: UserProfile = { id: 1, user: "simo", email: "simo@gmail.com",
   status: "active", location: [33.33, 66.66]
 };
-
 console.log(user); */
 
 /*
 4. Create and export a function createUser(id: number, username: string, email:
-   string, location: Coordinate): UserProfile that initializes the user with
+   string, location: Coordinate): 
+   UserProfile that initializes the user with
    status "pending".
 */
 
@@ -63,8 +68,9 @@ function createUser(
   };
 
   return user;
-
 }
+
+// TESTI: 
 const newUser = createUser(
   1,
   "Simo",
