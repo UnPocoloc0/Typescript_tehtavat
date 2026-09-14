@@ -131,21 +131,73 @@ kirjoittamaan mahdollisimman selkeää koodia
 
 ## Viikko 2 (6.9.- 13.9.2020)
 
+Melko paljon uutta asiaa tuli tällä viikolla. API-rajapinta kurssin kävin jo
+viime syksynä, hyvä että nämä asiat ovat saaneet kypsyä rauhassa. Tuli kerrattua
+Rest-arkkitehtuurin liittyviä konsepteja, kuten resurssien paikantamista, sekä
+URI-osoitteen syntaksi, tilakoodit yms. Lisäksi nuo http-verbit alkavat
+pikkuhiljaa selkiytyä. JSON-tiedostomuotoon olen törmännyt monta kertaa, 
+mutta tarkemmin syntaksia en
+ole aiemmin miettinyt. Tämän viikon iso pähkinä oli tuon CRUD-toiminnallisuuden 
+rakentaminen, sekä express-frameworkin käyttöönotto.
+
 ### Mitä opin tällä viikolla
 
-Kuvaa tähän ...
+Tällä viikolla tuli oppia niin itse koodista, kuin siihen liittyvitä
+työkaluista. Työkalut saattoivat olla jopa koodia suuremmassa roolissa tai
+vähintään yhtä suuressa roolissa. 
+Express-kehikko, sekä Postman-sovellus. Postmanista kokeilin uudemmille koneelle
+työpöytäversiota, ja vanhemmille koneille Postman agent-versiota. Ilokseni
+huomasin, että vanhoilla koneilla tämä agenttiversio toimii aivan mallikkaasti.
+Selaimen konsolilla oli helppo aloittaa kokeilu, mutta se ei tuntunut kuitenkaan kovin
+luontevalle työkalulle esim. Postmaniin verrattuna.  
 
 ### Mitä harjoituksia tein
 
-Kuvaa tähän osioon millaisia harjoituksia teit
+Postmanin lisäksi yritin tehdä pyyntöjä kehitystyökalujen konsolista. Tässä
+hankaluutena oli saada pidempi pyyntö eri riveille, koska enterin jälkeen pyyntö 
+lähti vajavaisena liikkeelle. Myös pyyntöjen tallettaminen ja niiden
+organisointi onnistui Postmanissa helposti. 
+
 
 #### Harjoitus 1
 
-Harjoitus 1:ssä opettelin... Ongelmaksi muodostui...
+ Tiedostosta lukeminen ja polun määrittäminen. Tein pari projektia, jossa oli
+lisää, hae, poista ja päivitys, eli CRUD-ominaisuudet. Viikkoharjoitus oli näistä
+ suppeampi projekti, vaikka sekään ei ollut helppo. Noiden modules oli
+ versionhallinnasta poistettu, 
+ joten eri koneella
+ työskenneltäessä, tämä kansio jäi anna uupumaan. Eli joudun tekemään
+ määrityksiä eri koneella on uudestaan. Eli tällaisia riippuvuusongelmia oli
+ eri koneilla, vaikka versionhallinta muuten toimii moitteettomasti. 
 
 #### Harjoitus 2
 
-Harjoitus 2:ssa opettelin...
+Yritin lähestyä back end-sovellusta ylä tasolta. Eli ennen kodin kirjoittamista
+yritin ymmärtää todella, mitä sovellus tekee ja miten sen pitäisi toimia.
+Seuraavaksi määrittelen suomen kielellä ohjelman vaiheet pseudokoodiin, jonka
+kirjoitin kooditiedoston yläosaan. Ilman tätä suunnitteluvaihetta luulen,
+että harjoituksen tekeminen ei olisi onnistunut. En kokeillut edes JavaScriptin
+version tekemistä, koska ajattelen, että typeskriptin hallitsemisesta voi olla
+enemmän hyötyä. 
+
+Middleware konseptina vielä hieman epäselvä. Huomasin kuitenkin, jos oli
+puuttuvia lauseita Middlewareen liittyen, niin esimerkiksi koodi yritti parsia
+väärän muotoista dataa. Body osiosta tiedon purkaminen muuttujiin on vielä vähän
+epäselvää. Muita ongelmia oli mm. oikeiden tyyppien päättely, tämä ei ole vielä oikein selvää.
+
+#### Harjoitus 3
+
+ Harjoittelen versionhallintaa tässä samalla ja sen oikeaoppista käyttöä. Hyvin
+ paljon teen todella pieniä kommitointeja ja inkrementtejä koodiin, 
+ jolloin ei ole niin varaa, jos jokin
+ menee rikki. Tämä tuo paljon enemmän rauhaa tekemiseen. Debuggausta kokeilin
+ luentojen mukana, mutta viikkotehtävä tehdessä en Debuggeria oikein muistanut
+ käyttää. 
+
+ #### Harjoitus 4
+  Tiedostosta lukeminen ja sen muotoilu säännöllisillä lausekkeella oli
+  hankalaa. Lisäksi eri käyttöjärjestelmät käsittelevät rivinvaihto hieman eri
+  tavalla, ja tämän koodin pitäisi olla siinä mielessä hyvin yleispätevää. 
 
 ---
 
