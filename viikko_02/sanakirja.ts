@@ -41,6 +41,10 @@ REITIT:
   Palauta taulukon englanninkielinen vastine
 
   POST:
+  Lue pyynnöstä sanapari (Molemmat pitää löytyä)
+  Kirjoita tiedoston loppuun uusi sanapari
+  Palauta tilakoodi
+
 KÄYNNISTYS:
   Käynnistä palvelin porttiin 3000
 ================================================================================
