@@ -70,7 +70,7 @@ interface SanaPari {
 }
 
 const sanakirja: SanaPari[] = [];
-const polku = path.join(__dirname, "sanakirja.txt");
+const polku = path.join(import.meta.dirname, "sanakirja.txt");
 
 const data = fs.readFileSync(polku, {
   encoding: "utf8",
@@ -78,7 +78,7 @@ const data = fs.readFileSync(polku, {
 });
 
 // Regex löytää rivinvaihdon eri käyttiksillä
-const sanaRivi = data.split(/\e?\n/)
+const sanaRivi = data.split(/\r?\n/)
 
 /**
    KÄY LÄPI jokainen rivi:
@@ -106,3 +106,21 @@ sanaRivi.forEach ((rivi) => {
 
 const app = express();
 const PORT = 3000;
+
+/*
+  [GET /sanakirja/:sana] -> Hae englanninkielinen käännös:
+    Lue hakusana URL-parametrista (req.params.sana)
+    Etsi 'sanakirja'-taulukosta alkio, jonka 'fin' vastaa hakusanaa 
+    (pienillä kirjaimilla)
+    JOS sana löytyy:
+      Palauta sana-olio JSON-muodossa (Status 200 OK)
+    MUTTA JOS sanaa ei löydy:
+      Aseta HTTP-statukseksi 404 (Not Found)
+      Palauta virheilmoitus { message: "Sanaa ei löytynyt" }
+*/
+
+
+app.listen(PORT, () => {
+
+  console.log(`Palvelin käynnistettiin osoitteeseen ${PORT}`);
+});
