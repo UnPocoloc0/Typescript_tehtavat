@@ -10,6 +10,7 @@ Backend tarjoaa kaksi rajapintaa:
 1. GET-metodilla ja suomenkielisellä hakusanalla haetaan vastaava englannin
 kielen sana
 2. POST-metodi tallentaa uuden sanaparin txt-tiedostoon 
+
 ================================================================================
 PSEUDODOODI:
 ================================================================================
@@ -47,16 +48,6 @@ REITIT:
 
 KÄYNNISTYS:
   Käynnistä palvelin porttiin 3000
-================================================================================
-TARKEMPI ERITTELY:
-================================================================================
-TYYPIT JA TIETORAKENTEET:
-
-TIEDOSTOJÄRJESTELMÄ
-
-TAULUKKO- JA MERKKIJONOMETODIT:
-
-EXPRESS-FUNKTIOT:
 
 */
 import express from "express";
@@ -80,20 +71,13 @@ const data = fs.readFileSync(polku, {
 // Regex löytää rivinvaihdon eri käyttiksillä
 const sanaRivi = data.split(/\r?\n/)
 
-/**
-   KÄY LÄPI jokainen rivi:
-    Jaa rivi kahtia välilyönnin kohdalta (suomi_sana, englanti_sana)
-    JOS molemmat sanat ovat olemassa:
-      Luo olio { fin: suomi_sana, eng: englanti_sana }
-      Lisää olio 'sanakirja'-taulukkoon
-  Aseta Express-middlewaret (express.json) JSON-datan käsittelyyn
- */
 
-  // Rivi on yksi rivi taulukossa
+// Rivi on yksi rivi taulukossa
 sanaRivi.forEach ((rivi) => {
 // Leikataan rivi sanoiksi -> Tuloksena string-taulukko
   const sanat = rivi.split(" ");
 
+  // Jos molemmat sanat löytyy -> luo sana-olio
   if ( sanat.length >= 2 && sanat[0] && sanat[1]) {
 
     const sana: SanaPari = {
@@ -107,17 +91,8 @@ sanaRivi.forEach ((rivi) => {
 const app = express();
 const PORT = 3000;
 
-/*
-  [GET /sanakirja/:sana] -> Hae englanninkielinen käännös:
-    Lue hakusana URL-parametrista (req.params.sana)
-    Etsi 'sanakirja'-taulukosta alkio, jonka 'fin' vastaa hakusanaa 
-    (pienillä kirjaimilla)
-    JOS sana löytyy:
-      Palauta sana-olio JSON-muodossa (Status 200 OK)
-    MUTTA JOS sanaa ei löydy:
-      Aseta HTTP-statukseksi 404 (Not Found)
-      Palauta virheilmoitus { message: "Sanaa ei löytynyt" }
-*/
+app.use(express.json())
+
 // GET -> 1 sana
 app.get("/sanakirja/:sana", (req, res) => {
   const haettavaSana = req.params.sana;
@@ -129,12 +104,36 @@ app.get("/sanakirja/:sana", (req, res) => {
       res.status(404).json({ msg: "Sanaa ei löytynyt"});
       return;
     }
-
+  // Palautuu pelkkä englanninkielinen sana
   res.json(sana.eng)
 });
 
 
-app.listen(PORT, () => {
+// POST -> lisää sana sanakirjaan
 
+app.post("/sanakirja/", (req, res) => {
+
+  const fin = req.body.fin;
+  const eng = req.body.eng;
+
+  if (!fin || !eng) {
+    res.status(400).json({ msg: "Puuttuva sana"})
+    return; 
+  }
+  const uusiSana: SanaPari = {fin, eng};
+  sanakirja.push(uusiSana);
+
+  // Kirjoittaminen
+
+  fs.writeFileSync(polku, `\n${fin} ${eng}`, 
+    {encoding: "utf8",
+      flag: "a"});
+
+  res.status(201).json(uusiSana);
+
+});
+
+
+app.listen(PORT, () => {
   console.log(`Palvelin käynnistettiin osoitteeseen ${PORT}`);
 });
