@@ -118,6 +118,20 @@ const PORT = 3000;
       Aseta HTTP-statukseksi 404 (Not Found)
       Palauta virheilmoitus { message: "Sanaa ei löytynyt" }
 */
+// GET -> 1 sana
+app.get("/sanakirja/:sana", (req, res) => {
+  const haettavaSana = req.params.sana;
+
+  const sana = sanakirja.find(
+    (item) => item.fin === haettavaSana);
+
+    if (!sana) {
+      res.status(404).json({ msg: "Sanaa ei löytynyt"});
+      return;
+    }
+
+  res.json(sana.eng)
+});
 
 
 app.listen(PORT, () => {
