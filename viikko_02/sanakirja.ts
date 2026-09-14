@@ -59,3 +59,50 @@ TAULUKKO- JA MERKKIJONOMETODIT:
 EXPRESS-FUNKTIOT:
 
 */
+import express from "express";
+import fs from "fs";
+import path from "path";
+
+interface SanaPari {
+
+  fin: string;
+  eng: string;
+}
+
+const sanakirja: SanaPari[] = [];
+const polku = path.join(__dirname, "sanakirja.txt");
+
+const data = fs.readFileSync(polku, {
+  encoding: "utf8",
+  flag: "r"
+});
+
+// Regex löytää rivinvaihdon eri käyttiksillä
+const sanaRivi = data.split(/\e?\n/)
+
+/**
+   KÄY LÄPI jokainen rivi:
+    Jaa rivi kahtia välilyönnin kohdalta (suomi_sana, englanti_sana)
+    JOS molemmat sanat ovat olemassa:
+      Luo olio { fin: suomi_sana, eng: englanti_sana }
+      Lisää olio 'sanakirja'-taulukkoon
+  Aseta Express-middlewaret (express.json) JSON-datan käsittelyyn
+ */
+
+  // Rivi on yksi rivi taulukossa
+sanaRivi.forEach ((rivi) => {
+// Leikataan rivi sanoiksi -> Tuloksena string-taulukko
+  const sanat = rivi.split(" ");
+
+  if ( sanat.length >= 2 && sanat[0] && sanat[1]) {
+
+    const sana: SanaPari = {
+      fin: sanat[0],
+      eng: sanat[1],
+    }
+    sanakirja.push(sana);
+  }
+});
+
+const app = express();
+const PORT = 3000;
