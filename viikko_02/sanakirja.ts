@@ -35,6 +35,10 @@ Lue pyynnön runko HTML-muodossa -> muuta JS-olioksi
 
 REITIT:
   GET:
+  Hae URL parametrista suomenkielinen sana
+  Tarkista, onko hakusana taulukon suomenkielisenä avaimena
+  JOS sana ei ole taulukossa -> sanaa ei löytynyt
+  Palauta taulukon englanninkielinen vastine
 
   POST:
 KÄYNNISTYS:
