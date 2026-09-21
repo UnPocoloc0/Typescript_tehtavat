@@ -9,8 +9,8 @@
 ### Mitä opin tällä viikolla
 
 -Rakensin Typescript-ympäristön WSL-koneelle, sekä kolmelle mac-koneelle
--Järjestelmistä puuttui node, npm ja nvm, sekä .zshrc-tiedosto -Asennuksen
-vaiheet: 
+-Järjestelmistä puuttui node, npm ja nvm, sekä .zshrc-tiedosto 
+-Asennuksen vaiheet: 
 -Luo profiilitiedosto kotihakemistoon 
 -Aja URL-osoitteen avulla
 asennusskripti 
@@ -46,7 +46,7 @@ Kuvaa tähän osioon millaisia harjoituksia teit
 
 #### Harjoitus 0
 
-Ympäristön asentamisessa monesti profiilitiedosto puuttui
+-Ympäristön asentamisessa monesti profiilitiedosto puuttui
 -Vaikka käänsin koodit, niin muutokset eivät kuitenkaan näkyneet nodella
 js-tiedostoja ajettaessa. Jos tein uudet käännökset, niin vasta tämän jälkeen
 muutokset tuli näkyväksi
@@ -205,19 +205,63 @@ epäselvää. Muita ongelmia oli mm. oikeiden tyyppien päättely, tämä ei ole
 
 ### Mitä opin tällä viikolla
 
-Kuvaa tähän ...
+Tämän viikon suurin asia oli MVC-arkkitehtuuriin tutustuminen. Alkuun tuntui
+todella hankalalle hahmottaa, miksi koodi on pilkottu niin moneen osaan. Metodia
+kutsuu jokin toinen metodi, jonka reitti tulee vielä toisesta tiedostosta. Aikaa
+kului koodin tuijottamisessa todella paljon. Pidän JetBrains:n IDE:sta, joten
+latasin kaikille koneelleni DataGrip-graafisen tietokantaohjelman. Kertaa olin
+myös tiedonhallinta ja SQL-kurssin materiaaleja, koska tämän viikon tehtävissä
+noita tietokanta kyselyitä tarvittiin. 
+
+Ympäristö tuntuvat toimivan hyvin,
+tietokanta moottorina käytän MySQL:aa ja graafisena ympäristönä
+DataGrip-sovellusta. Minulla on eri ikäisiä laitteita, joten MySQL:n oikean
+version löytäminen näillä koneille oli yritystä ja erehdystä. Myös joissain
+ympäristöissä graafinen puoli kaatuili, joten tämänkin vuoksi siirryin tuohon
+JB:n DataGrip-sovellukseen. Tämä oli mielestäni viisas päätös.
+
+Tämän viikon tehtävä ei sinänsä ollut kovin pitkä, mutta
+ainakin itsellä otti paljon aikaa, että ymmärsin mistä hommassa on kyse. Tuntui
+myös ensimmäistä kertaa, että tässä on oikeasta back and sovelluksesta kyse,
+koska tietokanta pystytään nyt manipuloimaan ohjelmallisesti. Tämä on erittäin
+merkittävä saavutus ja iso oppimisen paikka. 
+Kokeilin myös ei hakemistoon sisältyvien riippuvuuksien hallintaa. Eli vaikka
+kaikki projektit on koottuna tähän samaan repoon, niin alihakemistolla voi olla
+omat määrityksensä. 
+
 
 ### Mitä harjoituksia tein
 
-Kuvaa tähän osioon millaisia harjoituksia teit
+ En ehtinyt tekemään juuri muuta kuin tuon pakollisen tehtävän. Lisäksi tein
+ noita kutsuja suoraan VSCodesta. Löysin hyvän plugarin, eli Thunder Clientin.
+ Tämän laajennuksen avulla pystyn tekemään httpkutsuja suoraan
+ kehitysympäristösta
+käsin. Tämä tuntui toimivan vielä paremmin kun Postman, tai sitten se saattaa olla
+kevyemmin suojattu tms. Pyynnöissä väärän protokollan käyttö aiheutti virheitä.
 
 #### Harjoitus 1
 
-Harjoitus 1:ssä opettelin... Ongelmaksi muodostui...
+ Luin mallikoodia huolellisesti läpi, tiedosto kerrallaan. Yritin hahmottaa
+ kokonaisuutta, eli mitä oli jo valmiiksi annettu ja mitä toiminnallisuutta
+ kokonaisuuteen vielä täytyy tehdä. Kun järjestelmät kasvavat
+ monimutkaisemmiksi, niin juuri tällaisissa tilanteissa koen vaikeuden kasvavan
+ eksponentiaalisesti. Alkuun oli hankala hahmottaa, mihin kohti koodia uudet
+ metodit sijoitetaan. Ymmärsin kuitenkin, että aina pitää olla jokin perusta
+ olemassa, ennen kuin voidaan jatkaa pidemmälle. Iso oivallus oli asiakkaan
+ pyynnön meneminen palvelimelle, joka ohjaa reitityksen, joka kutsuu business
+ logiikkaa, josta pyyntö valitetaan palvelimelle. Joten oli helpointa aloittaa
+ tietokanta kyselystä ja paketoida tämä omaan metodiin. 
+
+ Ongelmia oli SQL-syntaksin kanssa, esimerkiksi jos muuttujien ympäriltä puuttuivat
+ yksittäiset Hipsumerkit, niin silloin tapahtui kaatuminen. Toisaalta kun
+ syntaksi oli oikein, niin palvelin käynnistyi automaattisesti pystyyn. Myös
+ projektin ajaminen väärästä kansiosta ei tuottanut toivottavaa lopputulosta. 
+ Olen yrittänyt pitää koko kurssin ajan ja muutenkin pienten Incremental
+ filosofiaa, Eli teen todella pieniä muutoksia ja yritän kommitoida niitä
+ versionhallintaan. 
 
 #### Harjoitus 2
 
-Harjoitus 2:ssa opettelin...
 
 ---
 
