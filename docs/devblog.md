@@ -8,147 +8,148 @@
 
 ### Mitä opin tällä viikolla
 
--Rakensin Typescript-ympäristön WSL-koneelle, sekä kolmelle mac-koneelle
--Järjestelmistä puuttui node, npm ja nvm, sekä .zshrc-tiedosto 
--Asennuksen vaiheet: 
--Luo profiilitiedosto kotihakemistoon 
--Aja URL-osoitteen avulla
+* Rakensin Typescript-ympäristön WSL-koneelle, sekä kolmelle mac-koneelle
+* Järjestelmistä puuttui node, npm ja nvm, sekä .zshrc-tiedosto 
+* Asennuksen vaiheet: 
+-* luo profiilitiedosto kotihakemistoon 
+* Aja URL-osoitteen avulla
 asennusskripti 
--Lataa ympäristömuuttujat -Asenna stabiili node.js -> LTS -Aseta
+* Lataa ympäristömuuttujat -Asenna stabiili node.js -> LTS * Aseta
 tsx 
--suoritusympäristö globaalisti 
--Lähdekoodi kannattaa laittaa
+* suoritusympäristö globaalisti 
+* Lähdekoodi kannattaa laittaa
 omaansrc-kansioon, jotta versionhallintaan ei mene ympäristön automaattisesti
 generoituja tiedostoja 
--.gitignoren konfigurointi, tänne ei tule myöskään
+* .gitignoren konfigurointi, tänne ei tule myöskään
 hiekkalaatikko-tiedostot - Terminaalista koodin ajaminen pienenä testinä, tai
 sitten niin, että käännetään koko projekti 
--Asensin tsx-työkalun ja laitoin sen
+* Asensin tsx-työkalun ja laitoin sen
 eri koneille globaaliksi asetukseksi -Lähdekoodin ja käännösten ero selveni
 jonkun verran 
--Typescript on turvallisempi, koska mahdolliset virheet huomataan
+* Typescript on turvallisempi, koska mahdolliset virheet huomataan
 jo koodin kirjoitusvaiheessa
 
-Kuvaa tähän ...
 
 ### Mitä harjoituksia tein
 
--Kokeilin ajaa tsx-työkalun avulla yksittäisiä esimerkkejä, jolloin näin
+* Kokeilin ajaa tsx-työkalun avulla yksittäisiä esimerkkejä, jolloin näin
 tulosteen terminaalissa saman tien 
--Kokeilin ajaa myös kokonaista projektia,
+* Kokeilin ajaa myös kokonaista projektia,
 joka muodosti js-tiedosto -> Sitten ajoin noden avulla näitä käännettyjä
 tiedostoja 
--Tutustuin tsx-työkaluun, joka ei tee käännöksiä levylle ja auttaa
+* Tutustuin tsx-työkaluun, joka ei tee käännöksiä levylle ja auttaa
 näkemään kehityksen tuloksen välittömästi ilman muunnosta TS -> JS
 
 
-Kuvaa tähän osioon millaisia harjoituksia teit
 
 #### Harjoitus 0
 
--Ympäristön asentamisessa monesti profiilitiedosto puuttui
--Vaikka käänsin koodit, niin muutokset eivät kuitenkaan näkyneet nodella
+* Ympäristön asentamisessa monesti profiilitiedosto puuttui
+* Vaikka käänsin koodit, niin muutokset eivät kuitenkaan näkyneet nodella
 js-tiedostoja ajettaessa. Jos tein uudet käännökset, niin vasta tämän jälkeen
 muutokset tuli näkyväksi
 
--Kokeilin tehdä w3Schoolsin esimerkkien pohjalta helppoja funktioita. funktiot
+* Kokeilin tehdä w3Schoolsin esimerkkien pohjalta helppoja funktioita. funktiot
 joko tulostavat tai sitten palauttavat jotain. Jos funktio laitetaan
 palauttamaan, niin tämä tyyppi pitää laittaa funktion määrittelyyn mukaan
 
 #### Harjoitus 1
--Harjoittelin tyyppien tekemistä. Tyypit voivat olla ennalta määritetty ja
+* Harjoittelin tyyppien tekemistä. Tyypit voivat olla ennalta määritetty ja
 rajattu haluttuihin arvoihin.
--Tajusin, että harjoitukset eivät ole irrallisia, vaan jokainen harjoiuksen
+Tajusin, että harjoitukset eivät ole irrallisia, vaan jokainen harjoiuksen
 vaihe liittyy jollain tavalla edelliseen harjoitukseen. 
 
--Tehtävänantoja oli välillä hankala lukea, koska nämä olivat yhdessä pötkössä ja
+* Tehtävänantoja oli välillä hankala lukea, koska nämä olivat yhdessä pötkössä ja
 ilman pilkutusta. Tämän takia oli hanakala tietää missä lauseiden rajat menivät. 
 Ratkaisin tämän niin, että laitoin pitkän ohjeen paloihin ja eri riveille, jota
 kävin kohta kerrallaan ratkaisemaan. Sama ajatus toimii mielestäni myös
 valmiissa koodissa. 
 
--Vielä TypeScriptin syntaksi on vierasta. Menee sekaisin funktion parametrit
+* Vielä TypeScriptin syntaksi on vierasta. Menee sekaisin funktion parametrit
 erotetaan pilkulla, samoin olion ominaisuudet. Muissa kielissä olen tottunut
 puolipilkulla lopettamaan rivin
 
--Hankalin asia oli, jos funktion palautustyyppi oli olio. Meni todella pahasti
+* Hankalin asia oli, jos funktion palautustyyppi oli olio. Meni todella pahasti
 sekaisin, mikä on funktion parametri ja mikä on olion ominaisuus. Myös tämä
 olion ominaisuuksien yhdistäminen funktion parametreihin oli hankala hahmottaa. 
 
--Tyypitys yleisesti on vielä todella hankala hahmottaa ja miten tämä käytännössä
+* Tyypitys yleisesti on vielä todella hankala hahmottaa ja miten tämä käytännössä
 eri puolilla koodia näkyy. 
 
 
 #### Harjoitus 2
 
--Rajapintojen määrittely oli melko suoraviivasta ja myös tuttua esim. 
+* Rajapintojen määrittely oli melko suoraviivasta ja myös tuttua esim. 
 Java-ohjelmointikielestä. 
 
--Switch-case oli myös rakenteena tuttu muista kielistä
+* Switch-case oli myös rakenteena tuttu muista kielistä
 
--Tein ohjelmaan myös mini-testausosion, jotta näin paremmin, mitä ohjelma tekee.
+* Tein ohjelmaan myös mini-testausosion, jotta näin paremmin, mitä ohjelma tekee.
 Muuten kaikki tekeminen olisi jäänyt liian teorian asteelle. 
 -Hankala oli metodin paluuarvo, eli sen piti olla juuri oikeaan tyyppiä. Tämän
 syntaksi oli myös vierasta. kts. shape is Circle. 
 
--Jos paluuarvo ei ollut mikään annetuista, niin tämän palauttaminen niin, että
+* Jos paluuarvo ei ollut mikään annetuista, niin tämän palauttaminen niin, että
 kääntäjä hyväksyy paluuarvon never oli hankala toteuttaa. 
 
 #### Harjoitus 3
 
--Rajapinta -> Abstraktiluokka -> Konkreettinen toteutus. Abstrakti luokka
+* Rajapinta -> Abstraktiluokka -> Konkreettinen toteutus. Abstrakti luokka
 toteuttaa rajapinnan ja konkreettinen luokka toteuttaa abstraktin luokan. 
 Tämä malli on myöstuttua Javasta, vaikka käytännön kokemusta tarvitsen tähän 
 paljon vielä lisää. Mutta ainakin ajatuksen tasolla ymmärrän, mistä tässä 
 eriyttämisessä on kyse.
 
--Luokka ja sen ominaisuuksien alustaminen konstruktorilla on myös tuttua C#:sta.
+* Luokka ja sen ominaisuuksien alustaminen konstruktorilla on myös tuttua C#:sta.
 
--Vähän menee eri kielet sekaisin syntaksellisesti, eli Java, C#, Swift jne.
+* Vähän menee eri kielet sekaisin syntaksellisesti, eli Java, C#, Swift jne.
 Vaikka TS-koodi muistuttaa toisia kieliä, niin muuttujan nimet voivat olla eri
 järjestyksessä, kuin mihin olen muissa kielissä tottunut.
 
--Metodien allekirjoitus onnistui kohtalaisen hyvin, mutta kuitenkin itse metodin
+* Metodien allekirjoitus onnistui kohtalaisen hyvin, mutta kuitenkin itse metodin
 runko oli hankalampi toteuttaa
 
--Tehtävä oli selvästi hankalampi edellisiin verrattuna ja vaati parempaa
+* Tehtävä oli selvästi hankalampi edellisiin verrattuna ja vaati parempaa
 kokonaisuuden hahmottamista. Ehkä olisin voinut kirjoittaa enemmän ylätason
 kuvauksen suomenkielellä, mikä on ohjelman kokonaisarkkitehtuuri, myös
 pseudokoodina, mitä ohjelma tekee jne. 
 
--Syntaksellisesti hankalia kohtia olivat kuvauksen muuttaminen taulukkomuotoon,
+* Syntaksellisesti hankalia kohtia olivat kuvauksen muuttaminen taulukkomuotoon,
 yleisen tyypin käyttäminen metodeissa, kuvauksesta arvon hakeminen, abstraktin
 metodin jättäminen tyhjäksi. 
--Hyödyllinen oppi oli yläluokan metodin ylikirjoittaminen omalla
+* Hyödyllinen oppi oli yläluokan metodin ylikirjoittaminen omalla
 toteutuksella, samoin abstraktin metodin toteutus. Näitä pitää harjoitella
 tekemään todella paljon vielä lisää. 
--Koen, että koko oliokonsepti kaipaa myös kertailua ja lisää käytännön tekemistä
+* Koen, että koko oliokonsepti kaipaa myös kertailua ja lisää käytännön tekemistä
 ja hyvä että nämä ideat tulevat vastaan monilla eri ohjelmointikielillä.
--Tämä erottelu, perintä, ylikirjoittaminen on avainasemassa, jotta pystytään
+* Tämä erottelu, perintä, ylikirjoittaminen on avainasemassa, jotta pystytään
 kirjoittamaan mahdollisimman selkeää koodia
 
 ---
 
 ## Viikko 2 (6.9.- 13.9.2020)
 
-Melko paljon uutta asiaa tuli tällä viikolla. API-rajapinta kurssin kävin jo
+* Melko paljon uutta asiaa tuli tällä viikolla. API-rajapinta kurssin kävin jo
 viime syksynä, hyvä että nämä asiat ovat saaneet kypsyä rauhassa. Tuli kerrattua
 Rest-arkkitehtuurin liittyviä konsepteja, kuten resurssien paikantamista, sekä
-URI-osoitteen syntaksi, tilakoodit yms. Lisäksi nuo http-verbit alkavat
+URI-osoitteen syntaksi, tilakoodit yms. 
+* Lisäksi nuo http-verbit alkavat
 pikkuhiljaa selkiytyä. JSON-tiedostomuotoon olen törmännyt monta kertaa, 
 mutta tarkemmin syntaksia en
-ole aiemmin miettinyt. Tämän viikon iso pähkinä oli tuon CRUD-toiminnallisuuden 
+ole aiemmin miettinyt. 
+* Tämän viikon iso pähkinä oli tuon CRUD-toiminnallisuuden 
 rakentaminen, sekä express-frameworkin käyttöönotto.
 
 ### Mitä opin tällä viikolla
 
-Tällä viikolla tuli oppia niin itse koodista, kuin siihen liittyvitä
+* Tällä viikolla tuli oppia niin itse koodista, kuin siihen liittyvitä
 työkaluista. Työkalut saattoivat olla jopa koodia suuremmassa roolissa tai
 vähintään yhtä suuressa roolissa. 
-Express-kehikko, sekä Postman-sovellus. Postmanista kokeilin uudemmille koneelle
+Express-kehikko, sekä Postman-sovellus. 
+* Postmanista kokeilin uudemmille koneelle
 työpöytäversiota, ja vanhemmille koneille Postman agent-versiota. Ilokseni
 huomasin, että vanhoilla koneilla tämä agenttiversio toimii aivan mallikkaasti.
-Selaimen konsolilla oli helppo aloittaa kokeilu, mutta se ei tuntunut kuitenkaan kovin
+* Selaimen konsolilla oli helppo aloittaa kokeilu, mutta se ei tuntunut kuitenkaan kovin
 luontevalle työkalulle esim. Postmaniin verrattuna.  
 
 ### Mitä harjoituksia tein
@@ -172,31 +173,34 @@ lisää, hae, poista ja päivitys, eli CRUD-ominaisuudet. Viikkoharjoitus oli n�
 
 #### Harjoitus 2
 
-Yritin lähestyä back end-sovellusta ylä tasolta. Eli ennen kodin kirjoittamista
+* Yritin lähestyä back end-sovellusta ylätasolta. Eli ennen kodin kirjoittamista
 yritin ymmärtää todella, mitä sovellus tekee ja miten sen pitäisi toimia.
-Seuraavaksi määrittelen suomen kielellä ohjelman vaiheet pseudokoodiin, jonka
+* Seuraavaksi määrittelen suomen kielellä ohjelman vaiheet pseudokoodiin, jonka
 kirjoitin kooditiedoston yläosaan. Ilman tätä suunnitteluvaihetta luulen,
 että harjoituksen tekeminen ei olisi onnistunut. En kokeillut edes JavaScriptin
 version tekemistä, koska ajattelen, että typeskriptin hallitsemisesta voi olla
 enemmän hyötyä. 
 
-Middleware konseptina vielä hieman epäselvä. Huomasin kuitenkin, jos oli
+* Middleware konseptina vielä hieman epäselvä. Huomasin kuitenkin, jos oli
 puuttuvia lauseita Middlewareen liittyen, niin esimerkiksi koodi yritti parsia
-väärän muotoista dataa. Body osiosta tiedon purkaminen muuttujiin on vielä vähän
+väärän muotoista dataa. 
+* Body osiosta tiedon purkaminen muuttujiin on vielä vähän
 epäselvää. Muita ongelmia oli mm. oikeiden tyyppien päättely, tämä ei ole vielä oikein selvää.
 
 #### Harjoitus 3
 
- Harjoittelen versionhallintaa tässä samalla ja sen oikeaoppista käyttöä. Hyvin
+ * Harjoittelen versionhallintaa tässä samalla ja sen oikeaoppista käyttöä. Hyvin
  paljon teen todella pieniä kommitointeja ja inkrementtejä koodiin, 
  jolloin ei ole niin varaa, jos jokin
- menee rikki. Tämä tuo paljon enemmän rauhaa tekemiseen. Debuggausta kokeilin
+ menee rikki. Tämä tuo paljon enemmän rauhaa tekemiseen. 
+ * Debuggausta kokeilin
  luentojen mukana, mutta viikkotehtävä tehdessä en Debuggeria oikein muistanut
  käyttää. 
 
  #### Harjoitus 4
-  Tiedostosta lukeminen ja sen muotoilu säännöllisillä lausekkeella oli
-  hankalaa. Lisäksi eri käyttöjärjestelmät käsittelevät rivinvaihto hieman eri
+  * Tiedostosta lukeminen ja sen muotoilu säännöllisillä lausekkeella oli
+  hankalaa. 
+  * Lisäksi eri käyttöjärjestelmät käsittelevät rivinvaihto hieman eri
   tavalla, ja tämän koodin pitäisi olla siinä mielessä hyvin yleispätevää. 
 
 ---
@@ -205,58 +209,60 @@ epäselvää. Muita ongelmia oli mm. oikeiden tyyppien päättely, tämä ei ole
 
 ### Mitä opin tällä viikolla
 
-Tämän viikon suurin asia oli MVC-arkkitehtuuriin tutustuminen. Alkuun tuntui
+* Tämän viikon suurin asia oli MVC-arkkitehtuuriin tutustuminen. Alkuun tuntui
 todella hankalalle hahmottaa, miksi koodi on pilkottu niin moneen osaan. Metodia
 kutsuu jokin toinen metodi, jonka reitti tulee vielä toisesta tiedostosta. Aikaa
-kului koodin tuijottamisessa todella paljon. Pidän JetBrains:n IDE:sta, joten
+kului koodin tuijottamisessa todella paljon. 
+* Pidän JetBrains:n IDE:sta, joten
 latasin kaikille koneelleni DataGrip-graafisen tietokantaohjelman. Kertaa olin
 myös tiedonhallinta ja SQL-kurssin materiaaleja, koska tämän viikon tehtävissä
 noita tietokanta kyselyitä tarvittiin. 
 
-Ympäristö tuntuvat toimivan hyvin,
+* Ympäristö tuntuvat toimivan hyvin,
 tietokanta moottorina käytän MySQL:aa ja graafisena ympäristönä
 DataGrip-sovellusta. Minulla on eri ikäisiä laitteita, joten MySQL:n oikean
 version löytäminen näillä koneille oli yritystä ja erehdystä. Myös joissain
 ympäristöissä graafinen puoli kaatuili, joten tämänkin vuoksi siirryin tuohon
 JB:n DataGrip-sovellukseen. Tämä oli mielestäni viisas päätös.
 
-Tämän viikon tehtävä ei sinänsä ollut kovin pitkä, mutta
+* Tämän viikon tehtävä ei sinänsä ollut kovin pitkä, mutta
 ainakin itsellä otti paljon aikaa, että ymmärsin mistä hommassa on kyse. Tuntui
 myös ensimmäistä kertaa, että tässä on oikeasta back and sovelluksesta kyse,
 koska tietokanta pystytään nyt manipuloimaan ohjelmallisesti. Tämä on erittäin
 merkittävä saavutus ja iso oppimisen paikka. 
-Kokeilin myös ei hakemistoon sisältyvien riippuvuuksien hallintaa. Eli vaikka
+* Kokeilin myös ei hakemistoon sisältyvien riippuvuuksien hallintaa. Eli vaikka
 kaikki projektit on koottuna tähän samaan repoon, niin alihakemistolla voi olla
 omat määrityksensä. 
 
 
 ### Mitä harjoituksia tein
 
- En ehtinyt tekemään juuri muuta kuin tuon pakollisen tehtävän. Lisäksi tein
- noita kutsuja suoraan VSCodesta. Löysin hyvän plugarin, eli Thunder Clientin.
- Tämän laajennuksen avulla pystyn tekemään httpkutsuja suoraan
- kehitysympäristösta
+ * En ehtinyt tekemään juuri muuta kuin tuon pakollisen tehtävän. Lisäksi tein
+ noita kutsuja suoraan VSCodesta. Löysin hyvän plugarin VSCoden , nimeltään Thunder Client.
+ Tämän laajennuksen avulla pystyn tekemään http-kutsuja suoraan kehitysympäristösta
 käsin. Tämä tuntui toimivan vielä paremmin kun Postman, tai sitten se saattaa olla
-kevyemmin suojattu tms. Pyynnöissä väärän protokollan käyttö aiheutti virheitä.
+kevyemmin suojattu tms. 
+* Pyynnöissä väärän protokollan käyttö aiheutti virheitä.
 
 #### Harjoitus 1
 
- Luin mallikoodia huolellisesti läpi, tiedosto kerrallaan. Yritin hahmottaa
+ * Luin mallikoodia huolellisesti läpi, tiedosto kerrallaan. Yritin hahmottaa
  kokonaisuutta, eli mitä oli jo valmiiksi annettu ja mitä toiminnallisuutta
  kokonaisuuteen vielä täytyy tehdä. Kun järjestelmät kasvavat
  monimutkaisemmiksi, niin juuri tällaisissa tilanteissa koen vaikeuden kasvavan
  eksponentiaalisesti. Alkuun oli hankala hahmottaa, mihin kohti koodia uudet
  metodit sijoitetaan. Ymmärsin kuitenkin, että aina pitää olla jokin perusta
- olemassa, ennen kuin voidaan jatkaa pidemmälle. Iso oivallus oli asiakkaan
+ olemassa, ennen kuin voidaan jatkaa pidemmälle. 
+ * Iso oivallus oli asiakkaan
  pyynnön meneminen palvelimelle, joka ohjaa reitityksen, joka kutsuu business
  logiikkaa, josta pyyntö valitetaan palvelimelle. Joten oli helpointa aloittaa
  tietokanta kyselystä ja paketoida tämä omaan metodiin. 
 
- Ongelmia oli SQL-syntaksin kanssa, esimerkiksi jos muuttujien ympäriltä puuttuivat
+ * Ongelmia oli SQL-syntaksin kanssa, esimerkiksi jos muuttujien ympäriltä puuttuivat
  yksittäiset Hipsumerkit, niin silloin tapahtui kaatuminen. Toisaalta kun
  syntaksi oli oikein, niin palvelin käynnistyi automaattisesti pystyyn. Myös
  projektin ajaminen väärästä kansiosta ei tuottanut toivottavaa lopputulosta. 
- Olen yrittänyt pitää koko kurssin ajan ja muutenkin pienten Incremental
+ * Olen yrittänyt pitää koko kurssin ajan ja muutenkin pienten Incremental
  filosofiaa, Eli teen todella pieniä muutoksia ja yritän kommitoida niitä
  versionhallintaan. 
 
