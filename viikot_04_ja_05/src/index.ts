@@ -4,6 +4,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
 import { haeKaikkiVaiheet, haeVaiheenSelitys } from "./models/opn_vaiheet_Model.js";
+import type { Transport } from "@modelcontextprotocol/sdk/shared/transport.js";
 
 dotenv.config();
 
@@ -21,8 +22,9 @@ app.post("/", async (req, res) => {
 
     });
     // Sisäinen taso
+     // 1. tool
       server.registerTool(
-        "hae vaiheet",
+        "hae-vaiheet",
         {
           title: "hae vaiheet",
           description: "Hakee opinnäytetöiden vaiheet tietokannasta lyhyesti",
@@ -43,7 +45,7 @@ app.post("/", async (req, res) => {
           }
         }
       );
-    // 1. tool
+   
     
     
     // 2. tool
@@ -74,8 +76,8 @@ app.post("/", async (req, res) => {
       }
     );
 
-
-  await server.connect(transport);
+  // Tämä rivi antoi virhettä ilman tyyppimuunnosta? 
+  await server.connect(transport as unknown as Transport);
   await transport.handleRequest(req, res);
 
 
@@ -86,7 +88,6 @@ app.post("/", async (req, res) => {
     
   }
 });
-
 
 
 app.listen(PORT, () => {
