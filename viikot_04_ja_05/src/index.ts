@@ -11,10 +11,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Ulkoinen taso
-app.post("/", async (requestAnimationFrame, res) => {
+app.post("/", async (req, res) => {
   try {
     const transport = new StreamableHTTPServerTransport({
-      sessionIdGenerator: undefined,
     });
     const server = new McpServer({
       name: "OpinnaytetyotMCP",
@@ -48,8 +47,35 @@ app.post("/", async (requestAnimationFrame, res) => {
     
     
     // 2. tool
+    server.registerTool(
+      "hae-vaiheen-selitys",
+      {
+        title: "hae vaiheen selitys",
+        description: "Hakee vaiheen selityksen tietokannasta hakusanalla",
+        inputSchema: z.object({
+          query: z.string().min(1).describe("Vaiheen nimi tai osa siitä"), 
+        }),
+      },
+      async ({ query }) => {
 
-  await server.connect(transport);
+        try {
+          const selitykset = await haeVaiheenSelitys(query);
+          if (selitykset.length === 0) {
+            return { content: [{ type: "text", text: `Ei löytynyt selitystä hakusanalla "${query}"` }]};
+            }
+            const list = selitykset.map((s) => `${s}`).join("\n");
+            return { content: [{ type: "text", text: list}] };
+
+        } catch (error) {
+          return {
+            content: [{ type: "text", text: `Virhe tietokantahaussa: ${(error as Error).message}`}],
+          };
+        }
+      }
+    );
+
+
+
   await transport.handleRequest(req, res);
 
 
@@ -59,9 +85,7 @@ app.post("/", async (requestAnimationFrame, res) => {
     res.status(500).send("Internal server error");
     
   }
-
-
-})
+});
 
 
 
