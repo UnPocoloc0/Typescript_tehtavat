@@ -10,7 +10,7 @@ export async function haeKaikkiVaiheet(): Promise<string[]> {
     //   "SELECT vaihe FROM haeKaikkiVaiheet;"
     // );
 
-    const kyselyPromise = conn.query<mysql.RowDataPacket[]>("SELECT * FROM opinnaytetyot");
+    const kyselyPromise = conn.query<mysql.RowDataPacket[]>("SELECT vaihe FROM vaiheet");
     const tulosTaulukko = await kyselyPromise;
     const rows = tulosTaulukko[0]; // Tietokantarivit
     const fields = tulosTaulukko[1]; // Metadata

@@ -24,7 +24,7 @@ app.post("/", async (req, res) => {
       server.registerTool(
         "hae vaiheet",
         {
-          title: "hae-vaiheet",
+          title: "hae vaiheet",
           description: "Hakee opinnäytetöiden vaiheet tietokannasta lyhyesti",
           inputSchema: z.object({}),
         },
@@ -75,7 +75,7 @@ app.post("/", async (req, res) => {
     );
 
 
-
+  await server.connect(transport);
   await transport.handleRequest(req, res);
 
 
