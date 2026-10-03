@@ -25,7 +25,15 @@ export async function haeKaikkiVaiheet(): Promise<string[]> {
 export async function haeVaiheenSelitys(query: string): Promise<string[]> {
   const conn = await pool.getConnection();
   try {
-    
+    const hakutermi: string = `%${query}%`;
+    const sqlKysely: string = "SELECT selitys FROM vaiheet WHERE vaihe LIKE ?;"
+    const parametrit: string[] = [hakutermi];
+    const kyselyPromise = conn.query<mysql.RowDataPacket[]>(sqlKysely, parametrit);
+    const tulosTaulukko = await kyselyPromise;
+    const rows = tulosTaulukko[0];
+    // Otetaan pelkkä selitys oliolistasta
+    return rows.map((row) => row.selitys as string); 
+   
   } finally {
     conn.release();
   }
