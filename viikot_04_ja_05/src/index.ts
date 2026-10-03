@@ -1,0 +1,70 @@
+import express from "express";
+import dotenv from "dotenv";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
+import { z } from "zod";
+import { haeKaikkiVaiheet, haeVaiheenSelitys } from "./models/opn_vaiheet_Model.js";
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Ulkoinen taso
+app.post("/", async (requestAnimationFrame, res) => {
+  try {
+    const transport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: undefined,
+    });
+    const server = new McpServer({
+      name: "OpinnaytetyotMCP",
+      version: "1.0.0",
+
+    });
+    // Sisäinen taso
+      server.registerTool(
+        "hae vaiheet",
+        {
+          title: "hae-vaiheet",
+          description: "Hakee opinnäytetöiden vaiheet tietokannasta lyhyesti",
+          inputSchema: z.object({}),
+        },
+        async () => {
+          try {
+            const vaiheet = await haeKaikkiVaiheet();
+            if (vaiheet.length === 0) {
+              return { content: [{ type: "text", text: "Ei vaiheita tietokannassa"}]}
+            }
+            const list = vaiheet.map((v) => `- ${v}`).join("\n");
+              return { content: [{type: "text", text: list }] };
+          } catch (error) {
+            return {
+              content: [{ type: "text", text: `Virhe tietokantahaussa: ${(error as Error).message}`}],
+            };
+          }
+        }
+      );
+    // 1. tool
+    
+    
+    // 2. tool
+
+  await server.connect(transport);
+  await transport.handleRequest(req, res);
+
+
+    
+  } catch (error) {
+    console.log("Virhe MCP-pyynnössä: ", error);
+    res.status(500).send("Internal server error");
+    
+  }
+
+
+})
+
+
+
+app.listen(PORT, () => {
+  console.log(`MCP Express -palvelin käynnissä portissa ${PORT}`);
+});

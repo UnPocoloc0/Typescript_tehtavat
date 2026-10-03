@@ -27,6 +27,7 @@ export async function haeVaiheenSelitys(query: string): Promise<string[]> {
   try {
     const hakutermi: string = `%${query}%`;
     const sqlKysely: string = "SELECT selitys FROM vaiheet WHERE vaihe LIKE ?;"
+    // Kyselyn parametrit laitetaan taulukkoon
     const parametrit: string[] = [hakutermi];
     const kyselyPromise = conn.query<mysql.RowDataPacket[]>(sqlKysely, parametrit);
     const tulosTaulukko = await kyselyPromise;
