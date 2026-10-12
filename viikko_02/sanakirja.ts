@@ -54,6 +54,7 @@ import express from "express";
 import fs from "fs";
 import path from "path";
 
+
 interface SanaPari {
 
   fin: string;
@@ -92,6 +93,25 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json())
+
+
+// TODO: Lisää CORS-määrittely
+
+app.use(function (req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  next();
+});
+
 
 // GET -> 1 sana
 app.get("/sanakirja/:sana", (req, res) => {

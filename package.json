@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsx viikko_2/sanakirja.ts",
-    "dev": "tsx watch viikko_2/sanakirja.ts"
+    "start": "tsx viikko_02/sanakirja.ts",
+    "dev": "tsx watch viikko_02/sanakirja.ts"
   },
   "repository": {
     "type": "git",

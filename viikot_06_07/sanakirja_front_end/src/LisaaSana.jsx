@@ -29,7 +29,7 @@ const lisaaSana = async () => {
   console.log("Palvelimen vastauksen status:", vastaus.status);
   setSuomiSana("");
   setEnglantiSana("");
-  setViesti("Sana lisätty");
+  setViesti("Sana lisätty: " + suomiSana + "-" + englantiSana);
 };
 
 
