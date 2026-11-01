@@ -33,6 +33,9 @@ Pitää hyväksyä skriptejä käsin
 # Rest API
 * Toteutetaan CRUD-toiminnallisuus 
 * Tietokantyhteys tyypitetään || -syntaksilla
+* API:n rooli: Api toimii logiikkakerroksena ilman sovelluksen visuaalista kuorta -> tulkki käyttöliittymän ja datan välissä
+* Backend-palvelimella tieto turvassa
+* Onko oiketta lukea dataa -> tarkistetaan joka pyynnön kohdalla erikseen
 
 # Git
 * Tehdään kehitys omassa haarassa ja yhdistetään aika ajoin päähaaraan

@@ -10,8 +10,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // MIDDLEWARE:
-app.use(express.json()); // Jäsennä json objektiksi
 app.use(cors());
+app.use(express.json()); // Jäsennä json objektiksi
 
 app.get('/api/urheilijat', async (req, res) => {
     try {    
@@ -49,8 +49,30 @@ app.get('/api/urheilijat/:id', async (req, res) => {
     }
 });
 
-
 // TODO: POST
+
+app.post("/api/urheilijat", async (req, res) => {
+    console.log('Vastaanotettu req.body:', req.body);
+    let uusiUrheilija = req.body;
+
+    if (!uusiUrheilija || !uusiUrheilija.etunimi || !uusiUrheilija.sukunimi) {
+        return res.status(400).json ({ 
+            virhe: 'Tiedot ovat puutteellisia, etu- ja sukunimi ovat pakollisia tietoja'
+        });
+    }
+    try { 
+        const [result] = await pool.query('INSERT INTO urheilijat SET ? ',
+            [uusiUrheilija]) as [any, any];
+
+        res.status(201).json({
+            id: result.insertId, ...uusiUrheilija
+        });
+    } catch (error) {
+        console.log('Virhe lisättäessä ureheilijaa', error);
+        res.status(500).json({ virhe: 'Virhe tietokannassa '});
+    }
+});
+
 
 // TODO: PUT
 
