@@ -58,3 +58,8 @@ mysql2/promise-poolia.
 luotu (types/urheilija.ts).
 * Express-palvelinserver.ts käynnistyy ilman virheitä
 portissa 3000 CORS- ja JSON-middlewareilla.
+
+## Callback
+* Call back-funktion kutsuminen -> Virheille altis tapa
+* Promises (Async  & Await) -> Funktion suoritus pysäytetään
+* Tietokanta -> JS-olio (koodi) -> res.json (verkko)
