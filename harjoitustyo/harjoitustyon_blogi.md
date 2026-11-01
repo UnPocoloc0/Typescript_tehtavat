@@ -15,6 +15,7 @@ npm install -D typescript ts-node nodemon @types/node @types/express @types cors
 2. TS-tiedostot noden päällä
 3. Palvelimen automaattinen käynnistys
 4. Tuodaan tiedot sisäänrakennetuista tyypeistä
+5. Yhteysaltaan käyttäminen createConnectionin sijaan
 
 # TS Asetustiedosto
 npx tsc --init
@@ -52,7 +53,8 @@ Tähän mennessä saavutettu (Backend Foundations)
 mysql2/promise-poolia.
 * TypeScript & ESMKonfiguroitu tiukka 
 * TypeScript-ympäristö
-(verbatimModuleSyntax, ESM-tuet) ja tsx/ts-node.* TyypitysUrheilija-interface
+(verbatimModuleSyntax, ESM-tuet) ja tsx/ts-node.
+* TyypitysUrheilija-interface
 luotu (types/urheilija.ts).
 * Express-palvelinserver.ts käynnistyy ilman virheitä
 portissa 3000 CORS- ja JSON-middlewareilla.
