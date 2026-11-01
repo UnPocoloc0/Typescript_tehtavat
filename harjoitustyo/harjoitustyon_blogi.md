@@ -22,6 +22,8 @@ npx tsc --init
 # TSConfig 
 * "moduleResolution": "node"
 * "esModuleInterop": true
+* npm install -D tsx -> muuta package.json dev-skripti samalla
+* exc -> "dev": "nodemon --exec tsx server.ts" 
   
 Pitää määrittää moduulirakenne -> import/ export, jolloin tuominen muihin tiedostoihin on selkeämpää.
 
@@ -39,3 +41,18 @@ Pitää hyväksyä skriptejä käsin
 
 # Sekalaista
 * Export tuo komponentin näkyviin luokan ulkopuolelle
+* Module pitää laittaa node-muotoon
+* Import vaatii koko polun tiedostopäätteineen -> polku osoittaa käännökseen
+* // "dev": "nodemon --exec ts-node server.ts" -> tsx muotoon
+
+# Välivaihe
+Tähän mennessä saavutettu (Backend Foundations) 
+* GitNode.js-projekti alustettu, .gitignore ja .env tietoturvaa varten.
+* TietokantaMariaDB-kanta (urheilija_db) ja taulu pystyssä. db.ts hyödyntää
+mysql2/promise-poolia.
+* TypeScript & ESMKonfiguroitu tiukka 
+* TypeScript-ympäristö
+(verbatimModuleSyntax, ESM-tuet) ja tsx/ts-node.* TyypitysUrheilija-interface
+luotu (types/urheilija.ts).
+* Express-palvelinserver.ts käynnistyy ilman virheitä
+portissa 3000 CORS- ja JSON-middlewareilla.
