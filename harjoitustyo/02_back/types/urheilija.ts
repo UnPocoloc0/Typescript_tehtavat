@@ -1,4 +1,4 @@
-interface urheilija {
+export interface urheilija {
     id?: Number;
     etunimi: string;
     sukunimi: string;
@@ -8,5 +8,4 @@ interface urheilija {
     kuvalinkki: string;
     laji: string;
     saavutukset: string;
-
 }
