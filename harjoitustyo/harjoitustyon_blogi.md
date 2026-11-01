@@ -48,6 +48,12 @@ Pitää hyväksyä skriptejä käsin
 * Module pitää laittaa node-muotoon
 * Import vaatii koko polun tiedostopäätteineen -> polku osoittaa käännökseen
 * // "dev": "nodemon --exec ts-node server.ts" -> tsx muotoon
+* Thunder Client vaatii kirjautumista
+
+# Ongelmia
+
+* puuttuvat ! operaatiot
+* Taulun nimi väärin -> Bad Request ja Serverin virhe
 
 # Välivaihe
 Tähän mennessä saavutettu (Backend Foundations) 

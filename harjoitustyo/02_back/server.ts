@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json()); // Jäsennä json objektiksi
 
+
+// API-reitit
 app.get('/api/urheilijat', async (req, res) => {
     try {    
         const [rows] = await pool.query('SELECT * FROM urheilijat');
@@ -22,8 +24,6 @@ app.get('/api/urheilijat', async (req, res) => {
         res.status(500).json({ virhe: 'Virhe tietokannassa'});
     }
 });
-
-// TODO: GET by ID
 
 app.get('/api/urheilijat/:id', async (req, res) => {
 
@@ -49,26 +49,31 @@ app.get('/api/urheilijat/:id', async (req, res) => {
     }
 });
 
-// TODO: POST
-
 app.post("/api/urheilijat", async (req, res) => {
+    // pika debuggaus
     console.log('Vastaanotettu req.body:', req.body);
     let uusiUrheilija = req.body;
-
+    // Vähimmäistiedot tietojen lisäämiselle
     if (!uusiUrheilija || !uusiUrheilija.etunimi || !uusiUrheilija.sukunimi) {
         return res.status(400).json ({ 
             virhe: 'Tiedot ovat puutteellisia, etu- ja sukunimi ovat pakollisia tietoja'
         });
     }
     try { 
+        // pool hoitaa tietokantayhteyden -> asynkroninen pyyntö -> ei jumitusta
+        // Poimitaan kuittaus muuttujaan -> tämä on suoraan olio
         const [result] = await pool.query('INSERT INTO urheilijat SET ? ',
+            // JS-olio muuntuu SQL-sarakkeiksi ja arvoiksi -> olio ? tilalle
             [uusiUrheilija]) as [any, any];
 
         res.status(201).json({
+            // Uuteen olioon tietokannan generoima numero (tallennuksessa 
+            // syntyvä)
+            // Kopioidaan kaikki avain-arvo -parit tähän olioon -> valmis olio
             id: result.insertId, ...uusiUrheilija
         });
     } catch (error) {
-        console.log('Virhe lisättäessä ureheilijaa', error);
+        console.log('Virhe lisättäessä urheilijaa', error);
         res.status(500).json({ virhe: 'Virhe tietokannassa '});
     }
 });
