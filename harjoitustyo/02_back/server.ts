@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { pool } from './db.js';
-import { type urheilija } from './types/urheilija.js';
+import { type Urheilija } from './types/urheilija.js';
 
 
 // Express-sovellus
@@ -78,10 +78,67 @@ app.post("/api/urheilijat", async (req, res) => {
     }
 });
 
-
 // TODO: PUT
+app.put("/api/urheilijat/:id", async (req, res) => {
+
+    const { id } = req.params;
+    const paivitettyUrheilija = req.body;
+
+    // Validointi
+    if (!paivitettyUrheilija || !paivitettyUrheilija.etunimi || !paivitettyUrheilija.sukunimi) {
+        return res.status(400).json({
+            virhe: "Etu- ja sukunimi ovat pakollisia tietoja"
+        });
+    }
+    try {
+        // Paikkamerkit
+        const[result] = await pool.query("UPDATE urheilijat SET ? WHERE id = ?",
+        [paivitettyUrheilija, id]) as [any, any];
+        // Onko muokattu
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ virhe: "Päivitettävää urheilijaa ei löytynyt"});
+        }
+        // Palauta päivitetty data
+        res.json({id: Number(id), ...paivitettyUrheilija});
+
+    } catch (error) {
+     console.log("Virhe päivitettäessä urheilijaa", error);
+     res.status(500).json({ virhe: "Tietokantavirhe urheilijaa päivitettäessä"});   
+    }
+});
+
+/*
+// Update a user by ID
+app.put("/users/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  const updatedUser: User = {
+    ...req.body,
+    id: id,
+  };
+
+  users = users.map((user) => (Number(user.id) === id ? updatedUser : user));
+
+  res.json(users);
+});
 
 // TODO: DELETE
+
+// Delete a user by ID
+app.delete("/users/:id", (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  users = users.filter((user) => Number(user.id) !== id);
+
+  res.json(users);
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+}); 
+*/
 
 app.listen(PORT, () => {
     console.log(`Palvelin käynnistetty osoitteessa ${PORT}`);

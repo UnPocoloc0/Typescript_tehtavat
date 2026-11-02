@@ -1,4 +1,4 @@
-export interface urheilija {
+export interface Urheilija {
     id?: Number;
     etunimi: string;
     sukunimi: string;

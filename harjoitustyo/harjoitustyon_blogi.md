@@ -72,3 +72,8 @@ portissa 3000 CORS- ja JSON-middlewareilla.
 * Call back-funktion kutsuminen -> Virheille altis tapa
 * Promises (Async  & Await) -> Funktion suoritus pysäytetään
 * Tietokanta -> JS-olio (koodi) -> res.json (verkko)
+
+## SQL
+* Select ja insert palauttaa erilaiset arvot
+* Select palauttaa tietueet taulukossa 
+* Insert palauttaa yhden kuittauksen
