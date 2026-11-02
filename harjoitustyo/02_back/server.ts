@@ -109,25 +109,23 @@ app.put("/api/urheilijat/:id", async (req, res) => {
     }
 });
 
+app.delete("/api/urheilijat/:id", async (req, res) => {
+    // Tekee saman kuin: const id = req.params.id
+    const { id } = req.params;
+    try {
+        // Tässäkin palautetaan kaksiosainen taulukko -> [any, any] viittaa tupleen
+        // Destrukturointi poimii ensimmäisen taulukon indeksin
+        const [result] = await pool.query("DELETE FROM urheilijat WHERE  id = ?", [id]) as [any, any];
+       if (result.affectedRows == 0) {
+            return res.status(404).json({ virhe: "Poistettavaa urheilijaa ei löytynyt"});
+       }
+       res.json({viesti: `Urheilija tunnuksella ${id} poistettu onnistuneesti`})
 
-/*
-// TODO: DELETE
-
-// Delete a user by ID
-app.delete("/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-
-  users = users.filter((user) => Number(user.id) !== id);
-
-  res.json(users);
+    } catch (error) {
+        console.log("Virhe poistettaessa urheilijaa", error);
+        res.status(500).json({ virhe: "Tietokantavirhe urheilijaa poistettaessa"})
+    }
 });
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-}); 
-*/
 
 app.listen(PORT, () => {
     console.log(`Palvelin käynnistetty osoitteessa ${PORT}`);
