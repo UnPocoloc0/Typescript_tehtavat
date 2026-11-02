@@ -1,11 +1,11 @@
 export interface Urheilija {
-    id?: Number;
-    etunimi: string;
-    sukunimi: string;
-    kutsumanimi: string;
-    syntymävuosi: string | Date;
-    paino: Number;
-    kuvalinkki: string;
-    laji: string;
-    saavutukset: string;
+    id?: number,
+    etunimi: string,
+    sukunimi: string,
+    kutsumanimi?: string,
+    syntymavuosi?: string | Date,
+    paino?: number,
+    kuvalinkki?: string,
+    laji?: string,
+    saavutukset?: string
 }
