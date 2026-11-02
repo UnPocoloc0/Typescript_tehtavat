@@ -2,7 +2,7 @@ import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 dotenv.config();
-console.log('Ladattu DB_USER:', process.env.DB_USER);
+
 
 // Yhteysaltaaseen laitetaan ympäristömuuttujat
 export const pool = mysql.createPool({

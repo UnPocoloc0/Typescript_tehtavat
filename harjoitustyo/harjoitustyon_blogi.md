@@ -53,6 +53,7 @@ Pitää hyväksyä skriptejä käsin
 * Import vaatii koko polun tiedostopäätteineen -> polku osoittaa käännökseen
 * // "dev": "nodemon --exec ts-node server.ts" -> tsx muotoon
 * Thunder Client vaatii kirjautumista
+* Destrukturointi vähentää toisteista koodia
 
 # Ongelmia
 
@@ -81,3 +82,6 @@ portissa 3000 CORS- ja JSON-middlewareilla.
 * Select ja insert palauttaa erilaiset arvot
 * Select palauttaa tietueet taulukossa 
 * Insert palauttaa yhden kuittauksen
+
+# DELETE
+
