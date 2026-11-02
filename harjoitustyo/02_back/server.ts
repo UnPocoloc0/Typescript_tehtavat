@@ -127,7 +127,6 @@ app.delete("/api/urheilijat/:id", async (req, res) => {
     }
 });
 
-
 app.listen(PORT, () => {
     console.log(`Palvelin käynnistetty osoitteessa ${PORT}`);
 })
