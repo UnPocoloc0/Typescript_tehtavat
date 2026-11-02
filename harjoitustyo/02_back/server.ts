@@ -32,7 +32,7 @@ app.get('/api/urheilijat/:id', async (req, res) => {
     try {
         // Yhteysallas tekee kyselyn -> odottaa kunnes kannasta tulee vastaus
         // ? on paikanpitäjä -> id-taulukko korvaa tämän
-        const [rows] = await pool.query('SELECT * FROM urheilijat WHERE id = ?', [id]) as [any[], any]; // Tähän urheilija tilalle (tarkempi)
+        const [rows] = await pool.query('SELECT * FROM urheilijat WHERE id = ?  ', [id]) as [any[], any]; // Tähän urheilija tilalle (tarkempi)
     if (rows.length === 0) {
         // Ei syntaksivirhettä -> resurssia ei löydy
         return res.status(404).json({ viesti: 'Urheilijaa ei löytynyt'});
@@ -80,25 +80,27 @@ app.post("/api/urheilijat", async (req, res) => {
 
 // TODO: PUT
 app.put("/api/urheilijat/:id", async (req, res) => {
-
+    // Poimitaan URL-osoitteesta id
     const { id } = req.params;
+    // Bodyssa on koko urheilijan tiedot Oliona
     const paivitettyUrheilija = req.body;
 
-    // Validointi
+    // Validointi -> minimitiedot pitää olla mukana
     if (!paivitettyUrheilija || !paivitettyUrheilija.etunimi || !paivitettyUrheilija.sukunimi) {
         return res.status(400).json({
             virhe: "Etu- ja sukunimi ovat pakollisia tietoja"
         });
     }
     try {
-        // Paikkamerkit
+        // Paikkamerkit täytetään taulukon alkioilla -> palautuu kuittausolio
+        // 1. päivitetetyt urheilijan tiedot -> 2. id
         const[result] = await pool.query("UPDATE urheilijat SET ? WHERE id = ?",
         [paivitettyUrheilija, id]) as [any, any];
-        // Onko muokattu
+        // Onko muokattu vai ei -> 1 -> on muokattu 
         if (result.affectedRows === 0) {
             return res.status(404).json({ virhe: "Päivitettävää urheilijaa ei löytynyt"});
         }
-        // Palauta päivitetty data
+        // Palauta päivitetty data pyynnon rungosta -> puretaan nämä avain-arvo-parin arvot olioon -> ei käsin kirjoittamista
         res.json({id: Number(id), ...paivitettyUrheilija});
 
     } catch (error) {
@@ -107,21 +109,8 @@ app.put("/api/urheilijat/:id", async (req, res) => {
     }
 });
 
+
 /*
-// Update a user by ID
-app.put("/users/:id", (req: Request, res: Response) => {
-  const id = Number(req.params.id);
-
-  const updatedUser: User = {
-    ...req.body,
-    id: id,
-  };
-
-  users = users.map((user) => (Number(user.id) === id ? updatedUser : user));
-
-  res.json(users);
-});
-
 // TODO: DELETE
 
 // Delete a user by ID

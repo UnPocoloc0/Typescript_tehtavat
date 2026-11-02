@@ -36,7 +36,11 @@ Pitää hyväksyä skriptejä käsin
 * API:n rooli: Api toimii logiikkakerroksena ilman sovelluksen visuaalista kuorta -> tulkki käyttöliittymän ja datan välissä
 * Backend-palvelimella tieto turvassa
 * Onko oiketta lukea dataa -> tarkistetaan joka pyynnön kohdalla erikseen
-
+## PUT
+* Mystinen 400 Bad Request -virhe -> validaatiossa ei ollut not-operaattoria mukana
+* mysql2 -syntaksi säästää käsin kirjoittamisen vaivaa -> luetaan pyynnön bodysta tiedot olioon
+* Syntaksissa tapahtuu paljon asioita pinnan alla -> destrukturointi ja spread-operaattorit
+* Haetaan parametrit URL:sta ja puretaan rungosta avain-arvo -parit
 # Git
 * Tehdään kehitys omassa haarassa ja yhdistetään aika ajoin päähaaraan
 * Päähaara pusketaan palvelimelle
