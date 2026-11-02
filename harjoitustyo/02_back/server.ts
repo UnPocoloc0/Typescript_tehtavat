@@ -78,7 +78,7 @@ app.post("/api/urheilijat", async (req, res) => {
     }
 });
 
-// TODO: PUT
+
 app.put("/api/urheilijat/:id", async (req, res) => {
     // Poimitaan URL-osoitteesta id
     const { id } = req.params;
