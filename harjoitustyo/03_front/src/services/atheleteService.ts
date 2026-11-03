@@ -1,11 +1,14 @@
-import { Urheilija } from '../types/Urheilija';
+import type { Urheilija } from '../types/Urheilija';
 
 const API_URL = 'http://localhost:3000/api/urheilijat';
 
 // Tämä on palvelukerros -> tekee vain kutsuja back endille
 export const getUrheilijat = async (): Promise<Urheilija[]> => {
-
-    return [];
+    const response = await fetch(API_URL);
+    if (!response.ok) {
+        throw new Error('Virhe urheilijoiden hakemisessa');
+    }
+    return await response.json();
 };
 
 export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
