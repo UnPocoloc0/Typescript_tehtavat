@@ -1,5 +1,5 @@
-import React, {createContext, useState, useContext, ReactNode } from 'react';
-import { Urheilija } from '../types/Urheilija';
+import React, {createContext, useState, useContext, type ReactNode } from 'react';
+import type { Urheilija } from '../types/Urheilija';
 
 
 // Määrittely -> Loota -> Jakelija -> Avain
