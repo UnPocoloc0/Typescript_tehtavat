@@ -85,3 +85,40 @@ portissa 3000 CORS- ja JSON-middlewareilla.
 
 # DELETE
 
+## Asennukset ja ympäristö toisella koneella
+Yhteenveto kakkoskoneen ympäristön asennuksesta
+1. Backend-ympäristö (02_backend) Lähtötilanne: Koodipohja oli siirretty Gitin
+kautta sporttista-haaraan, mutta backend heitti aluksi virheitä (404 ja
+myöhemmin 500 ER_DBACCESS_DENIED_ERROR).
+
+Syy & Ratkaisu:
+
+Reittiosoitteet täsmennettiin REST API -käytännön mukaisiksi (/api/urheilijat).
+
+Konekohtainen .env-tiedosto tarkistettiin ja täsmäytettiin tämän koneen
+MariaDB-asetusten (root-käyttäjä ja tietokannan nimi urheilijatDB) kanssa.
+
+Tulos: Backend pyörii ja kaikki CRUD-operaatiot (GET, POST, PUT, DELETE)
+toimivat moitteettomasti.
+
+2. Frontend-ympäristö (03_front) Lähtötilanne: React + Vite + TypeScript
+-alustus kohtasi alkuun pakettiristiriidan (TypeScript 7 vs. typescript-eslint)
+ja projektitiedostot luotiin vahingossa sisäkkäiseen vite-project-kansioon.
+
+Syy & Ratkaisu:
+
+Siistittiin hakemistorakenne, korjattiin package.json-tiedostoon yhteensopiva
+TypeScript-versio (^5.6.3) ja ajettiin asennus lipulla --legacy-peer-deps.
+
+Selkeytettiin Node.js-maailman perusperiaate: backendillä ja frontendillä on
+omat erilliset node_modules-kansionsta ja package.json-tiedostonsa.
+
+Tulos: Viten kehityspalvelin käynnistyy puhtaasti ja ohjautuu oikeaan
+03_front-ympäristöön (http://localhost:5173/).
+
+3. Tietokantahuomiot & Huomiot jatkoa varten AUTO_INCREMENT: Todettiin, että
+poistetun tietokantarivin ID-numeroa ei käytetä uudelleen, vaan uusi POST-lisäys
+saa aina seuraavan vapaan sarjanumeron.
+
+Päivämäärät: Tiukka DATE-tyyppi vaatii päivämäärän
+muodossa YYYY-MM-DD (eikä ISO-kelloaikaleimaa T22:00:00.000Z).
