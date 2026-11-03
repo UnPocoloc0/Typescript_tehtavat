@@ -11,13 +11,24 @@ export const UrheilijaList: React.FC = () => {
             {urheilijat.length === 0 ? (
                 <p>Ei urheilijoita saatavailla.</p>
             ) : (
-                <ul>
+                <div>
                     {urheilijat.map((u, index) => (
-                        <li key={u.id || index}>
-                            {u.etunimi} {u.sukunimi}
-                        </li>
+                        <div key={u.id || index}>
+                            <h3>
+                                {u.etunimi} {u.sukunimi} {u.kutsumanimi  ? `("${u.kutsumanimi}")` : ''}
+                            </h3>
+                            <p>
+                                <strong>Laji:</strong> {u.laji || 'Ei määritelty'}
+                            </p>
+                            {u.syntymavuosi && (
+                                <p>
+                                    <strong>Syntymäaika:</strong> {new Date(u.syntymavuosi).toLocaleDateString('fi-FI')}
+                                </p>
+                            )}
+                        <hr />
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
         );
