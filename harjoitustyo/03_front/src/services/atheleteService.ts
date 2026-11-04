@@ -19,6 +19,7 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
 });
     if (!response.ok) throw new Error('Virhe urheilijan lisäämisessä');
     return await response.json();
+};
 
 export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
 
@@ -41,3 +42,4 @@ export const deleteUrheilija = async (id: number): Promise<void> => {
     // Ei palauta mitään
 
 };
+

@@ -8,6 +8,7 @@ import { getUrheilijat } from '../services/atheleteService';
 interface AthleteContextType {
 
     urheilijat: Urheilija[];
+    lisaaUrheilija: (uusi: Omit<Urheilija, 'id'>) => Promise<void>;
 }
 // LOOTA: data tallennetaan tähän (Context-olio) 
 // Context:ssa on sovelluksen yhteinen tila muistissa
@@ -26,6 +27,16 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
         .catch((err) => console.error('Haku epäonnistui:', err));
 
     }, []); 
+    const handleLisaaUrheilija = async (uusi: Omit<Urheilija, 'id'>) => {
+        try {
+            const lisattyUrheilija = await addUrheilija(uusi);
+            setUrheilijat((aiemmat) => [...aiemmat, lisattyUrheilija]);
+            
+        } catch (err) {
+            console.error('Lisäys epäonnistui:', err);
+            throw err; 
+        }
+    }
 
     return (
         <AthleteContext.Provider value={{ urheilijat }}>
