@@ -11,6 +11,15 @@ export const getUrheilijat = async (): Promise<Urheilija[]> => {
     return await response.json();
 };
 
+export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promise<Urheilija> => {
+    const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(uusiUrheilija),
+});
+    if (!response.ok) throw new Error('Virhe urheilijan lisäämisessä');
+    return await response.json();
+
 export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
 
     throw new Error('Ei toteutettu vielä'); 

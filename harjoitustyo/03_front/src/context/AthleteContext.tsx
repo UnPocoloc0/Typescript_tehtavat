@@ -16,9 +16,11 @@ const AthleteContext = createContext<AthleteContextType | undefined>(undefined);
 
 // JAKELIJA: Tähän kääritään koko sovellus
 export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) => {
+    // Tämä on globaali tila
     const [urheilijat, setUrheilijat] = useState<Urheilija[]>([]);
 
     useEffect(() => {
+        // Haetaan data backendista
         getUrheilijat()
         .then((data) => setUrheilijat(data))
         .catch((err) => console.error('Haku epäonnistui:', err));
@@ -31,7 +33,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
         </AthleteContext.Provider>
     );
 };
-// AVAIN: Työkalu, jolla avataan loota
+// AVAIN: Työkalu, jolla avataan loota -> Custom-hook
 export const useAthletes = () => {
     const context = useContext(AthleteContext);
     if (!context) {
