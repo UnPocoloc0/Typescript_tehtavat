@@ -17,7 +17,14 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(uusiUrheilija),
 });
-    if (!response.ok) throw new Error('Virhe urheilijan lisäämisessä');
+    if (!response.ok) {
+        const errorData = await response.text();
+        console.error('Backendin palauttama virhe:', errorData);
+        throw new Error(`Backend virhe: ${response.status} ${response.statusText}`);
+        
+        
+
+    }
     return await response.json();
 };
 

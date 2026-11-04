@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, type ReactNode, useEffect } from 'react';
 import type { Urheilija } from '../types/Urheilija';
-import { getUrheilijat } from '../services/atheleteService';
+import { getUrheilijat, addUrheilija } from '../services/atheleteService';
 
 
 // Määrittely -> Loota -> Jakelija -> Avain
@@ -39,7 +39,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
     }
 
     return (
-        <AthleteContext.Provider value={{ urheilijat }}>
+        <AthleteContext.Provider value={{ urheilijat, lisaaUrheilija: handleLisaaUrheilija }}>
             {children}
         </AthleteContext.Provider>
     );
