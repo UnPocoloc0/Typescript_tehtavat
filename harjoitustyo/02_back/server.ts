@@ -94,11 +94,18 @@ app.put("/api/urheilijat/:id", async (req, res) => {
     try {
         // KORJAUS: otetaan id erilleen
         const { id: _tietokantaId, ...paivitettavatKentat } = paivitettyUrheilija;
+
+        if (paivitettavatKentat.syntymavuosi) {
+            const d = new Date(paivitettavatKentat.syntymavuosi);
+            paivitettavatKentat.syntymavuosi = d.toISOString().split('T')[0];
+        }
+
         // Paikkamerkit täytetään taulukon alkioilla -> palautuu kuittausolio
         // 1. päivitetetyt urheilijan tiedot -> 2. id
         const[result] = await pool.query(
             "UPDATE urheilijat SET ? WHERE id = ?",
         [paivitettavatKentat, id]) as [any, any];
+
         // Onko muokattu vai ei -> 1 -> on muokattu 
         if (result.affectedRows === 0) {
             return res.status(404).json({ virhe: "Päivitettävää urheilijaa ei löytynyt"});
