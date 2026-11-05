@@ -13,6 +13,7 @@ export const getUrheilijat = async (): Promise<Urheilija[]> => {
 
 export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promise<Urheilija> => {
     const response = await fetch(API_URL, {
+        // Määritellään eksplisiittisesti
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(uusiUrheilija),
@@ -29,7 +30,7 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
 };
 // Otetaan vastaan urheilijan id
 export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
-    // Tehdään pyyntö muuttujien avulla
+    // Tehdään GET pyyntö muuttujien avulla (oletuksena)
     const response = await fetch(`${API_URL}/${id}`);
     if(!response.ok) {
 

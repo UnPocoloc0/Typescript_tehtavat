@@ -18,7 +18,7 @@ export const UrheilijaList: React.FC = () => {
                                 {u.etunimi} {u.sukunimi} {u.kutsumanimi  ? `("${u.kutsumanimi}")` : ''}
                             </h3>
                             <p>
-                                <strong>Laji:</strong> {u.laji || 'Ei määritelty'}
+                                <strong>Laji:</strong> {u.laji ||'Ei määritelty'}
                             </p>
                             {u.syntymavuosi && (
                                 <p>

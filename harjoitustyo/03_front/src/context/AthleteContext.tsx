@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, type ReactNode, useEffect } from 'react';
 import type { Urheilija } from '../types/Urheilija';
-import { getUrheilijat, addUrheilija } from '../services/atheleteService';
+import { getUrheilijat, addUrheilija, getUrheilijaByID } from '../services/atheleteService';
 
 
 // Määrittely -> Loota -> Jakelija -> Avain
@@ -9,6 +9,7 @@ interface AthleteContextType {
 
     urheilijat: Urheilija[];
     lisaaUrheilija: (uusi: Omit<Urheilija, 'id'>) => Promise<void>;
+    haeUrheilijaById: (id: number) => Promise<Urheilija>;
 }
 // LOOTA: data tallennetaan tähän (Context-olio) 
 // Context:ssa on sovelluksen yhteinen tila muistissa
@@ -27,6 +28,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
         .catch((err) => console.error('Haku epäonnistui:', err));
 
     }, []); 
+    // Tapahtumankäsittelijäfunktiot:
     const handleLisaaUrheilija = async (uusi: Omit<Urheilija, 'id'>) => {
         try {
             const lisattyUrheilija = await addUrheilija(uusi);
@@ -36,10 +38,22 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
             console.error('Lisäys epäonnistui:', err);
             throw err; 
         }
+    };
+    const handleHaeUrheilijaById = async (id: number): Promise<Urheilija> => {
+        try {
+            return await getUrheilijaByID(id);
+        } catch (err) {
+            console.error(`Urheilijan haku tunnuksella ${id} epäonnistui: err`);
+            throw err;
+        }
     }
 
     return (
-        <AthleteContext.Provider value={{ urheilijat, lisaaUrheilija: handleLisaaUrheilija }}>
+        <AthleteContext.Provider 
+        value={{ 
+            urheilijat, 
+            lisaaUrheilija: handleLisaaUrheilija,
+            haeUrheilijaById: handleHaeUrheilijaById }}>
             {children}
         </AthleteContext.Provider>
     );
