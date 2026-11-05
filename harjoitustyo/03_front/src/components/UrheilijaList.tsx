@@ -7,7 +7,7 @@ export const UrheilijaList: React.FC = () => {
     const { urheilijat, haeUrheilijaById } = useAthletes();
 
     const [hakuId, setHakuId] = useState('');
-    const [haettuUrheiliija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
+    const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
 
     const handleHae = async () => {
 
@@ -22,9 +22,23 @@ export const UrheilijaList: React.FC = () => {
     }
 
 
-
     return (
         <div>
+            <div>
+                <h3>Hae urheilija ID:llä</h3>
+                <input
+                    type="number"
+                    placeholder='Syötä ID'
+                    value={hakuId}
+                    onChange={(e) => setHakuId(e.target.value)}
+                /> 
+                <button onClick={handleHae} style={{ marginLeft: '8px' }}>Hae</button>
+                {haettuUrheilija && (
+                    <div style={{ marginTop: '10px', color: 'green' }}>
+                        Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
+                    </div>
+                )}
+            </div>
             <h2>Urheilijat</h2>  
             {urheilijat.length === 0 ? (
                 <p>Ei urheilijoita saatavailla.</p>
