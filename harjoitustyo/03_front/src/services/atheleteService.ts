@@ -39,8 +39,9 @@ export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
     // Olio muutetaan JSON -> Urheilija
     return await response.json();
 };
-
+// Uudet tiedot oliomuodossa
 export const updateUrheilija = async (id: number, paivitetytTiedot: Urheilija): Promise<Urheilija> => {
+    // Lähetetään päivityspyyntö
     const response = await fetch(`${API_URL}/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json'},

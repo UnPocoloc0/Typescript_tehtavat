@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, type ReactNode, useEffect } from 'react';
 import type { Urheilija } from '../types/Urheilija';
-import { getUrheilijat, addUrheilija, getUrheilijaByID } from '../services/atheleteService';
+import { getUrheilijat, addUrheilija, getUrheilijaByID, updateUrheilija } from '../services/atheleteService';
 
 
 // Määrittely -> Loota -> Jakelija -> Avain
@@ -10,6 +10,7 @@ interface AthleteContextType {
     urheilijat: Urheilija[];
     lisaaUrheilija: (uusi: Omit<Urheilija, 'id'>) => Promise<void>;
     haeUrheilijaById: (id: number) => Promise<Urheilija>;
+    muokkaaUrheilijaa: (id: number, paivitetytTiedot: Urheilija) => Promise<void>;
 }
 // LOOTA: data tallennetaan tähän (Context-olio) 
 // Context:ssa on sovelluksen yhteinen tila muistissa
@@ -47,13 +48,29 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
             throw err;
         }
     }
+    const handleMuokkaaUrheilijaa = async (id: number, paivitetytTiedot: Urheilija) => {
+
+        try {
+            const paivitetty = await updateUrheilija(id, paivitetytTiedot);
+            // Päivitetään muokattu urheilija globaaliin tilaan (urheilijat)
+            setUrheilijat((aiemmat) =>
+            // Käydään läpi urheilijalista
+            // Korvataan urheilija tietokannasta tulleella versiolla
+                aiemmat.map((u) => (u.id === id ? paivitetty : u))
+        );
+        } catch (err) {
+            console.error(`Urheilijan tunnuksella ${id} muokkaus epäonnistui`);
+            throw err;
+        }
+    };
 
     return (
         <AthleteContext.Provider 
         value={{ 
             urheilijat, 
             lisaaUrheilija: handleLisaaUrheilija,
-            haeUrheilijaById: handleHaeUrheilijaById }}>
+            haeUrheilijaById: handleHaeUrheilijaById, 
+            muokkaaUrheilijaa: handleMuokkaaUrheilijaa }}>
             {children}
         </AthleteContext.Provider>
     );
