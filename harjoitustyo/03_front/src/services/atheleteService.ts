@@ -63,6 +63,11 @@ export const createUrheilija = async (urheilija: Urheilija): Promise<Urheilija> 
 
 export const deleteUrheilija = async (id: number): Promise<void> => {
     // Ei palauta mitään
-
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+    });
+    if (!response.ok) {
+        throw new Error(`Urheilijan poistaminen tunnuksella ${id} epäonnistui`)
+    }
 };
 

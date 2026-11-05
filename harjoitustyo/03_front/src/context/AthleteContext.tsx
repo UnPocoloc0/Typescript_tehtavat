@@ -1,6 +1,6 @@
 import React, {createContext, useState, useContext, type ReactNode, useEffect } from 'react';
 import type { Urheilija } from '../types/Urheilija';
-import { getUrheilijat, addUrheilija, getUrheilijaByID, updateUrheilija } from '../services/atheleteService';
+import { getUrheilijat, addUrheilija, getUrheilijaByID, updateUrheilija, deleteUrheilija } from '../services/atheleteService';
 
 
 // Määrittely -> Loota -> Jakelija -> Avain
@@ -11,6 +11,7 @@ interface AthleteContextType {
     lisaaUrheilija: (uusi: Omit<Urheilija, 'id'>) => Promise<void>;
     haeUrheilijaById: (id: number) => Promise<Urheilija>;
     muokkaaUrheilijaa: (id: number, paivitetytTiedot: Urheilija) => Promise<void>;
+    poistaUrheilija: (id: number) => Promise<void>;
 }
 // LOOTA: data tallennetaan tähän (Context-olio) 
 // Context:ssa on sovelluksen yhteinen tila muistissa
@@ -63,6 +64,16 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
             throw err;
         }
     };
+    const handlePoistaUrheilja = async (id: number) => {
+        try {
+            await deleteUrheilija(id);
+            // Poista urheilija ruudun muistista
+            setUrheilijat((aiemmat) => aiemmat.filter((u) => u.id !== id));            
+        } catch (err) {
+            console.error(`Urheilijan poisto tunnuksella ${id} epäonnistui`)
+            throw err;
+        }
+    };
 
     return (
         <AthleteContext.Provider 
@@ -70,7 +81,8 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
             urheilijat, 
             lisaaUrheilija: handleLisaaUrheilija,
             haeUrheilijaById: handleHaeUrheilijaById, 
-            muokkaaUrheilijaa: handleMuokkaaUrheilijaa }}>
+            muokkaaUrheilijaa: handleMuokkaaUrheilijaa,
+            poistaUrheilija: handlePoistaUrheilja }}>
             {children}
         </AthleteContext.Provider>
     );

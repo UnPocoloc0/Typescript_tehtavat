@@ -97,6 +97,7 @@ app.put("/api/urheilijat/:id", async (req, res) => {
 
         if (paivitettavatKentat.syntymavuosi) {
             const d = new Date(paivitettavatKentat.syntymavuosi);
+            // Pilkotaan T:n kohdalta -> Pelkkä vuosi-kuukausi-päivä jää
             paivitettavatKentat.syntymavuosi = d.toISOString().split('T')[0];
         }
 
