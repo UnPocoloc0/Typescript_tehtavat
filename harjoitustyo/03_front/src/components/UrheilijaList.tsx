@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useAthletes } from '../context/AthleteContext';
 import type { Urheilija } from '../types/Urheilija';
 
+
 export const UrheilijaList: React.FC = () => {
+    
     // Pyydetään taulukko
-    const { urheilijat, haeUrheilijaById } = useAthletes();
+    const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa } = useAthletes();
 
     const [hakuId, setHakuId] = useState('');
     const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
@@ -41,6 +43,52 @@ export const UrheilijaList: React.FC = () => {
                     </div>
                 )}
             </div>
+           
+            {valittuUrheilija && (
+                <div style={{ padding: '15px', border: '2px solid #007bff', marginBottom: '20px', borderRadius: '5px'}}>
+                    <h3>Muokkaa urheilijaa: {valittuUrheilija.etunimi} {valittuUrheilija.sukunimi}</h3>
+
+                    <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (!valittuUrheilija.id) return;
+
+                        try {
+                            await muokkaaUrheilijaa(valittuUrheilija.id, valittuUrheilija);
+                            alert('Tiedot päivitetty!'); // Sulje lomake
+                            setValittuUrheilija(null);
+                        } catch (err) {
+                            console.error('Muokkausvirhe:', err);
+                            alert('Päivitys epäonnistui: ' + err);
+                        }
+                    }}>
+                        <div style={{ marginBottom: '8px' }}>
+                            <label>Etunimi: </label>
+                            <input
+                                type='text'
+                                value={valittuUrheilija.etunimi}
+                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, etunimi: e.target.value})}/>
+                        </div>
+
+                        <div style={{ marginBottom: '8px' }}>
+                            <label>Sukunimi: </label>
+                            <input
+                                type='text'
+                                value={valittuUrheilija.sukunimi}
+                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, sukunimi: e.target.value})}/>
+                        </div>
+
+                        <div style={{ marginBottom: '8px' }}>
+                            <label>Laji: </label>
+                            <input
+                                type='text'
+                                value={valittuUrheilija.laji || ''}
+                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, laji: e.target.value})}/>
+                        </div>
+                        <button type="submit" style={{ marginRight: '10px' }}>Tallenna muutokset</button>
+                        <button type="button" onClick={() => setValittuUrheilija(null)}>Peruuta</button>
+                    </form>
+                </div>
+            )}
             <h2>Urheilijat</h2>  
             {urheilijat.length === 0 ? (
                 <p>Ei urheilijoita saatavailla.</p>

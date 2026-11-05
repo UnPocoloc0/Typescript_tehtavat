@@ -92,16 +92,19 @@ app.put("/api/urheilijat/:id", async (req, res) => {
         });
     }
     try {
+        // KORJAUS: otetaan id erilleen
+        const { id: _tietokantaId, ...paivitettavatKentat } = paivitettyUrheilija;
         // Paikkamerkit täytetään taulukon alkioilla -> palautuu kuittausolio
         // 1. päivitetetyt urheilijan tiedot -> 2. id
-        const[result] = await pool.query("UPDATE urheilijat SET ? WHERE id = ?",
-        [paivitettyUrheilija, id]) as [any, any];
+        const[result] = await pool.query(
+            "UPDATE urheilijat SET ? WHERE id = ?",
+        [paivitettavatKentat, id]) as [any, any];
         // Onko muokattu vai ei -> 1 -> on muokattu 
         if (result.affectedRows === 0) {
             return res.status(404).json({ virhe: "Päivitettävää urheilijaa ei löytynyt"});
         }
         // Palauta päivitetty data pyynnon rungosta -> puretaan nämä avain-arvo-parin arvot olioon -> ei käsin kirjoittamista
-        res.json({id: Number(id), ...paivitettyUrheilija});
+        res.json({ id: Number(id), ...paivitettyUrheilija });
 
     } catch (error) {
      console.log("Virhe päivitettäessä urheilijaa", error);
