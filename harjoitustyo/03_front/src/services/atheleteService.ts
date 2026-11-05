@@ -40,9 +40,17 @@ export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
     return await response.json();
 };
 
-export const updateUrheilija = async (id: number, urheilija: Urheilija): Promise<Urheilija> => {
-    
-    throw new Error('Ei toteutettu vielä'); 
+export const updateUrheilija = async (id: number, paivitetytTiedot: Urheilija): Promise<Urheilija> => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(paivitetytTiedot),
+    });
+    if (!response.ok) {
+
+        throw new Error(`Urheilijan päivitys tunnuksella ${id} epäonnistui.`); 
+    }
+    return await response.json();
 
 }
 
