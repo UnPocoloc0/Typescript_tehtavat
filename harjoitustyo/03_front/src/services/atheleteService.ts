@@ -1,5 +1,5 @@
 import type { Urheilija } from '../types/Urheilija';
-
+// Estetään kirjoitusvirheet
 const API_URL = 'http://localhost:3000/api/urheilijat';
 
 // Tämä on palvelukerros -> tekee vain kutsuja back endille
@@ -27,10 +27,16 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
     }
     return await response.json();
 };
-
+// Otetaan vastaan urheilijan id
 export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
+    // Tehdään pyyntö muuttujien avulla
+    const response = await fetch(`${API_URL}/${id}`);
+    if(!response.ok) {
 
-    throw new Error('Ei toteutettu vielä'); 
+        throw new Error(`Urheilijan haku tunnuksella ${id} epäonnistui`); 
+    }
+    // Olio muutetaan JSON -> Urheilija
+    return await response.json();
 };
 
 export const updateUrheilija = async (id: number, urheilija: Urheilija): Promise<Urheilija> => {
