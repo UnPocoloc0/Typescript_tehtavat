@@ -1,9 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAthletes } from '../context/AthleteContext';
+import type { Urheilija } from '../types/Urheilija';
 
 export const UrheilijaList: React.FC = () => {
     // Pyydetään taulukko
-    const { urheilijat } = useAthletes();
+    const { urheilijat, haeUrheilijaById } = useAthletes();
+
+    const [hakuId, setHakuId] = useState('');
+    const [haettuUrheiliija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
+
+    const handleHae = async () => {
+
+        if (!hakuId) return;
+        try {
+            const tulos = await haeUrheilijaById(Number(hakuId));
+            setHaettuUrheilijaById(tulos);
+        } catch (error) {
+            alert(`Urheilijaa tunnuksella ${hakuId} ei löytynyt`);
+            setHaettuUrheilijaById(null);
+        }
+    }
+
+
 
     return (
         <div>
