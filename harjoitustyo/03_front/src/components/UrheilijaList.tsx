@@ -8,6 +8,10 @@ export const UrheilijaList: React.FC = () => {
 
     const [hakuId, setHakuId] = useState('');
     const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
+    // Muuttuja -> urheilija jota muokataan
+    // Muutosfunktio -> asetetaan valinta
+    const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
+
 
     const handleHae = async () => {
 
@@ -20,8 +24,6 @@ export const UrheilijaList: React.FC = () => {
             setHaettuUrheilijaById(null);
         }
     }
-
-
     return (
         <div>
             <div>
@@ -57,7 +59,11 @@ export const UrheilijaList: React.FC = () => {
                                     <strong>Syntymäaika:</strong> {new Date(u.syntymavuosi).toLocaleDateString('fi-FI')}
                                 </p>
                             )}
+                            
                         <hr />
+                        <button onClick={() => setValittuUrheilija(u)}>
+                            Muokkaa
+                        </button>
                         </div>
                     ))}
                 </div>
