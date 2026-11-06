@@ -21,10 +21,7 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
     if (!response.ok) {
         const errorData = await response.text();
         console.error('Backendin palauttama virhe:', errorData);
-        throw new Error(`Backend virhe: ${response.status} ${response.statusText}`);
-        
-        
-
+        throw new Error(`Backend virhe: ${response.status} ${response.statusText}`); 
     }
     return await response.json();
 };
@@ -52,14 +49,13 @@ export const updateUrheilija = async (id: number, paivitetytTiedot: Urheilija): 
         throw new Error(`Urheilijan päivitys tunnuksella ${id} epäonnistui.`); 
     }
     return await response.json();
-
 }
 
-export const createUrheilija = async (urheilija: Urheilija): Promise<Urheilija> => {
+// export const createUrheilija = async (urheilija: Urheilija): Promise<Urheilija> => {
 
-    throw new Error('Ei toteutettu vielä')
+//     throw new Error('Ei toteutettu vielä')
     
-};
+// };
 
 export const deleteUrheilija = async (id: number): Promise<void> => {
     // Ei palauta mitään
