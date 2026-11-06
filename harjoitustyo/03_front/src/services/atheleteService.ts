@@ -33,7 +33,7 @@ export const getUrheilijaByID = async (id: number): Promise <Urheilija> => {
 
         throw new Error(`Urheilijan haku tunnuksella ${id} epäonnistui`); 
     }
-    // Olio muutetaan JSON -> Urheilija
+    // Olio muutetaan JSON -> Urheilija 
     return await response.json();
 };
 // Uudet tiedot oliomuodossa
