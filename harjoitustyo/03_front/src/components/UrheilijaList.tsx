@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { useAthletes } from '../context/AthleteContext';
 import type { Urheilija } from '../types/Urheilija';
 
-
 export const UrheilijaList: React.FC = () => {
     
     // Pyydetään taulukko
-    const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa } = useAthletes();
+    const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
 
     const [hakuId, setHakuId] = useState('');
     const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
     // Muuttuja -> urheilija jota muokataan
     // Muutosfunktio -> asetetaan valinta
     const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
+    const [poistoId, setPoistoId] = useState('');
 
 
+    // Näissä metodeissa tarvitaan paikallista tilaa vs. Contextista kutsuttavat metodit
     const handleHae = async () => {
 
         if (!hakuId) return;
@@ -26,6 +27,24 @@ export const UrheilijaList: React.FC = () => {
             setHaettuUrheilijaById(null);
         }
     }
+
+    const handlePoistaIdlla = async () => {
+        if (!poistoId) return;
+
+        const idNumero = Number(poistoId);
+        if (window.confirm(`Haluatko varmasti poistaa urheilijan ID:lla ${idNumero}?`)) {
+            try {
+                await poistaUrheilija(idNumero);
+                alert(`Urheilija tunnuksella ${idNumero} poistettu onnistuneesti`);
+                setPoistoId('');
+                
+            } catch (err) {
+                alert(`Poisto epäonnistui: Urheilijaa tunnuksella ${idNumero} ei löytynyt`);
+            }
+        }
+    };
+
+
     return (
         <div>
             <div>
@@ -39,6 +58,27 @@ export const UrheilijaList: React.FC = () => {
                 <button onClick={handleHae} style={{ marginLeft: '8px' }}>Hae</button>
                 {haettuUrheilija && (
                     <div style={{ marginTop: '10px', color: 'green' }}>
+                        Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
+                    </div>
+                )}
+            </div>
+
+            <div>
+                <h3>Poista urheilija ID:llä</h3>
+                <input
+                    type="number"
+                    placeholder='Syötä ID'
+                    value={poistoId}
+                    onChange={(e) => setPoistoId(e.target.value)}
+                /> 
+                <button 
+                onClick={handlePoistaIdlla} 
+                style={{ marginLeft: '8px', color: 'white', backgroundColor: 'red', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Poista</button>
+            </div>
+
+            <div>
+                {haettuUrheilija && (
+                    <div style={{ marginTop: '10px', color: 'red' }}>
                         Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
                     </div>
                 )}
