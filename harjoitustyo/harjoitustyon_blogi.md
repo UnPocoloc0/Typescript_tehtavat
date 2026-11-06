@@ -1,7 +1,7 @@
 # Simon harjoitustyön blogi
 
 ## Git
-Olen kurssin aikana pitänyt kahta Git-rrepositiota yllä. Aiemmilla kursseilla ongelmana on ollut koodin hajaantuminen moneen eri paikkoihin ja projekteihin, jolloin toimivien mallien löytäminen ja vertailu on ollut hankalaa. Tällä kurssilla tein harjoitustyötä samaan repositioon,  jossa sijaitsevat kurssin muutkin viikkotehtävät. Versionhallinnasta on tässä vaiheessa opintoja tullut jo hyvä ystävä, enkä voi kuvitellakaan mitään ohjelmointiin liittyvää tehtävää, ilman että versionhallinta on tukemassa työskentelyä. Koska tallennan kehitystyötä melko pienillä inkrementeillä, niin tämä poistaa tiettyä stressiä, jos jokin asia menee pahasti vikaan. Pahimmassakin tapauksessa menetän noin 10 minuutin työn, joka on nopea paikata tarvittaessa. 
+Olen kurssin aikana pitänyt kahta Git-repositiota yllä. Aiemmilla kursseilla ongelmana on ollut koodin hajaantuminen moneen eri paikkoihin ja projekteihin, jolloin toimivien mallien löytäminen ja vertailu on ollut hankalaa. Tällä kurssilla tein harjoitustyötä samaan repositioon,  jossa sijaitsevat kurssin muutkin viikkotehtävät. Versionhallinnasta on tässä vaiheessa opintoja tullut jo hyvä ystävä, enkä voi kuvitellakaan mitään ohjelmointiin liittyvää tehtävää, ilman että versionhallinta on tukemassa työskentelyä. Koska tallennan kehitystyötä melko pienillä inkrementeillä, niin tämä poistaa tiettyä stressiä, jos jokin asia menee pahasti vikaan. Pahimmassakin tapauksessa menetän noin 10 minuutin työn, joka on nopea paikata tarvittaessa. 
 
 Kokonaisen Full stack-sovelluksen tekeminen vaikutti aluksi melko abstraktilta, koska tällä kurssilla oppimiskäyrä on hyvin jyrkkä ja käytettäviä teknologioita ja kehikoita on lukematon määrä. Yritin aluksi tehdä mielessäni hyvin karkeaa jaottelua tulevista työvaiheista: mitkä asiat liittyvät tietokantaan ja taustapalveluihin, mitkä taas liittyvät enemmän käyttöliittymän ja siinä tapahtuvaan tilanhallintaan. Tämä karkea jaottelu auttoi luomaan edes jonkinlaisen tiekartan tehtävän suorittamiselle. Toin tehtävänannon txt-muodossa projektiin mukaan ja käytin tätä itselleni vaatimusmäärittelynä. Tästäkin on muodostunut itselleni tapa, eli tiettyjä tärkeitä dokumentteja on järkevää kuljettaa projektin mukana, jolloin sitä ei tarvitse etsiä tietokoneen resurssienhallinnasta. Lisäksi nämä txt- ja MD-dokumentit pysyvät aina ajantasalla. 
 
@@ -46,8 +46,25 @@ tsconfig-tiedosto asennettiin komennolla.
 npx tsc --init
 ```
 
-Ensimmäisenä tehtävänä oli tuoda käyttöön mysql2, joka tehtiin db.ts-tiedostossa. Samassa tiedostossa otettiin käyttöön dotenv, jonka avulla tietokantayhteyden kredentiaalit voidaan lukea  konfiguraatiotiedostosta. Luo luo ympäristö muuttujille oma yhteys allas, jonka avulla SQL-kyselyiden tekeminen oli jatkossa kätevämpää. Tähän jouduttiin antamaan vaihtoehtoisetkti sen takia, jos yhteys ympäristö muuttujien avulla ei jostain syystä olisi onnistunut. Kuitenkin pyrittiin ensisijaisesti käyttämään konfiguraatio tiedoston kredentiaaleja. Näiden määritysten jälkeen tietokantayhteyden pitäisi toimia. 
+Ensimmäisenä tehtävänä oli tuoda käyttöön mysql2, joka tehtiin db.ts-tiedostossa. Samassa tiedostossa otettiin käyttöön dotenv, jonka avulla tietokantayhteyden kredentiaalit voidaan lukea  konfiguraatiotiedostosta. Luotiin ympäristömuuttujille oma yhteysallas, jonka avulla SQL-kyselyiden tekeminen oli jatkossa kätevämpää. Tähän jouduttiin antamaan vaihtoehtoisesti sen takia, jos tietokantayhteys ympäristömuuttujien avulla ei jostain syystä olisi onnistunut. Kuitenkin pyrittiin ensisijaisesti käyttämään konfiguraatio tiedoston kredentiaaleja. Näiden määritysten jälkeen tietokantayhteyden pitäisi toimia. 
 
+Koska TS on tyypitetty kieli, niin urheilija voidaan mallintaa omalla oliolla, joka pitää sisällään kaikki urheilijan liittyvät tiedot. Tämä dataluokka/ rajapinta helpottaa olion tietojen hakemista ja päivittämistä myöhemmin. Nämä luokan ominaisuudet vastaava tietokannassa olevia taulun sarakkeita. Tätä mallia käytetään myöhemmin, kun palautetaan urheilijan tietoja, tai päivitetään niitä. Kaikki luokan ominaisuudet voidaan asettaaa, mutta ID-kentän tietokanta generoi automaattisesti primary keyn avulla. Tässä vaiheessa serveri pyörii paikallisesti osoitteessa 3 000 ilman virheitä, data mallin urheilijaa varten oli valmis ja tarvittavat kehitys aikaiset riippuvuudet asennettu. 
+
+## Middleware
+Seuraavaksi alkoi varsinainen Middlewaren rakentaminen, eli kuinka saadaan välitettyä http-pyyntöjä tietokantaan asti. Tämä oli mielestäni järkevä tapa edetä koska ei ole mitään järkeä kutsua sellaisia funktioita, joissa ei ole toiminnallisuutta vielä olemassa. Siksi etenin yksi metodi kerrallaan, joita tallensin ahkerasti versionhallintaan.  
+
+Riippuvuudet back endiin saatiin komennolla:
+```
+typescript, ts-node, @types/express, @types/node, @types/cors
+````
+Tämän jälkeen näitä komponentteja ja pystytään tuomaan taustajärjestelmään mukaan. Kirjoitin Back endiin tyhjät metodirungot seuraaville metodeille: 
+GET, GET by ID, POST, PUT ja DELETE. Tavoitteena oli täydellisen CRUD-toiminnallisuuden tekeminen sovellukseen. Express otettiin oma muuttujan talteen, jonka jälkeen se tarjoaa hyödyllisiä metodeita, kuten json-muotoisen datan muuttaminen objektiksi. Med muistuttavat rakenteeltaan toisiaan, eli ne ovat kaikki assynkronisia. Tämä tarkoittaa sitä, että metodin suoritus keskeytyy, kunnes tietokannasta tulee vastaus. Se ei jää siis varaamaan resursseja turhaan. Pyyntö ja vastausta varten on omat muuttujat. Suurimmassa osassa metodeita käytetään ID-parametria, jolla SQL-kysely voidaan koittaa koskemaan jotain tiettyä urheilijaa. Kaikkiin metodeihin tehtiin Try-Catch-lohkot. Vastaus tuottaa aina json-muotoista dataa, joten tämä palautetaan aina, olipa kyseessä onnistunutta epäonnistunut kyselen. 
+
+GetUrheilijat-metodi. Tähän riittää pelkkä URL-osoite, koska haetaan taulusta kaikki tietueet. Lisäysmetodi toteutettiin melko kevyesti, eli tiedoksi riittivät etu- ja sukunimet. Uuden urheilijan tiedot pystytään lukemaan vasta vastauksen sanomasta, ja tässä vaiheessa tuo urheilija-rajapinnan tekeminen alkaa maksamaan itseään takaisin. Nyt pystytään kyselyssä kysymysmerkin tilalle sijoittumaan kokonainen uusi urheilija-olio. Valikoiessa minimi tietoja, tässä unohtui nyt operaation käyttäminen, joka esti urheilijan päivittämisen. Eli pieni !-merkin puuttuminen aiheutti harmaita hiuksia. Delete-metodi oli toteutukseltaan siinä mielessä yksinkertaisempi, koska sen ei tarvitse palauttaa mitään. Toki poistettavaa urheilijan ID mikä on. Päivitys-metodi oli monessakin mielessä hankala, koska tässä sotkee tietokannan automaattisesti luotu ID, sekä urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä vaiheessa syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietoihin päivittämiseen kantaan. 
+
+Syntakssellisesti tässä vaiheessa oli piilotettu tieto. Eli, kun käytetään yhteys allasta, niin kyselyt tuottavat taulukon, jossa on varsinainen data ensimmäisessä indeksissä ja metadata toisessa indeksissä. Kysymysmerkin käyttö kyselyssä tarkoittaa paikan pitäjää, eli tähän laitetaan haluttu tieto. Useassa tapauksessa tämä oli juuri tuo urheilijan ID-tunnus. Haettava palvelin on sinänsä aivan sama kuin aiemminkin, mutta nyt parametreihin tarvitaan tämä urheilijan yksilöivä tieto. Jonkun verran oli ongelmia tiedon menemisestä tietokantaan, mutta perusust tulostus lause koodissa auttoivat vikojen selvittelyssä. Myös selaimen kehitystyökalut olivat käytössä. Pelkästään status koodeista pystytään päättelemään, oliko kysely onnistunut, tai tuliko tietokannan päässä jotain virhettä. Spread-operaattori oli myös syntaksellisesti hieman hämmentävä. Toisaalta jos jokainen tieto olisi pitänyt kirjoittaa käsin, niin ymmärrän miksi tätä syntaksi käytetään. Tällä tavalla saadaan syötettyä koko oli jo kerralla. 
+
+## Backendin testaus
 
 * Kehityshaara
 * Kehitys monella koneella
@@ -59,3 +76,5 @@ Thunderclient
 
 ## React Frontend
 
+
+# Ongelmia ja ratkaisuja ongelmiin
