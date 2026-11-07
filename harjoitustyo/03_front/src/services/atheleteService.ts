@@ -1,8 +1,11 @@
+// Puhdasta typescriptia -> eri riippuvuuksia Reactiin
 import type { Urheilija } from '../types/Urheilija';
 // Estetään kirjoitusvirheet
 const API_URL = 'http://localhost:3000/api/urheilijat';
 
 // Tämä on palvelukerros -> tekee vain kutsuja back endille
+// Tämä vastaa http-pyynnöistä -> miten ja mistä osoitteesta data haetaan
+// Promise -> ei valmista dataa, odottaa vastauksen saapumista
 export const getUrheilijat = async (): Promise<Urheilija[]> => {
     const response = await fetch(API_URL);
     if (!response.ok) {
@@ -15,7 +18,9 @@ export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promis
     const response = await fetch(API_URL, {
         // Määritellään eksplisiittisesti
         method: 'POST',
+        // Tällä otsakkeella paketti menee verkon yli
         headers: { 'Content-Type': 'application/json' },
+        // Olio muutetaan JSON-merkkijononksi
         body: JSON.stringify(uusiUrheilija),
 });
     if (!response.ok) {

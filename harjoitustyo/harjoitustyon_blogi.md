@@ -129,7 +129,10 @@ Riippuvuudet back endiin saatiin kätevästi yhdellä komennolla:
 ```
 typescript, ts-node, @types/express, @types/node, @types/cors
 ````
-
+TS-asetustiedoston luominen:
+```
+npx tsc --init
+```
 Tämän jälkeen näitä komponentteja ja pystytään tuomaan taustajärjestelmään
 mukaan.
 
@@ -246,27 +249,64 @@ lähdekoodi kirjoitettiin hyvien käytänteiden mukaisesti src-kansioon.
 ## Front end kansiorakenne
 `services/ athleteService.ts`- tekee kutsuja palvelimelle `context/
 AthleteContext.ts`- tässä on sovelluksen globaali tila `components/
-Urheilijalist.tsx`  ja `components/ UrheilijaList.tsx`  tässä on html-tyylistä
-koodia mukana
+Urheilijalist.tsx`  ja `components/ UrheilijaList.tsx`  - näissä on sekaisin
+html-tyylistä koodia ja typescript-logiikkaa.  
+
+Kaikki tietokantaan tehtävät kutsut eristettiin omaan palvelukerrokseensa. Jotta
+kirjoitusvirheiltä vältyttäisiin, pitkä URL-osoite otettiin muuttujaan talteen.
+Monesti pienikin virhe osoitteessa aiheuttaa kyselyn epäonnistumisen, muuttujan
+avulla  myös itse kutsut ovat  helpommin luettavia. Tässä kohtaa oli syntaksin
+kanssa myös hieman ongelmia, eli esim. ellei http-metodia olla erikseen
+määritetty, se tekee oletuksena GET-pyynnön. Tässä kerroksessa tapahtuu myös
+muutoksia JSON-muodosta oliomuotoon, jolloin voi tulla helposti erilaisia
+virheitä. Koska pelkästä statuskoodi ei aina kertonut virheen syytä, niin
+jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin päästiin paremmin
+selville virheen syystä. 
+
+## Palvelukerros AtheleteServices
+Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi.
+Melkein kaikki metodit tässä palvelukerroksessa palautuvat json-muotoista dataa,
+paitsi delete-metodi, joka ei palauta mitään. Hankalin asia oli uuden urheilijan
+lisääminen: Ongelmana oli, että tietokanta luo automaattisen ID-kentän, joten
+tämä piti pystyä jättää huomioimatta parametreja annettaessa. Koska
+urheilija-tyyppi tuotiin tähän kerrokseen mukaan, funktiot palauttavat tämän
+Urheilija-tyypin tietoja. Jos haetaan kaikki urheilijat, niin Promise on
+Urheilijat-taulukko, muissa tapauksissa vain palautetaan yhden, halutun ID:n urheilija-olion tiedot. 
+
+## Tilanhallinta AtheleteContext
+Valmiit palvelukerroksen metodit tuodaan `AtheleteContext`-tiedostoon. Tässä tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa. Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta toiselle. 
 
 
-Kaikki tietokantaan tehtävät kutsut eristettiin omaan palvelukerrokseensa. Jotka
-kirjoitusvirheeltä täytettäisiin pitkät URL osoitteet otettiin muuttujiin
-talteen. Näin itse kutsut ovat myös helpommin luettavia. Tässä olisin taksin
-kanssa myös hieman ongelmia, eli ellei metodia olla erikseen määritetty, se
-tekee oletuksena GET-pyynnön. Tässä kerroksessa tapahtuu myös muutoksia
-JSON-muodosta oliomuotoon, jolloin tuli virheitä. Koska pelkästä status koodi ei
-aina kertonut virheen syytä, niin jouduttiin tuosta konsoliin virheen
-aiheuttaja, jolloin päästiin paremmin selville virheen syystä. 
+### Rajapintamäärittely
 
-Melkein kaikki
-metallit tässä palvelu kerroksessa palautuvat json-muotoista dataa,  paitsi
-delete-metodi. Hankalin asia oli uuden urheilijanliseen. Ongelmana oli, että
-tietokanta luo automaattisen ID-kentän, joten tämä piti pystyä jättää
-huomioimatta parametreja annettaessa. Koska urheilija-tyyppi tuotiin tähän
-kerrokseen mukaan, funktio palauttavat tämän tyypin tietoja. Jos on kyseessä
-kaikki urheilijat, niin Promise on Urheilijat-taulukko, palautetaan yhden
-urheilijan tiedot. 
+Tehtiin aluksi rajapintamäärittely `ÀthleteContextType`, eli mitä tietoja ja
+metodeita Context:sta tarjotaan ulos. Tämä määrittely toimii sopimuksena, eli
+tietyt muuttujat ja funktiot pitää löytyä täsmälleen tässä rajapinnassa
+esitetyllä tavalla. Tämän jälkeen luotiin Context olio käyttämällä
+`createContext`-metodia, johon annetaan juuri luotu rajapinta parametriksi. 
+
+Providerin sisällä kääritään kaikki lapsikomponentit yhteen ja tarjotaan niille
+globaali tila.  Lapsikomponentit rendertyvät uudestaan silloin, kun Providerin
+tarjoama Context-tila muuttuu. Tässä tapauksessa globaali tila on
+Urheilija-olioita sisältävä taulukko. Globaali tila päivittyy kun haetaan
+palvelu Kirroksessa olevalla funktiolla kaikki urheilijat ruudulle. Tilapäivitys
+pitää tehdä aina asetusfunktion kautta, jotta React havaitsee muutoksen.
+Context-rajapinnassa on vain metodien nimet ja parametrit, mutta varsinainen
+määrittely tehdään funktionaalisen komponentin sisällä. Varsinaiset toteutukset
+tehtiin Providerin siälle ja funktion nimen eteen laitettiin handle merkkaamaan,
+että nyt käsitellään tilanmuutosta. Tämä kontekstiolion koko tila voidaan
+lopuksi välittää yksinkertaisella funktiolla näkyviin muualle, kuten
+käyttöliittymäkomponenteille. Koska metodeja ketjutetaan eri tiedostojen kautta,
+tätä datan virtausta oli hankala hahmottaa ilman kaavakuvaa. Datan kulku
+tiivistettynä: Tietokannasta data liikkuu palveluluokalle, joka välittää sen
+edelleen Providerille, joka tarjoaa globaalin tilan käyttöliittymäelementeille
+erillisen kääremetodin kautta. Tähän kääremetodiin laitetaan koko sovelluksen
+tila ja tämä pystytään ottamaan muissa luokissa helposti käyttöön.  
+
+
+
+## Components 
+tässä kansiossa sijaitsevat käyttöliittymän komponentit.
 
 
 # Ongelmia ja ratkaisuja ongelmiin
