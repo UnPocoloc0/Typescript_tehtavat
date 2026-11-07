@@ -264,17 +264,21 @@ jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin päästiin paremmin
 selville virheen syystä. 
 
 ## Palvelukerros AtheleteServices
-Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi.
-Melkein kaikki metodit tässä palvelukerroksessa palautuvat json-muotoista dataa,
-paitsi delete-metodi, joka ei palauta mitään. Hankalin asia oli uuden urheilijan
-lisääminen: Ongelmana oli, että tietokanta luo automaattisen ID-kentän, joten
-tämä piti pystyä jättää huomioimatta parametreja annettaessa. Koska
-urheilija-tyyppi tuotiin tähän kerrokseen mukaan, funktiot palauttavat tämän
-Urheilija-tyypin tietoja. Jos haetaan kaikki urheilijat, niin Promise on
-Urheilijat-taulukko, muissa tapauksissa vain palautetaan yhden, halutun ID:n urheilija-olion tiedot. 
+Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi. Melkein
+kaikki metodit tässä palvelukerroksessa palautuvat json-muotoista dataa, paitsi
+delete-metodi, joka ei palauta mitään. Hankalin asia oli uuden urheilijan
+lisääminen `ADD`-metodilla: ongelmana oli, että tietokanta luo automaattisen
+ID-kentän, joten tämä piti pystyä jättää huomioimatta parametreja annettaessa.
+Koska urheilija-tyyppi tuotiin tähän kerrokseen mukaan, funktiot palauttavat
+tämän Urheilija-tyypin tietoja. Jos haetaan kaikki urheilijat, niin Promise on
+Urheilijat-taulukko, muissa tapauksissa vain palautetaan yhden, halutun ID:n
+urheilija-olion tiedot. 
 
 ## Tilanhallinta AtheleteContext
-Valmiit palvelukerroksen metodit tuodaan `AtheleteContext`-tiedostoon. Tässä tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa. Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta toiselle. 
+Valmiit palvelukerroksen metodit tuodaan `AtheleteContext`-tiedostoon. Tässä
+tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa.
+Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta
+toiselle. Muussa tapauksessa komponentit joutuisivat käsittelemään niille kuulumatonta tietoa, ja tilanhallinnasta tulisi raskasta ylläpitää. 
 
 
 ### Rajapintamäärittely
@@ -289,11 +293,13 @@ Providerin sisällä kääritään kaikki lapsikomponentit yhteen ja tarjotaan n
 globaali tila.  Lapsikomponentit rendertyvät uudestaan silloin, kun Providerin
 tarjoama Context-tila muuttuu. Tässä tapauksessa globaali tila on
 Urheilija-olioita sisältävä taulukko. Globaali tila päivittyy kun haetaan
-palvelu Kirroksessa olevalla funktiolla kaikki urheilijat ruudulle. Tilapäivitys
+palvelukerroksessa olevalla funktiolla kaikki urheilijat ruudulle. Tilapäivitys
 pitää tehdä aina asetusfunktion kautta, jotta React havaitsee muutoksen.
 Context-rajapinnassa on vain metodien nimet ja parametrit, mutta varsinainen
-määrittely tehdään funktionaalisen komponentin sisällä. Varsinaiset toteutukset
-tehtiin Providerin siälle ja funktion nimen eteen laitettiin handle merkkaamaan,
+määrittely tehdään funktionaalisen komponentin sisällä. 
+
+Varsinaiset funktioiden toteutukset
+tehtiin Providerin sisälle ja funktion nimen eteen laitettiin handle merkkaamaan,
 että nyt käsitellään tilanmuutosta. Tämä kontekstiolion koko tila voidaan
 lopuksi välittää yksinkertaisella funktiolla näkyviin muualle, kuten
 käyttöliittymäkomponenteille. Koska metodeja ketjutetaan eri tiedostojen kautta,
@@ -301,14 +307,24 @@ tätä datan virtausta oli hankala hahmottaa ilman kaavakuvaa. Datan kulku
 tiivistettynä: Tietokannasta data liikkuu palveluluokalle, joka välittää sen
 edelleen Providerille, joka tarjoaa globaalin tilan käyttöliittymäelementeille
 erillisen kääremetodin kautta. Tähän kääremetodiin laitetaan koko sovelluksen
-tila ja tämä pystytään ottamaan muissa luokissa helposti käyttöön.  
+tila ja tämä pystytään ottamaan muissa luokissa helposti käyttöön import-lauseella:
+```
+import { useAthletes } from '../context/AthleteContext';
+```
 
 
+## Components - käyttöliittymän komponentit 
+tässä kansiossa sijaitsevat käyttöliittymän komponentit: `UrheilijaForm.tsx`ja
+`UrheilijaList.tsx`. Lomakkeen avulla lisätään uusi urheilija tietokantaan ja
+listan avulla näytetään kaikki tietokannassa olevat urheilijat.  Näissä
+tiedostoissa on sekaisin type script logiikkaa ja HTML-tyyppistä syntaksia.
+Sovelluksen tilaa hallitaan useStaten avulla, tämä on alustettu tyhjäksi
+merkkijonoksi. Lukumuuttuja ja päivitysfunktio saadaan näppärästi purettua
+taulukosta omiin muuttujiin. Urheilijaa lisättäessä annetaan syöttökenttiin
+vähintään etu-ja sukunimi -tiedot. HTML-lomakekeella kytketään tila ja kenttä
+yhteen. Ensin luetaan lukumuuttujasta arvo, jonka jälkeen  tapahtumankuuntelija
+päivittää näppäilyn tuloksen ja renderöi tämän ruudulle. 
 
-## Components 
-tässä kansiossa sijaitsevat käyttöliittymän komponentit.
+UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden esittämisestä ruudulla. Tässä käytettiin sekä globaalia tilaa, että paikallista muokkaustilaa.
 
-
-# Ongelmia ja ratkaisuja ongelmiin
-
-# Bootstrap ja CSS-muotoilut
+# Bootstrap ja inline CSS-muotoilut

@@ -1,26 +1,33 @@
+// Paikallisen muistin ylläpito
 import React, { useState } from 'react';
+// Custom hook -> Kytkeydetään keskusmuistiin
 import { useAthletes } from '../context/AthleteContext';
+// Rajapinta varmistaa oikeat tyypit
 import type { Urheilija } from '../types/Urheilija';
 
+// Reactin funktionaalinen komponentti
 export const UrheilijaList: React.FC = () => {
     
-    // Pyydetään taulukko
+    // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaa taulukko ja metodit
     const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
 
     const [hakuId, setHakuId] = useState('');
     const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
     // Muuttuja -> urheilija jota muokataan
     // Muutosfunktio -> asetetaan valinta
+    // Jos ei olla muokkaamassa -> lomake pysyy piilossa
+    // Muokkaus -> Lomake täytyy urheilijan tiedoilla
     const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
     const [poistoId, setPoistoId] = useState('');
-
 
     // Näissä metodeissa tarvitaan paikallista tilaa vs. Contextista kutsuttavat metodit
     const handleHae = async () => {
 
         if (!hakuId) return;
         try {
+            // API vaatii numeerisen ID:n. Kutsutaan kontekstin kautta backend:a
             const tulos = await haeUrheilijaById(Number(hakuId));
+            // Saatu olio tallennetaan lokaaliin tilaan
             setHaettuUrheilijaById(tulos);
         } catch (error) {
             alert(`Urheilijaa tunnuksella ${hakuId} ei löytynyt`);
@@ -29,11 +36,13 @@ export const UrheilijaList: React.FC = () => {
     }
 
     const handlePoistaIdlla = async () => {
+        // ID = tietokannassa oleva tunniste
         if (!poistoId) return;
 
         const idNumero = Number(poistoId);
         if (window.confirm(`Haluatko varmasti poistaa urheilijan ID:lla ${idNumero}?`)) {
             try {
+                // Kutsutaan Contextin poistometodia
                 await poistaUrheilija(idNumero);
                 alert(`Urheilija tunnuksella ${idNumero} poistettu onnistuneesti`);
                 setPoistoId('');
@@ -43,7 +52,6 @@ export const UrheilijaList: React.FC = () => {
             }
         }
     };
-
 
     return (
         <div>
@@ -76,13 +84,13 @@ export const UrheilijaList: React.FC = () => {
                 style={{ marginLeft: '8px', color: 'white', backgroundColor: 'red', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Poista</button>
             </div>
 
-            <div>
+            {/* <div>
                 {haettuUrheilija && (
                     <div style={{ marginTop: '10px', color: 'red' }}>
                         Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
                     </div>
                 )}
-            </div>
+            </div> */}
            
             {valittuUrheilija && (
                 <div style={{ padding: '15px', border: '2px solid #007bff', marginBottom: '20px', borderRadius: '5px'}}>
