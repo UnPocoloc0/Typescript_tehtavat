@@ -15,7 +15,7 @@ app.use(express.json()); // Jäsennä json objektiksi
 
 
 // API-reitit
-app.get('/api/urheilijat', async (req, res) => {
+app.get('/api/urheilijat/', async (req, res) => {
     try {    
         const [rows] = await pool.query('SELECT * FROM urheilijat');
         res.json(rows);

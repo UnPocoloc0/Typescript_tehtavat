@@ -125,93 +125,113 @@ tsconfig-tiedosto asennettiin komennolla.
 ```
 npx tsc --init
 ```
-
-Ensimmäisenä tehtävänä oli tuoda käyttöön mysql2, joka tehtiin
-db.ts-tiedostossa. Samassa tiedostossa otettiin käyttöön dotenv, jonka avulla
-tietokantayhteyden kredentiaalit voidaan lukea konfiguraatiotiedostosta. Luotiin
-ympäristömuuttujille oma yhteysallas, jonka avulla SQL-kyselyiden tekeminen oli
-jatkossa kätevämpää. Tähän jouduttiin antamaan vaihtoehtoisesti sen takia, jos
-tietokantayhteys ympäristömuuttujien avulla ei jostain syystä olisi onnistunut.
-Kuitenkin pyrittiin ensisijaisesti käyttämään konfiguraatiotiedoston
-kredentiaaleja, eli ts. kehityskoneen ympäristömuuttujia. Näiden määritysten
-jälkeen tietokantayhteyden pitäisi toimia. 
-
-Koska TS on tyypitetty kieli, niin urheilija voidaan mallintaa omalla oliolla,
-joka pitää sisällään kaikki urheilijan liittyvät tiedot. Tämä dataluokka/
-rajapinta helpottaa kokonaisen olion tietojen hakemista ja päivittämistä
-myöhemmin. Nämä luokan ominaisuudet vastaava tietokannassa olevia taulun
-sarakkeita. Tätä mallia käytetään myöhemmin, kun palautetaan urheilijan tietoja,
-tai päivitetään niitä. Kaikki luokan ominaisuudet voidaan asettaaa, mutta
-ID-kentän tietokanta generoi automaattisesti primary keyn avulla. Tässä
-vaiheessa serveri pyörii paikallisesti osoitteessa 3 000 ilman virheitä, data
-mallin urheilijaa varten oli valmis ja tarvittavat kehitys aikaiset riippuvuudet
-asennettu. 
-
-## Middleware ja Express-tyyppinen palvelin
-Seuraavaksi alkoi varsinainen Middlewaren rakentaminen, eli kuinka saadaan
-välitettyä erilaisia http-metodeja tietokantaan asti. Tämä oli mielestäni
-järkevä tapa edetä, koska eihän ole mitään järkeä kutsua sellaisia funktioita,
-joiden toiminnallisuutta ei ole vielä olemassa. Siksi etenin yksi metodi
-kerrallaan, joita tallensin niiden valmistumisen jälkeen ahkerasti versionhallintaan.   
-
 Riippuvuudet back endiin saatiin kätevästi yhdellä komennolla:
 ```
 typescript, ts-node, @types/express, @types/node, @types/cors
 ````
 
 Tämän jälkeen näitä komponentteja ja pystytään tuomaan taustajärjestelmään
-mukaan. Kirjoitin Back endiin tyhjät metodirungot seuraaville metodeille: `GET,
-GET by ID, POST, PUT ja DELETE`. Tavoitteena oli täydellisen
-CRUD-toiminnallisuuden tekeminen sovellukseen, vaikka käyttöliittymä jäisikin vaillinaiseksi. Express otettiin omaan muuttujan
-talteen, jonka jälkeen se tarjoaa hyödyllisiä metodeita, kuten json-muotoisen
-datan muuttaminen objektiksi. Metodit muistuttavat rakenteeltaan toisiaan, eli ne
-ovat kaikki asynkronisia. Tämä tarkoittaa sitä, että metodin suoritus
-keskeytyy, kunnes tietokannasta tulee vastaus. Se ei jää siis varaamaan
-resursseja turhaan. Pyyntöä ja vastausta varten on omat muuttujat. Suurimmassa
-osassa metodeita käytetään ID-parametria, jolla SQL-kysely voidaan kohdentaa
-koskemaan jotain tiettyä urheilijaa. Kaikkiin metodeihin tehtiin
-Try-Catch-lohkot. Vastaus tuottaa aina json-muotoista dataa, joten tämä
-palautetaan aina, olipa kyseessä onnistunutta epäonnistunut kyselen. 
+mukaan.
 
-`GetUrheilijat`-metodi. Tähän riittää pelkkä URL-osoite, koska haetaan taulusta
-kaikki tietueet. Lisäysmetodi toteutettiin melko kevyesti, eli tiedoksi
-riittivät etu- ja sukunimet. Uuden urheilijan tiedot pystytään lukemaan vasta
-vastauksen sanomasta, ja tässä vaiheessa tuo urheilija-rajapinnan tekeminen
-alkaa maksamaan itseään takaisin. Nyt pystytään kyselyssä kysymysmerkin tilalle
-sijoittumaan kokonainen uusi urheilija-olio. Valikoiessa minimi tietoja, tässä
-unohtui nyt operaation käyttäminen, joka esti urheilijan päivittämisen. Eli
-pieni !-merkin puuttuminen aiheutti harmaita hiuksia. Delete-metodi oli
-toteutukseltaan siinä mielessä yksinkertaisempi, koska sen ei tarvitse palauttaa
-mitään. Toki poistettavaa urheilijan ID mikä on. Päivitys-metodi oli monessakin
-mielessä hankala, koska tässä sotkee tietokannan automaattisesti luotu ID, sekä
+## Yhteysallas
+Ensimmäisenä tehtävänä oli tuoda back endissa käyttöön `mysql2`, jotta
+yhteysaltaan avulla voidaan tehdä kyselyjä tietokantaan. Samassa tiedostossa
+otettiin käyttöön dotenv, jonka avulla tietokantayhteyden kredentiaalit voidaan
+lukea suoraan konfiguraatiotiedostosta. Luotiin konekohtaisille
+ympäristömuuttujille oma yhteysallas, jotta SQL-kyselyiden tekeminen olisi
+jatkossa kätevämpää. Tähän jouduttiin antamaan myös vaihtoehtoiset
+kirjautumistavat sen takia, jos tietokantayhteys ympäristömuuttujien avulla ei
+jostain syystä olisi onnistunut. Kuitenkin pyrittiin ensisijaisesti käyttämään
+konfiguraatiotiedoston kredentiaaleja, eli ts. kehityskoneen ympäristömuuttujia.
+Näiden perusmääritysten jälkeen tietokantayhteyden pitäisi toimia oikein. 
+
+## Typescript
+Koska TS on tyypitetty kieli, niin urheilija voidaan mallintaa omalla oliolla,
+joka pitää sisällään kaikki urheilijan liittyvät tiedot. Tämä dataluokka/
+rajapinta helpottaa kokonaisen olion tietojen hakemista ja päivittämistä
+myöhemmin. Nämä Urheilija-rajapinnan ominaisuudet vastaavat myös tietokannassa
+olevia taulun sarakkeita. Tätä mallia käytetään myöhemmin, kun palautetaan
+urheilijan tietoja, tai päivitetään niitä. Kaikki luokan ominaisuudet voidaan
+asettaaa myöhemmin käyttöliittymässä, mutta ID-kentän tietokanta generoi
+automaattisesti primary keyn avulla. Tässä vaiheessa kehitystä serveri pyörii
+paikallisesti osoitteessa 3 000 ilman virheitä, data mallin urheilijaa varten
+oli valmis ja tarvittavat kehitysaikaiset riippuvuudet asennettu. 
+
+## Middleware ja Express-tyyppinen palvelin
+Seuraavaksi alkoi varsinainen Middlewaren rakentaminen, eli kuinka saadaan
+välitettyä erilaisia http-metodeja tietokantaan asti. Suurimpana tavoitteeta oli
+rakentaa täydellinen CRUD-toiminnallisuus, jonka avulla voidaan hakea
+urheilijoita, muokata, päivitä ja poistaa kannassa olevaa urheilijalistaa. Tämä
+oli mielestäni järkevä tapa edetä, koska eihän ole mitään järkeä kutsua
+sellaisia funktioita, joiden toiminnallisuutta ei ole vielä olemassa. Siksi
+etenin yksi metodi kerrallaan ja joita tallensin versionhallintaan ahkerasti.   
+
+Kirjoitin Back endiin tyhjät metodirungot seuraaville metodeille: `GET, GET by
+ID, POST, PUT ja DELETE`. Tavoitteena oli täydellisen CRUD-toiminnallisuuden
+tekeminen sovellukseen, vaikka käyttöliittymä jäisikin ulkoasultaan
+vaillinaiseksi. Express otettiin omaan muuttujan talteen, jonka jälkeen tämä
+express-ilmentymä tarjoaa käyttöön hyödyllisiä metodeita, kuten json-muotoisen
+datan muuttaminen objektiksi. Kaikki http-metodit muistuttavat rakenteeltaan
+toisiaan, eli ne ovat esim. kaikki asynkronisia. Tämä tarkoittaa sitä, että
+metodin suoritus keskeytyy, kunnes tietokannasta tulee vastaus. Se ei jää siis
+varaamaan resursseja turhaan, joka aiheuttaisi palvelimen "kyykkäämisen".
+Pyyntöä ja vastausta varten on omat muuttujat, `req` ja `res`. Suurimmassa
+osassa metodeita käytetään myös ID-parametria, jolla SQL-kysely voidaan
+kohdentaa koskemaan jotain tiettyä urheilijaa. Tämä vastaa tietokannan luomaa
+Primary Key-kenttää. Kaikkiin metodeihin tehtiin virheenkäsittelyä varten
+erilliset Try-Catch-lohkot. Vastaus tuottaa aina json-muotoista dataa, joten
+tämä palautetaan aina, olipa kyseessä onnistunut tai epäonnistunut kysely. 
+
+## Server-luokka
+Tähän tiedostoon kirjoitettiin kaikki middlewareen liittyvät asiat.
+`GetUrheilijat`-metodi; tähän riittää parametriksi pelkkä URL-osoite, koska
+haetaan urheilijat-taulusta kaikki tietueet. Lisäysmetodi toteutettiin melko
+kevyesti, eli alkutiedoksi riittivät urheilijasta pelkät etu- ja sukunimet.
+Uuden urheilijan tiedot pystytään lukemaan vasta vastauksen sanomasta, ja tässä
+vaiheessa aiemmin määritelty urheilija-rajapinta alkaa selkeyttämään koko
+sovelluksen arkkitehtuuria. Tämä tekee metodin testaamisesta vähän hankalampaa,
+koska nyt pitää antaa kutsun body-osioon kokonainen Urheilija-olio
+JSON-muodossa. Koodissa olevassa SQL-kyselyssä kysymysmerkin tilalle sijoitetaan
+kokonainen uusi urheilija-olio. Eli koodissa ja kyselyssä käsitellään samaa
+Urheilijaa, mutta eri muodoissa (JSON ja typescript-olio). Validoitaessa
+minimitietoja, tässä unohtui not-operaation käyttäminen, joka esti urheilijan
+päivittämisen. Eli pelkkä pieni !-merkin puuttuminen aiheutti kyselyn epäonnistumisen. 
+
+`Delete`-metodi oli
+toteutukseltaan siinä mielessä yksinkertaisempi muihin metodeihin verrattuna,
+koska sen ei tarvitse palauttaa mitään. Tässäkin pitää tietää, mikä on
+poistettavan urheilijan ID. Päivitys, eli `PUT`-metodi oli monessakin mielessä
+hankala, koska tässä sotki tietokannan automaattisesti luotu ID, sekä
 urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä vaiheessa
-syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietoihin
-päivittämiseen kantaan. 
+syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietojen
+päivittymisen kantaan. 
 
-Syntakssellisesti tässä vaiheessa oli piilotettu tieto. Eli, kun käytetään
-yhteys allasta, niin kyselyt tuottavat taulukon, jossa on varsinainen data
-ensimmäisessä indeksissä ja metadata toisessa indeksissä. Kysymysmerkin käyttö
-kyselyssä tarkoittaa paikan pitäjää, eli tähän laitetaan haluttu tieto. Useassa
-tapauksessa tämä oli juuri tuo urheilijan ID-tunnus. Haettava palvelin on
-sinänsä aivan sama kuin aiemminkin, mutta nyt parametreihin tarvitaan tämä
-urheilijan yksilöivä tieto. Jonkun verran oli ongelmia tiedon menemisestä
-tietokantaan, mutta perusust tulostus lause koodissa auttoivat vikojen
-selvittelyssä. Myös selaimen kehitystyökalut olivat käytössä. Pelkästään status
-koodeista pystytään päättelemään, oliko kysely onnistunut, tai tuliko
-tietokannan päässä jotain virhettä. Spread-operaattori oli myös syntaksellisesti
-hieman hämmentävä. Toisaalta jos jokainen tieto olisi pitänyt kirjoittaa käsin,
-niin ymmärrän miksi tätä syntaksi käytetään. Tällä tavalla saadaan syötettyä
-koko oli jo kerralla. 
+Syntaksellisesti tässä vaiheessa oli hankalaa piilotettu tieto. Eli, kun
+käytetään esim. yhteysallasta, niin kyselyt tuottavat taulukon, jossa on
+varsinainen data ensimmäisessä indeksissä ja metadata toisessa indeksissä.
+Kysymysmerkin käyttö kyselyssä tarkoittaa paikanpitäjää, eli tämän kysymysmerkin
+tilalle laitetaan jokin haluttu tieto. Useassa tapauksessa tämä oli juuri tuo
+urheilijan ID-tunnus. Haettava palvelin on sinänsä aivan sama kuin aiemminkin,
+mutta nyt parametreihin tarvitaan tämä urheilijan yksilöivä tieto. Jonkun verran
+oli ongelmia tiedon menemisestä tietokantaan, mutta perusustulostuslauseet
+koodissa auttoivat vikojen selvittelyssä. Myös selaimen kehitystyökalut olivat
+ahkerassa käytössä. Pelkästään statuskoodeista pystytään päättelemään, oliko
+kysely onnistunut, tai tuliko tietokannan päässä jotain virhettä jne.
+Spread-operaattori oli myös syntaksellisesti hieman hämmentävä. Toisaalta jos
+jokainen tieto olisi pitänyt kirjoittaa käsin, niin ymmärrän miksi tätä
+syntaksia käytetään. Tällä tavalla saadaan syötettyä koko olion kerralla. Eli
+tämä liittyi olion ominaisuuksien ja tietokannan taulun kenttien vastaavuuteen,
+joka pystytään spread-operaattorilla automatisoimaan.
 
 ## Backendin testaus
 Kun metodit valmistuivat yksi kerrallaan, testasin niitä VSCodeen integroidulla
-Thunder Client-sovelluksella. Tämä toimii hyvin samalla tavalla kuin
+Thunder Client-sovelluksella. Tämä toimii hyvin samalla tavalla kuin esim.
 Postman-sovellus, mutta Thunder Clientin kanssa ei tarvitse vaihtaa
-kehitysympäristöstä mihinkään muualle. Metodista riippumatta tarvitaan Headers:n
-asetus: content-type application json, koska pyyntöjä ja vastauksia käsitellään
-json-muodossa. POST- ja PUT -metodit tarvitsevat myös tietojen päivittämistä
-varten bodyn rungon JSON-muodossa. Kun yhteys back endiin saatiin toimimaan
-siirryttiin tekemään front end-puolta.   
+kehitysympäristöstä mihinkään muualle. Metodista riippumatta tässä aina mukaan
+tarvitaan Headers:n asetus: `content-type application json`, koska pyyntöjä ja
+vastauksia käsitellään json-muodossa. POST- ja PUT -metodit tarvitsevat myös
+tietojen päivittämistä varten bodyn rungon JSON-muodossa. Kun yhteys back endiin
+saatiin toimimaan Thunder Clientin avulla, siirryttiin tekemään front end-puolta `REACT`:n avulla.   
 
 
 ## React Frontend
@@ -219,9 +239,16 @@ siirryttiin tekemään front end-puolta.
 Front end rakennettiin Viten avulla, tämä luo automaattisesti projektiin tietyt
 template-koodit, linttaukset, CSS-tiedostot jne. Front-puolelle jouduttiin
 asentamaan oma node-modules, koska tässä tarvitaan erilaisia määrityksiä kuin
-taustapalveluissa. Kaikki front-puoleen liittyvät asiat laitettiin omaan
-hakemistoon, jotta projektia on helpompi hahmottaa kehityksen aikana. Kaikki
+back endin taustapalveluissa. Kaikki front-puoleen liittyvät asiat laitettiin omaan
+hakemistoon, jotta koko projektia on helpompi hahmottaa kehityksen aikana. Kaikki
 lähdekoodi kirjoitettiin hyvien käytänteiden mukaisesti src-kansioon. 
+
+## Front end kansiorakenne
+`services/ athleteService.ts`- tekee kutsuja palvelimelle `context/
+AthleteContext.ts`- tässä on sovelluksen globaali tila `components/
+Urheilijalist.tsx`  ja `components/ UrheilijaList.tsx`  tässä on html-tyylistä
+koodia mukana
+
 
 Kaikki tietokantaan tehtävät kutsut eristettiin omaan palvelukerrokseensa. Jotka
 kirjoitusvirheeltä täytettäisiin pitkät URL osoitteet otettiin muuttujiin
