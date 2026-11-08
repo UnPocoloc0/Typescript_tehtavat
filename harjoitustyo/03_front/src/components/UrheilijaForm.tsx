@@ -1,3 +1,4 @@
+// Tätä lomaketta käytetään lisäämään uusi urheilija tietokantaan
 import React, { useState } from 'react';
 import { useAthletes } from '..//context/AthleteContext';
 
@@ -11,10 +12,12 @@ export const UrheilijaForm: React.FC = () => {
     const [laji, setLaji] = useState('');
     const [syntymavuosi, setSyntymavuosi] = useState('');
 
+    // Funktio sijoitetaan muuttujaan
+    // Tapahtumaolio -> minkälaiset ominaisuudet ja metodit on käytössä
     const handleSubmit = async (e: React.SubmitEvent) => {
     // Estetään pyyntö ladata koko sivu uudelleen -> tila säilyy muistissa
         e.preventDefault();
-
+        // Minimivaatimus lisäämiselle
         if (!etunimi || !sukunimi) {
             alert('Anna vähintään etunimi ja sukunimi!');
             return;
@@ -27,7 +30,7 @@ export const UrheilijaForm: React.FC = () => {
                 laji,
                 syntymavuosi: syntymavuosi || undefined,
             });
-            // Tyhjennetään lomake
+            // Tyhjennetään lomake tietojen syöttämisen jälkeen
             setEtunimi('');
             setSukunimi('');
             setLaji('');
@@ -39,7 +42,7 @@ export const UrheilijaForm: React.FC = () => {
     };
 // Kaapataan näppäily ja päivitetään tilaan
 // Mihin tapahtuma kohdistui ja mikä tila on näppäilyn jälkeen
-// Tämä on käyttöliittymän ylin lomake
+// Tämä on käyttöliittymän ylin "Lisää urheilija" -lomake
 return (
     <form onSubmit={handleSubmit} style={{ marginBottom: '24px' }}>
         <h2>Lisää uusi urheilija</h2>
@@ -48,6 +51,7 @@ return (
             <input
                 type="text"
                 value={etunimi}
+                // Elementti, johon muutos kohdistuu & sen arvo
                 onChange={(e) => setEtunimi(e.target.value)}
                 />
         </div>
@@ -75,7 +79,7 @@ return (
                 onChange={(e) => setSyntymavuosi(e.target.value)}
                 />
         </div>
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button type="submit" style={{ padding: '15px', border: '2px solid #007bff', marginTop: "20px", marginBottom: '20px', borderRadius: '5px'}}>
             Lisää urheilija
         </button>
         
