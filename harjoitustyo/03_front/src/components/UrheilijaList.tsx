@@ -9,33 +9,13 @@ import type { Urheilija } from '../types/Urheilija';
 export const UrheilijaList: React.FC = () => {
     
     // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaan taulukko ja metodit
-    const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
-
-    // Muuttuja -> urheilija jota muokataan
-    // Muutosfunktio -> asetetaan valinta
-    const [hakuId, setHakuId] = useState('');
-    const [haettuUrheilija, setHaettuUrheilija] = useState<Urheilija | null>(null);
+    const { urheilijat, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
+  
     // Jos ei olla muokkaamassa -> lomake pysyy piilossa
     // Muokkaus -> Lomake täytyy urheilijan tiedoilla
     const [poistoId, setPoistoId] = useState('');
     const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
 
-    // Näissä metodeissa tarvitaan paikallista tilaa vs. Contextista kutsuttavat metodit
-    const handleHae = async () => {
-        // Haku ei voi olla tyhjä
-        if (!hakuId) return;
-        // Käyttäjän syöte muutetaan numeroksi
-        const idNumero = Number(hakuId);
-        try {
-            // API vaatii numeerisen ID:n. Kutsutaan kontekstin kautta backend:a
-            const tulos = await haeUrheilijaById(idNumero);
-            // Saatu olio tallennetaan lokaaliin tilaan
-            setHaettuUrheilija(tulos);
-        } catch (error) {
-            alert(`Urheilijaa tunnuksella ${hakuId} ei löytynyt`);
-            setHaettuUrheilija(null);
-        }
-    }
 
     const handlePoistaIdlla = async () => {
         // ID = tietokannassa oleva tunniste
@@ -56,23 +36,7 @@ export const UrheilijaList: React.FC = () => {
     };
 
     return (
-        <div>
-            {/* <div>       
-                <h3>Hae urheilija ID:llä</h3>
-                <input
-                    type="number"
-                    placeholder='Syötä ID'
-                    value={hakuId}
-                    onChange={(e) => setHakuId(e.target.value)}
-                /> 
-                <button onClick={handleHae} style={{ marginLeft: '8px' }}>Hae</button>
-                {haettuUrheilija && (
-                    <div style={{ marginTop: '10px', color: 'green' }}>
-                        Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
-                    </div>
-                )}
-            </div> */}
-
+        <div>       
             <div>
                 <h3>Poista urheilija ID:llä</h3>
                 <input

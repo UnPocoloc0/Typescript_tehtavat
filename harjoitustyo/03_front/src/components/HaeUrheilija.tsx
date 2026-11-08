@@ -6,10 +6,10 @@ import type { Urheilija } from "../types/Urheilija";
 export const HaeUrheilijaTunnuksella: React.FC = () => {
 
     const { haeUrheilijaById } = useAthletes();
-
+    // Muuttuja -> urheilija jota muokataan
+    // Muutosfunktio -> asetetaan valinta
     const [hakuId, setHakuId] = useState('');
       const [haettuUrheilija, setHaettuUrheilija] = useState<Urheilija | null>(null);
-
 
     // Näissä metodeissa tarvitaan paikallista tilaa vs. Contextista kutsuttavat metodit
     const handleHae = async () => {
@@ -29,7 +29,6 @@ export const HaeUrheilijaTunnuksella: React.FC = () => {
     }
     
     return (
-
         <div>       
             <h3>Hae urheilija ID:llä</h3>
             <input
@@ -41,13 +40,13 @@ export const HaeUrheilijaTunnuksella: React.FC = () => {
             <button onClick={handleHae} style={{ marginLeft: '8px' }}>Hae</button>
             {haettuUrheilija && (
                 <div style={{ marginTop: '10px', color: 'green' }}>
-                    Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
+                    Löytyi: <strong>{haettuUrheilija.etunimi} 
+                        {haettuUrheilija.sukunimi}</strong> 
+                        ({haettuUrheilija.laji})
                 </div>
             )}
         </div>
     )
-
-
 };
 
 
