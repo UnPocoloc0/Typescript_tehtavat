@@ -3,6 +3,7 @@ import { UrheilijaList } from "./components/UrheilijaList";
 import { UrheilijaForm } from "./components/UrheilijaForm";
 import { HaeUrheilijaTunnuksella } from "./components/HaeUrheilija";
 import { PoistaUrheilijaTunnuksella } from "./components/PoistaUrheilija";
+import { MuokkaaUrheilijaaForm } from "./components/MuokkaaUrheilijaaForm";
 
 // Määrää visuaalisen järjestyksen ja toimii kehyksenä komponenteille
 function App() {
@@ -19,6 +20,7 @@ function App() {
        <UrheilijaForm />
        <HaeUrheilijaTunnuksella />
        <PoistaUrheilijaTunnuksella />
+       <MuokkaaUrheilijaaForm />
         <hr style={{ margin: '20px 0'}} />
         <UrheilijaList />
 

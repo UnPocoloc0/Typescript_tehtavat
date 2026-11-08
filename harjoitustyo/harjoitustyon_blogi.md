@@ -37,58 +37,73 @@ itsekseni, pyrin vaihtamaan työasemaa päivittäin. Näin pystyn simuloimaan
 tiimityöskentelyä, ja miten versionhallinta toimisi tiimin kanssa. Koska
 konfiguraatiotiedostot eivät mene versionhallintaan, eivätkä myöskään
 kehitysaikaiset riippuvuudet. Alussa jouduin näitä riippuvuuksia  konfiguroimaan
-eri koneille, koska näitä ei ole mitään järkeä viedä version hallintaan. Pikemminkin ne pystytään asentamaan jokaisen kehityskoneelle erikseen. Asioiden toistaminen on kuitenkin tässä ainoastaan hyvä asia, jolloin asiat eivät paremmin selkärankaan.
-Koneillani pyörii MysSql tietokantamoottorina, ja graafisena tietokannan
-ohjaimena käytin DataGrip-sovellusta, koska pidän JetBrains-IDE:n visuaalisesta
-ilmeestä hyvin paljon. Tässä on myös tuttuuselementti, eli kaikki JetBrainsin
-kehitysympäristöt näyttävät hyvin samankaltaisilta, jolloin työn aloittaminen on
-kivutttomampaa. Samat kyselyt ja logiikka toimisi MariaDB:n, Heidi SQL:n kanssa, mutta Windowsin käyttämäminen kehityskoneena on paljon tahmaisempaa. 
+eri koneille, koska näitä ei ole mitään järkeä viedä version hallintaan.
+Pikemminkin ne pystytään asentamaan jokaisen kehityskoneelle erikseen. Asioiden
+toistaminen on kuitenkin tässä ainoastaan hyvä asia, jolloin asiat eivät
+paremmin selkärankaan. Koneillani pyörii MysSql tietokantamoottorina, ja
+graafisena tietokannan ohjaimena käytin DataGrip-sovellusta, koska pidän
+JetBrains-IDE:n visuaalisesta ilmeestä hyvin paljon. Tässä on myös
+tuttuuselementti, eli kaikki JetBrainsin kehitysympäristöt näyttävät hyvin
+samankaltaisilta, jolloin työn aloittaminen on kivutttomampaa. Samat kyselyt ja
+logiikka toimisi MariaDB:n, Heidi SQL:n kanssa, mutta Windowsin käyttämäminen
+kehityskoneena on paljon tahmaisempaa. 
 
 ## Tietokanta ja sen luominen
 Tein tietokannanluontiskriptin, joka loi tietokannan `urheilija_db` ja sinne
-`urheilijat`-taulun ja tauluun tehtävässä vaaditut sarakkeet. ID:n luomisesta tietokanta
-huolehtii itse, mutta muut tiedot pitää syöttää. Tässä oli jonkun verran
-ongelmia projektin myöhemmissä vaiheissa, esimerkiksi ID:llä lisätessa
-poistaessa. Tämä liittyi esim. Front endin puolella olevaan addUrheilija-metodiin.
+`urheilijat`-taulun ja tauluun tehtävässä vaaditut sarakkeet. ID:n luomisesta
+tietokanta huolehtii itse, mutta muut tiedot pitää syöttää. Tässä oli jonkun
+verran ongelmia projektin myöhemmissä vaiheissa, esimerkiksi ID:llä lisätessa
+poistaessa. Tämä liittyi esim. Front endin puolella olevaan
+addUrheilija-metodiin.
 
-Mietin, olisiko urheilijan syntymäaikaan riittänyt
-pelkästään vuosiluku, jolloin olisin voinut käsitellä yksinkertaisempaa
-tietotyyppiä, kuten numeroa päivämäärän sijasta. Urheilijaa lisätessä tiedot eivät
-välttämättä päivityneet kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös aikaleiman automaattinen lisääminen päivämäärään teki kannan päivittämisen mahdottomaksi. Koska tietoa on muunnetaan olioista tekstiksi, näitä ihmeellisiä
-muunnosvirheitä voi ilmetä myöhemmissä kehitysvaiheissa. 
+Mietin, olisiko urheilijan syntymäaikaan riittänyt pelkästään vuosiluku, jolloin
+olisin voinut käsitellä yksinkertaisempaa tietotyyppiä, kuten numeroa
+päivämäärän sijasta. Urheilijaa lisätessä tiedot eivät välttämättä päivityneet
+kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös aikaleiman
+automaattinen lisääminen päivämäärään teki kannan päivittämisen mahdottomaksi.
+Koska tietoa on muunnetaan olioista tekstiksi, näitä ihmeellisiä muunnosvirheitä
+voi ilmetä myöhemmissä kehitysvaiheissa. 
 
-Tietokannan pystyttämisen jälkeen loin
-käyttäjä `user` salasanalla `user1`. Eli ohjenuorana tietoturvaan oli, että mitään järjestelmänvalvojan oikeuksia ei tietokantaan anneta. Tässä tapauksessa riittää pelkät
-CRUD-ominaisuuddet ja nämäkin vain tietyn tietokannan `urheilijat`-taulussa. Annoin aluksi ehkä liian lyhyitä
-rajoituksia nimille ja etenkin URL osoitteelle, joka tarvitsi mahdollisuuden
-olla huomattavasti pidempi. Nyt nimillä ja osoitteilla on riittävästi merkkejä varattu, kuten URL-osoitteella mahdollisuus olla 255 merkkiä pitkä.  Alkuun pohdin myös
-saavutuksille oman taulun tekemistä, koska yhdellä urheilijalla voi olla monia
-saavutuksia. Tämän jätin kommentteihin vertailua helpottamaan, mutta nyt
-tietokannan rakenne jätettiin mahdollisimman yksinkertaiseksi. Useampi saavutus voidaan pätkiä muilla tavoilla osiin. 
+Tietokannan pystyttämisen jälkeen loin käyttäjä `user` salasanalla `user1`. Eli
+ohjenuorana tietoturvaan oli, että mitään järjestelmänvalvojan oikeuksia ei
+tietokantaan anneta. Tässä tapauksessa riittää pelkät CRUD-ominaisuuddet ja
+nämäkin vain tietyn tietokannan `urheilijat`-taulussa. Annoin aluksi ehkä liian
+lyhyitä rajoituksia nimille ja etenkin URL osoitteelle, joka tarvitsi
+mahdollisuuden olla huomattavasti pidempi. Nyt nimillä ja osoitteilla on
+riittävästi merkkejä varattu, kuten URL-osoitteella mahdollisuus olla 255
+merkkiä pitkä.  Alkuun pohdin myös saavutuksille oman taulun tekemistä, koska
+yhdellä urheilijalla voi olla monia saavutuksia. Tämän jätin kommentteihin
+vertailua helpottamaan, mutta nyt tietokannan rakenne jätettiin mahdollisimman
+yksinkertaiseksi. Useampi saavutus voidaan pätkiä muilla tavoilla osiin. 
 
 ## Arkkitehtuurimalli
-Tämä projekti on ollut aiempia koulun projekteja laajempi arkkitehtuuriltaan, joten
-hyvä suunnittelu ja käsitys projektin rakenteesta ylätasolla auttoi. Paljon hahmottamista vaikeuttaa Web1-kurssin puuttuminen, sekä perusteknologioidenkin harjoitteluun pitäisi varata vielä paljon aikaa ennen kehysten käyttämistä. Sovelluksen
-arkkitehtuuri jaettiin kolmeen erilliseen osaan, eli tietokantaan, ja sitä
-ohjaavan välikerrokseen, sekä käyttäjälle näkyvään käyttöliittymään. Middleware
-toteutettiin Express-kehyksellä, koska sitä käytettiin kurssilla ja se on
-hyvin käytetty tapa hallinnoida SQL-kyselyitä middlewaressa. Käyttöliittymä pyrittiin
-toteuttamaan Reactilla ja sovelluksen globaali tila Context-Apilla. Bootstrap oli tarkoitus ottaa käyttöön myös, jotta käyttöliittymästä saataisiin responsiivinen. Lopullisesta versiosta
-tämä käyttöliittymän tyylittely/ viilaus on jätetty ajanpuutteen vuoksi pois. Tämä olisi
-kuitenkin hyvä vapaa-ajan projekti tehdä myöhemmin loppuun. Tällä hetkellä pidän
-tärkeämpänä, että perus SQL-kyselyt toimivat ja yhteystieto tietokantaan toimii käyttöliittymästä,
-sekä sovelluksen kokonaistilan hallinta. Esteettisesti miellyttävämpi
-käyttöliittymä ei mielestäni tuo juurikaan lisää tuohon logiikkapuoleen, ja
-käyttöliittymien suunnittelua ja responsiivisuutta on sivuttu muilla koulun
-kursseilla aiemmin. 
+Tämä projekti on ollut aiempia koulun projekteja laajempi arkkitehtuuriltaan,
+joten hyvä suunnittelu ja käsitys projektin rakenteesta ylätasolla auttoi.
+Paljon hahmottamista vaikeuttaa Web1-kurssin puuttuminen, sekä
+perusteknologioidenkin harjoitteluun pitäisi varata vielä paljon aikaa ennen
+kehysten käyttämistä. Sovelluksen arkkitehtuuri jaettiin kolmeen erilliseen
+osaan, eli tietokantaan, ja sitä ohjaavan välikerrokseen, sekä käyttäjälle
+näkyvään käyttöliittymään. Middleware toteutettiin Express-kehyksellä, koska
+sitä käytettiin kurssilla ja se on hyvin käytetty tapa hallinnoida SQL-kyselyitä
+middlewaressa. Käyttöliittymä pyrittiin toteuttamaan Reactilla ja sovelluksen
+globaali tila Context-Apilla. Bootstrap oli tarkoitus ottaa käyttöön myös, jotta
+käyttöliittymästä saataisiin responsiivinen. Lopullisesta versiosta tämä
+käyttöliittymän tyylittely/ viilaus on jätetty ajanpuutteen vuoksi pois. Tämä
+olisi kuitenkin hyvä vapaa-ajan projekti tehdä myöhemmin loppuun. Tällä hetkellä
+pidän tärkeämpänä, että perus SQL-kyselyt toimivat ja yhteystieto tietokantaan
+toimii käyttöliittymästä, sekä sovelluksen kokonaistilan hallinta. Esteettisesti
+miellyttävämpi käyttöliittymä ei mielestäni tuo juurikaan lisää tuohon
+logiikkapuoleen, ja käyttöliittymien suunnittelua ja responsiivisuutta on
+sivuttu muilla koulun kursseilla aiemmin. 
 
 
 ### Ympäristön alustus
 
 Aluksi oli tärkeä saada kehitysympäristö pystyyn. Tietoturva otettiin huomioon
 ympäristön avustuksesta niin, että tietokanta yhteys otettiin erilliseen
-.env-tiedostoon. Lisäksi luotiin gitignore- sääntö, että tätä tiedostoa ei koskaan vielä
-versionhallintaan mukaan. Suuret node modules -riippuvuudet jätettiin luonnollisesti versionhallinasta myös pois. 
+.env-tiedostoon. Lisäksi luotiin gitignore- sääntö, että tätä tiedostoa ei
+koskaan vielä versionhallintaan mukaan. Suuret node modules -riippuvuudet
+jätettiin luonnollisesti versionhallinasta myös pois. 
 
 ```
 PORT=3000
@@ -198,15 +213,15 @@ JSON-muodossa. Koodissa olevassa SQL-kyselyssä kysymysmerkin tilalle sijoitetaa
 kokonainen uusi urheilija-olio. Eli koodissa ja kyselyssä käsitellään samaa
 Urheilijaa, mutta eri muodoissa (JSON ja typescript-olio). Validoitaessa
 minimitietoja, tässä unohtui not-operaation käyttäminen, joka esti urheilijan
-päivittämisen. Eli pelkkä pieni !-merkin puuttuminen aiheutti kyselyn epäonnistumisen. 
+päivittämisen. Eli pelkkä pieni !-merkin puuttuminen aiheutti kyselyn
+epäonnistumisen. 
 
-`Delete`-metodi oli
-toteutukseltaan siinä mielessä yksinkertaisempi muihin metodeihin verrattuna,
-koska sen ei tarvitse palauttaa mitään. Tässäkin pitää tietää, mikä on
-poistettavan urheilijan ID. Päivitys, eli `PUT`-metodi oli monessakin mielessä
-hankala, koska tässä sotki tietokannan automaattisesti luotu ID, sekä
-urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä vaiheessa
-syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietojen
+`Delete`-metodi oli toteutukseltaan siinä mielessä yksinkertaisempi muihin
+metodeihin verrattuna, koska sen ei tarvitse palauttaa mitään. Tässäkin pitää
+tietää, mikä on poistettavan urheilijan ID. Päivitys, eli `PUT`-metodi oli
+monessakin mielessä hankala, koska tässä sotki tietokannan automaattisesti luotu
+ID, sekä urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä
+vaiheessa syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietojen
 päivittymisen kantaan. 
 
 Syntaksellisesti tässä vaiheessa oli hankalaa piilotettu tieto. Eli, kun
@@ -234,7 +249,8 @@ kehitysympäristöstä mihinkään muualle. Metodista riippumatta tässä aina m
 tarvitaan Headers:n asetus: `content-type application json`, koska pyyntöjä ja
 vastauksia käsitellään json-muodossa. POST- ja PUT -metodit tarvitsevat myös
 tietojen päivittämistä varten bodyn rungon JSON-muodossa. Kun yhteys back endiin
-saatiin toimimaan Thunder Clientin avulla, siirryttiin tekemään front end-puolta `REACT`:n avulla.   
+saatiin toimimaan Thunder Clientin avulla, siirryttiin tekemään front end-puolta
+`REACT`:n avulla.   
 
 
 ## React Frontend
@@ -242,15 +258,15 @@ saatiin toimimaan Thunder Clientin avulla, siirryttiin tekemään front end-puol
 Front end rakennettiin Viten avulla, tämä luo automaattisesti projektiin tietyt
 template-koodit, linttaukset, CSS-tiedostot jne. Front-puolelle jouduttiin
 asentamaan oma node-modules, koska tässä tarvitaan erilaisia määrityksiä kuin
-back endin taustapalveluissa. Kaikki front-puoleen liittyvät asiat laitettiin omaan
-hakemistoon, jotta koko projektia on helpompi hahmottaa kehityksen aikana. Kaikki
-lähdekoodi kirjoitettiin hyvien käytänteiden mukaisesti src-kansioon. 
+back endin taustapalveluissa. Kaikki front-puoleen liittyvät asiat laitettiin
+omaan hakemistoon, jotta koko projektia on helpompi hahmottaa kehityksen aikana.
+Kaikki lähdekoodi kirjoitettiin hyvien käytänteiden mukaisesti src-kansioon. 
 
 ## Front end kansiorakenne
 `services/ athleteService.ts`- tekee kutsuja palvelimelle `context/
 AthleteContext.ts`- tässä on sovelluksen globaali tila `components/
-Urheilijalist.tsx`  ja `components/ UrheilijaList.tsx`  - näissä on sekaisin
-html-tyylistä koodia ja typescript-logiikkaa.  
+Urheilijalist.tsx`    - näissä on sekaisin html-tyylistä koodia ja
+typescript-logiikkaa.  
 
 Kaikki tietokantaan tehtävät kutsut eristettiin omaan palvelukerrokseensa. Jotta
 kirjoitusvirheiltä vältyttäisiin, pitkä URL-osoite otettiin muuttujaan talteen.
@@ -263,7 +279,7 @@ virheitä. Koska pelkästä statuskoodi ei aina kertonut virheen syytä, niin
 jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin päästiin paremmin
 selville virheen syystä. 
 
-## Palvelukerros AtheleteServices
+## Palvelukerros AtheletServices
 Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi. Melkein
 kaikki metodit tässä palvelukerroksessa palautuvat json-muotoista dataa, paitsi
 delete-metodi, joka ei palauta mitään. Hankalin asia oli uuden urheilijan
@@ -274,11 +290,12 @@ tämän Urheilija-tyypin tietoja. Jos haetaan kaikki urheilijat, niin Promise on
 Urheilijat-taulukko, muissa tapauksissa vain palautetaan yhden, halutun ID:n
 urheilija-olion tiedot. 
 
-## Tilanhallinta AtheleteContext
-Valmiit palvelukerroksen metodit tuodaan `AtheleteContext`-tiedostoon. Tässä
+## Tilanhallinta AtheletContext
+Valmiit palvelukerroksen metodit tuodaan `AtheletContext`-tiedostoon. Tässä
 tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa.
 Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta
-toiselle. Muussa tapauksessa komponentit joutuisivat käsittelemään niille kuulumatonta tietoa, ja tilanhallinnasta tulisi raskasta ylläpitää. 
+toiselle. Muussa tapauksessa komponentit joutuisivat käsittelemään niille
+kuulumatonta tietoa, ja tilanhallinnasta tulisi raskasta ylläpitää. 
 
 
 ### Rajapintamäärittely
@@ -298,20 +315,19 @@ pitää tehdä aina asetusfunktion kautta, jotta React havaitsee muutoksen.
 Context-rajapinnassa on vain metodien nimet ja parametrit, mutta varsinainen
 määrittely tehdään funktionaalisen komponentin sisällä. 
 
-Varsinaiset funktioiden toteutukset
-tehtiin Providerin sisälle ja funktion nimen eteen laitettiin handle merkkaamaan,
-että nyt käsitellään tilanmuutosta. Tämä kontekstiolion koko tila voidaan
-lopuksi välittää yksinkertaisella funktiolla näkyviin muualle, kuten
-käyttöliittymäkomponenteille. Koska metodeja ketjutetaan eri tiedostojen kautta,
-tätä datan virtausta oli hankala hahmottaa ilman kaavakuvaa. Datan kulku
-tiivistettynä: Tietokannasta data liikkuu palveluluokalle, joka välittää sen
-edelleen Providerille, joka tarjoaa globaalin tilan käyttöliittymäelementeille
-erillisen kääremetodin kautta. Tähän kääremetodiin laitetaan koko sovelluksen
-tila ja tämä pystytään ottamaan muissa luokissa helposti käyttöön import-lauseella:
+Varsinaiset funktioiden toteutukset tehtiin Providerin sisälle ja funktion nimen
+eteen laitettiin handle merkkaamaan, että nyt käsitellään tilanmuutosta. Tämä
+kontekstiolion koko tila voidaan lopuksi välittää yksinkertaisella funktiolla
+näkyviin muualle, kuten käyttöliittymäkomponenteille. Koska metodeja ketjutetaan
+eri tiedostojen kautta, tätä datan virtausta oli hankala hahmottaa ilman
+kaavakuvaa. Datan kulku tiivistettynä: Tietokannasta data liikkuu
+palveluluokalle, joka välittää sen edelleen Providerille, joka tarjoaa globaalin
+tilan käyttöliittymäelementeille erillisen kääremetodin kautta. Tähän
+kääremetodiin laitetaan koko sovelluksen tila ja tämä pystytään ottamaan muissa
+luokissa helposti käyttöön import-lauseella:
 ```
 import { useAthletes } from '../context/AthleteContext';
 ```
-
 
 ## Components - käyttöliittymän komponentit 
 tässä kansiossa sijaitsevat käyttöliittymän komponentit: `UrheilijaForm.tsx`ja
@@ -325,12 +341,35 @@ vähintään etu-ja sukunimi -tiedot. HTML-lomakekeella kytketään tila ja kent
 yhteen. Ensin luetaan lukumuuttujasta arvo, jonka jälkeen  tapahtumankuuntelija
 päivittää näppäilyn tuloksen ja renderöi tämän ruudulle. 
 
-UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden esittämisestä ruudulla. Ruudulla näkyvät urheilijat saadaan urheilija-olioita sisältävästä listasta. Tässä käytettiin sekä globaalia tilaa, että paikallista muokkaustilaa.
+UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden
+esittämisestä ruudulla. Ruudulla näkyvät urheilijat saadaan urheilija-olioita
+sisältävästä listasta. Tässä käytettiin sekä globaalia tilaa, että paikallista
+muokkaustilaa.
+
+## Components - käyttöliittymän komponentit
+
+Sovelluksen käyttöliittymä eriytettiin alun perin kahdesta suuremmasta
+tiedostosta viiteen (5) erilliseen komponenttiin Single Responsibility Principle
+(SRP) -periaatteen mukaisesti:
+
+1. **`UrheilijaForm.tsx`**: Uuden urheilijan lisäyslomake 
+2. **`HaeUrheilijaTunnuksella.tsx`**: Yksittäisen urheilijan haku ID:lla ja
+   saatujen tietojen esittäminen
+3. **`PoistaUrheilija.tsx`**: Urheilijan poistaminen annetulla ID:lla
+4. **`MuokkaaUrheilijaaForm.tsx`**: Erillinen muokkauslomake, joka saa
+   muokattavan urheilijan tiedot propseina
+5. **`UrheilijaList.tsx`**: Pelkkä urheilijakokoelman iterointi ja esittäminen
+   ruudulla
+
+Kokoavan juurikomponentin (`App.tsx`) tehtäväksi jäi vain näiden itsenäisten
+komponenttien kytkeminen `<AthleteProvider>`:n  sisään.
 
 # Bootstrap ja inline CSS-muotoilut
 
+Käyttöliittymän visuaalisen tyylittelyn osalta tehtiin tietoinen rajaus:
+Bootstrap-kehyksen laajempi pystytys jätettiin pois ja tilalla käytettiin
+inline-tyylejä sekä perinteistä HTML-rakennetta. Tällä ratkaisulla säästettiin
+aikaa sovelluksen ydintoiminnallisuuden, eli tietokantakyselyiden,
+REST-rajapinnan, Context API-tilanhallinnan ja komponenttiarkkitehtuurin
+ymmärtämiseen.
 
-## Ongelmat ja niiden ratkaisut
-
-Virheiden putkitus
-Arkkitehtuurin hahmottaminen

@@ -4,96 +4,23 @@ import React, { useState } from 'react';
 import { useAthletes } from '../context/AthleteContext';
 // Rajapinta varmistaa oikeat tyypit
 import type { Urheilija } from '../types/Urheilija';
+import { MuokkaaUrheilijaaForm } from './MuokkaaUrheilijaaForm';
 
 // Reactin funktionaalinen komponentti
 export const UrheilijaList: React.FC = () => {
     
-    // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaan taulukko ja metodit
-    const { urheilijat, muokkaaUrheilijaa } = useAthletes();
-  
- 
+    const { urheilijat } = useAthletes();
     const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
 
-
-    // const handlePoistaIdlla = async () => {
-    //     // ID = tietokannassa oleva tunniste
-    //     if (!poistoId) return;
-
-    //     const idNumero = Number(poistoId);
-    //     if (window.confirm(`Haluatko varmasti poistaa urheilijan ID:lla ${idNumero}?`)) {
-    //         try {
-    //             // Kutsutaan Contextin poistometodia
-    //             await poistaUrheilija(idNumero);
-    //             alert(`Urheilija tunnuksella ${idNumero} poistettu onnistuneesti`);
-    //             setPoistoId('');
-                
-    //         } catch (err) {
-    //             alert(`Poisto epäonnistui: Urheilijaa tunnuksella ${idNumero} ei löytynyt`);
-    //         }
-    //     }
-    // };
-
     return (
-        <div>       
-            {/* <div>
-                <h3>Poista urheilija ID:llä</h3>
-                <input
-                    type="number"
-                    placeholder='Syötä ID'
-                    value={poistoId}
-                    onChange={(e) => setPoistoId(e.target.value)}
-                /> 
-                <button 
-                onClick={handlePoistaIdlla} 
-                style={{ marginLeft: '8px', color: 'white', backgroundColor: 'red', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Poista</button>
-            </div> */}
-           
-            {valittuUrheilija && (
-                <div style={{ padding: '15px', border: '2px solid #007bff', marginBottom: '20px', borderRadius: '5px'}}>
-                    <h3>Muokkaa urheilijaa: {valittuUrheilija.etunimi} {valittuUrheilija.sukunimi}</h3>
-
-                    <form onSubmit={async (e) => {
-                        e.preventDefault();
-                        if (!valittuUrheilija.id) return;
-
-                        try {
-                            await muokkaaUrheilijaa(valittuUrheilija.id, valittuUrheilija);
-                            alert('Tiedot päivitetty!'); // Sulje lomake
-                            setValittuUrheilija(null);
-                        } catch (err) {
-                            console.error('Muokkausvirhe:', err);
-                            alert('Päivitys epäonnistui: ' + err);
-                        }
-                    }}>
-                        <div style={{ marginBottom: '8px' }}>
-                            <label>Etunimi: </label>
-                            <input
-                                type='text'
-                                value={valittuUrheilija.etunimi}
-                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, etunimi: e.target.value})}/>
-                        </div>
-
-                        <div style={{ marginBottom: '8px' }}>
-                            <label>Sukunimi: </label>
-                            <input
-                                type='text'
-                                value={valittuUrheilija.sukunimi}
-                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, sukunimi: e.target.value})}/>
-                        </div>
-
-                        <div style={{ marginBottom: '8px' }}>
-                            <label>Laji: </label>
-                            <input
-                                type='text'
-                                value={valittuUrheilija.laji || ''}
-                                onChange={(e) => setValittuUrheilija({ ...valittuUrheilija, laji: e.target.value})}/>
-                        </div>
-                        <button type="submit" style={{ marginRight: '10px' }}>Tallenna muutokset</button>
-                        <button type="button" onClick={() => setValittuUrheilija(null)}>Peruuta</button>
-                    </form>
-                </div>
-            )}
+            
+        <div>     
             <h2>Urheilijat</h2>  
+            {valittuUrheilija && (
+                <MuokkaaUrheilijaaForm
+                urheilija={valittuUrheilija}
+                onPeruuta={() => setValittuUrheilija(null)}/>
+            )}
             {urheilijat.length === 0 ? (
                 <p>Ei urheilijoita saatavailla.</p>
             ) : (
@@ -121,5 +48,7 @@ export const UrheilijaList: React.FC = () => {
                 </div>
             )}
         </div>
-        );
+    );
 };
+
+ 
