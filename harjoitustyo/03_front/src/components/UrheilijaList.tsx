@@ -57,7 +57,7 @@ export const UrheilijaList: React.FC = () => {
 
     return (
         <div>
-            <div>       
+            {/* <div>       
                 <h3>Hae urheilija ID:llä</h3>
                 <input
                     type="number"
@@ -71,7 +71,7 @@ export const UrheilijaList: React.FC = () => {
                         Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
                     </div>
                 )}
-            </div>
+            </div> */}
 
             <div>
                 <h3>Poista urheilija ID:llä</h3>
