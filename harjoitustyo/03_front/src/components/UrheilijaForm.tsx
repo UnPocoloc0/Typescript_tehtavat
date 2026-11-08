@@ -1,5 +1,6 @@
 // Tätä lomaketta käytetään lisäämään uusi urheilija tietokantaan
 import React, { useState } from 'react';
+// Custom hook -> Globaali tila
 import { useAthletes } from '..//context/AthleteContext';
 
 // Tämä on sovelluksen moottori
@@ -9,6 +10,7 @@ export const UrheilijaForm: React.FC = () => {
     // Lomakkeen paikallinen tila -> Arvo luetaan useState-tilasta
     const [etunimi, setEtunimi] = useState('');
     const [sukunimi, setSukunimi] = useState('');
+    const [kutsumanimi, setKutsumanimi] = useState('');    
     const [laji, setLaji] = useState('');
     const [syntymavuosi, setSyntymavuosi] = useState('');
 
@@ -22,17 +24,18 @@ export const UrheilijaForm: React.FC = () => {
             alert('Anna vähintään etunimi ja sukunimi!');
             return;
         }
-
         try {
             await lisaaUrheilija({
                 etunimi,
                 sukunimi,
+                kutsumanimi,
                 laji,
                 syntymavuosi: syntymavuosi || undefined,
             });
             // Tyhjennetään lomake tietojen syöttämisen jälkeen
             setEtunimi('');
             setSukunimi('');
+            setKutsumanimi('');
             setLaji('');
             setSyntymavuosi('');   
         } catch (err) {
@@ -62,6 +65,12 @@ return (
                 value={sukunimi}
                 onChange={(e) => setSukunimi(e.target.value)}
                 />
+        </div>
+        <div>
+            <label>Kutsumanimi:</label>
+            <input type="text" 
+            value={kutsumanimi}
+            onChange={(e) => setKutsumanimi(e.target.value)}/>
         </div>
         <div>
             <label>Laji:</label>

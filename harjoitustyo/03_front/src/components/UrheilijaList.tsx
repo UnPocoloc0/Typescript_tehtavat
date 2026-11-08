@@ -57,8 +57,7 @@ export const UrheilijaList: React.FC = () => {
 
     return (
         <div>
-            <div>
-         
+            <div>       
                 <h3>Hae urheilija ID:llä</h3>
                 <input
                     type="number"
@@ -86,14 +85,6 @@ export const UrheilijaList: React.FC = () => {
                 onClick={handlePoistaIdlla} 
                 style={{ marginLeft: '8px', color: 'white', backgroundColor: 'red', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Poista</button>
             </div>
-
-            {/* <div>
-                {haettuUrheilija && (
-                    <div style={{ marginTop: '10px', color: 'red' }}>
-                        Löytyi: <strong>{haettuUrheilija.etunimi} {haettuUrheilija.sukunimi}</strong> ({haettuUrheilija.laji})
-                    </div>
-                )}
-            </div> */}
            
             {valittuUrheilija && (
                 <div style={{ padding: '15px', border: '2px solid #007bff', marginBottom: '20px', borderRadius: '5px'}}>
@@ -147,7 +138,7 @@ export const UrheilijaList: React.FC = () => {
                 <div>
                     {urheilijat.map((u, index) => (
                         <div key={u.id || index}>
-                            <h3>
+                            <h3>                
                                 {u.etunimi} {u.sukunimi} {u.kutsumanimi  ? `("${u.kutsumanimi}")` : ''}
                             </h3>
                             <p>

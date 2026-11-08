@@ -56,12 +56,6 @@ export const updateUrheilija = async (id: number, paivitetytTiedot: Urheilija): 
     return await response.json();
 }
 
-// export const createUrheilija = async (urheilija: Urheilija): Promise<Urheilija> => {
-
-//     throw new Error('Ei toteutettu vielä')
-    
-// };
-
 export const deleteUrheilija = async (id: number): Promise<void> => {
     // Ei palauta mitään
     const response = await fetch(`${API_URL}/${id}`, {

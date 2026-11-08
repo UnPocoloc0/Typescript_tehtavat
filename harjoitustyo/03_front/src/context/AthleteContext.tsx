@@ -41,7 +41,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
         .then((data) => setUrheilijat(data))
         // Verkkopyyntö epäonnistuu
         .catch((err) => console.error('Haku epäonnistui:', err));
-    // Estää useEffectin ikuisen silmukan 
+    // [] Estää useEffectin ikuisen silmukan 
     }, []); 
 
     // Tapahtumankäsittelijäfunktiot:
