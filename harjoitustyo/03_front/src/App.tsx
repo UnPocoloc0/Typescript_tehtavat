@@ -2,6 +2,7 @@ import { AthleteProvider } from "./context/AthleteContext";
 import { UrheilijaList } from "./components/UrheilijaList";
 import { UrheilijaForm } from "./components/UrheilijaForm";
 import { HaeUrheilijaTunnuksella } from "./components/HaeUrheilija";
+import { PoistaUrheilijaTunnuksella } from "./components/PoistaUrheilija";
 
 // Määrää visuaalisen järjestyksen ja toimii kehyksenä komponenteille
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <h1>Urheilijarekisteri</h1>
        <UrheilijaForm />
        <HaeUrheilijaTunnuksella />
+       <PoistaUrheilijaTunnuksella />
         <hr style={{ margin: '20px 0'}} />
         <UrheilijaList />
 

@@ -9,35 +9,33 @@ import type { Urheilija } from '../types/Urheilija';
 export const UrheilijaList: React.FC = () => {
     
     // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaan taulukko ja metodit
-    const { urheilijat, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
+    const { urheilijat, muokkaaUrheilijaa } = useAthletes();
   
-    // Jos ei olla muokkaamassa -> lomake pysyy piilossa
-    // Muokkaus -> Lomake täytyy urheilijan tiedoilla
-    const [poistoId, setPoistoId] = useState('');
+ 
     const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
 
 
-    const handlePoistaIdlla = async () => {
-        // ID = tietokannassa oleva tunniste
-        if (!poistoId) return;
+    // const handlePoistaIdlla = async () => {
+    //     // ID = tietokannassa oleva tunniste
+    //     if (!poistoId) return;
 
-        const idNumero = Number(poistoId);
-        if (window.confirm(`Haluatko varmasti poistaa urheilijan ID:lla ${idNumero}?`)) {
-            try {
-                // Kutsutaan Contextin poistometodia
-                await poistaUrheilija(idNumero);
-                alert(`Urheilija tunnuksella ${idNumero} poistettu onnistuneesti`);
-                setPoistoId('');
+    //     const idNumero = Number(poistoId);
+    //     if (window.confirm(`Haluatko varmasti poistaa urheilijan ID:lla ${idNumero}?`)) {
+    //         try {
+    //             // Kutsutaan Contextin poistometodia
+    //             await poistaUrheilija(idNumero);
+    //             alert(`Urheilija tunnuksella ${idNumero} poistettu onnistuneesti`);
+    //             setPoistoId('');
                 
-            } catch (err) {
-                alert(`Poisto epäonnistui: Urheilijaa tunnuksella ${idNumero} ei löytynyt`);
-            }
-        }
-    };
+    //         } catch (err) {
+    //             alert(`Poisto epäonnistui: Urheilijaa tunnuksella ${idNumero} ei löytynyt`);
+    //         }
+    //     }
+    // };
 
     return (
         <div>       
-            <div>
+            {/* <div>
                 <h3>Poista urheilija ID:llä</h3>
                 <input
                     type="number"
@@ -48,7 +46,7 @@ export const UrheilijaList: React.FC = () => {
                 <button 
                 onClick={handlePoistaIdlla} 
                 style={{ marginLeft: '8px', color: 'white', backgroundColor: 'red', border: 'none', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Poista</button>
-            </div>
+            </div> */}
            
             {valittuUrheilija && (
                 <div style={{ padding: '15px', border: '2px solid #007bff', marginBottom: '20px', borderRadius: '5px'}}>
