@@ -325,6 +325,12 @@ vähintään etu-ja sukunimi -tiedot. HTML-lomakekeella kytketään tila ja kent
 yhteen. Ensin luetaan lukumuuttujasta arvo, jonka jälkeen  tapahtumankuuntelija
 päivittää näppäilyn tuloksen ja renderöi tämän ruudulle. 
 
-UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden esittämisestä ruudulla. Tässä käytettiin sekä globaalia tilaa, että paikallista muokkaustilaa.
+UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden esittämisestä ruudulla. Ruudulla näkyvät urheilijat saadaan urheilija-olioita sisältävästä listasta. Tässä käytettiin sekä globaalia tilaa, että paikallista muokkaustilaa.
 
 # Bootstrap ja inline CSS-muotoilut
+
+
+## Ongelmat ja niiden ratkaisut
+
+Virheiden putkitus
+Arkkitehtuurin hahmottaminen

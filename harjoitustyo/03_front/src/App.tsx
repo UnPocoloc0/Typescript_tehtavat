@@ -2,9 +2,11 @@ import { AthleteProvider } from "./context/AthleteContext";
 import { UrheilijaList } from "./components/UrheilijaList";
 import { UrheilijaForm } from "./components/UrheilijaForm";
 
+// Määrää visuaalisen järjestyksen ja toimii kehyksenä komponenteille
 function App() {
   
   return (
+    // Tärkein kytkentä -> Tagin sisäpuolella olevat komponentit -> päästään useState-koukkuun 
     <AthleteProvider>
 
       <div style={{ padding: '20px', 

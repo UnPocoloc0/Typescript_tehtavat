@@ -3,12 +3,11 @@ import type { Urheilija } from '../types/Urheilija';
 import { getUrheilijat, addUrheilija, getUrheilijaByID, updateUrheilija, deleteUrheilija } from '../services/atheleteService';
 
 // Tämä vastaa siitä, mitä selaimen ruudulla näkyy juuri nyt
-// Loota -> Jakelija -> Avain -rakenne
 // Mitä palveluja keskusvarasto sisältää -> tämä on sopimus
 interface AthleteContextType {
     // Taulukollinen olioita, jotka ovat Urheilija-muotin mukaisia
     urheilijat: Urheilija[];
-    // ID generoroidaan luontihetkellä -> jätetään tämä vaatimus pois
+    // ID generoroidaan luontihetkellä -> jätetään tämä vaatimus pois lisättäessä
     // Annetaan lupaus tuloksesta -> ei palauteta vastausta heti
     // Mahdollisimman selkeä nimi rajapinnasta ulospäin
     lisaaUrheilija: (uusi: Omit<Urheilija, 'id'>) => Promise<void>;
@@ -18,7 +17,7 @@ interface AthleteContextType {
     muokkaaUrheilijaa: (id: number, paivitetytTiedot: Urheilija) => Promise<void>;
     poistaUrheilija: (id: number) => Promise<void>;
 }
-// LOOTA: data tallennetaan tähän (Context-olio) 
+// Data tallennetaan tähän (Context-olio) 
 // Context:ssa on sovelluksen yhteinen tila muistissa
 // Annetaan datan lisäksi käyttöön funktioita yms. 
 const AthleteContext = createContext<AthleteContextType | undefined>(undefined);
@@ -30,6 +29,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
     // Tämä on globaali tila -> useStaten alustus
     // Tila voi sisältää vain taulukollisen olioita
     // nykyinen taulukko ja funktio, jolla sitä voidaan muuttaa
+    // Toiset sulkeet ovat useState:lle annettava alkuarvo -> estää kaatumisen
     const [urheilijat, setUrheilijat] = useState<Urheilija[]>([]);
 
     // Ajetaan vain kerran, kun komponentti syntyy
@@ -114,7 +114,7 @@ export const AthleteProvider: React.FC<{ children: ReactNode }> = ({ children}) 
     );
 };
 
-// AVAIN: Työkalu, jolla avataan loota
+
 // Custom-hook -> Kääritään koko Context yhteen oikopolkuun
 /* eslint-disable react-refresh/only-export-components */
 export const useAthletes = () => {

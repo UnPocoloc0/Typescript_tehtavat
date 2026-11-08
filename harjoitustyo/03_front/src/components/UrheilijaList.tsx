@@ -1,6 +1,6 @@
 // Paikallisen muistin ylläpito
 import React, { useState } from 'react';
-// Custom hook -> Kytkeydetään keskusmuistiin
+// Custom hook -> Kytkeydetään yhteiseen keskusmuistiin
 import { useAthletes } from '../context/AthleteContext';
 // Rajapinta varmistaa oikeat tyypit
 import type { Urheilija } from '../types/Urheilija';
@@ -8,30 +8,32 @@ import type { Urheilija } from '../types/Urheilija';
 // Reactin funktionaalinen komponentti
 export const UrheilijaList: React.FC = () => {
     
-    // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaa taulukko ja metodit
+    // Pyydetään taulukko ja Contexin tarjoama data käyttöön ja destrukturoidaan taulukko ja metodit
     const { urheilijat, haeUrheilijaById, muokkaaUrheilijaa, poistaUrheilija } = useAthletes();
 
-    const [hakuId, setHakuId] = useState('');
-    const [haettuUrheilija, setHaettuUrheilijaById] = useState<Urheilija | null>(null);
     // Muuttuja -> urheilija jota muokataan
     // Muutosfunktio -> asetetaan valinta
+    const [hakuId, setHakuId] = useState('');
+    const [haettuUrheilija, setHaettuUrheilija] = useState<Urheilija | null>(null);
     // Jos ei olla muokkaamassa -> lomake pysyy piilossa
     // Muokkaus -> Lomake täytyy urheilijan tiedoilla
-    const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
     const [poistoId, setPoistoId] = useState('');
+    const [valittuUrheilija, setValittuUrheilija] = useState<Urheilija | null>(null);
 
     // Näissä metodeissa tarvitaan paikallista tilaa vs. Contextista kutsuttavat metodit
     const handleHae = async () => {
-
+        // Haku ei voi olla tyhjä
         if (!hakuId) return;
+        // Käyttäjän syöte muutetaan numeroksi
+        const idNumero = Number(hakuId);
         try {
             // API vaatii numeerisen ID:n. Kutsutaan kontekstin kautta backend:a
-            const tulos = await haeUrheilijaById(Number(hakuId));
+            const tulos = await haeUrheilijaById(idNumero);
             // Saatu olio tallennetaan lokaaliin tilaan
-            setHaettuUrheilijaById(tulos);
+            setHaettuUrheilija(tulos);
         } catch (error) {
             alert(`Urheilijaa tunnuksella ${hakuId} ei löytynyt`);
-            setHaettuUrheilijaById(null);
+            setHaettuUrheilija(null);
         }
     }
 
@@ -56,6 +58,7 @@ export const UrheilijaList: React.FC = () => {
     return (
         <div>
             <div>
+         
                 <h3>Hae urheilija ID:llä</h3>
                 <input
                     type="number"

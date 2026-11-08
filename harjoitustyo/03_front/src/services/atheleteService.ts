@@ -16,7 +16,7 @@ export const getUrheilijat = async (): Promise<Urheilija[]> => {
 
 export const addUrheilija = async (uusiUrheilija: Omit<Urheilija, 'id'>): Promise<Urheilija> => {
     const response = await fetch(API_URL, {
-        // Määritellään eksplisiittisesti
+        // Määritellään metodit eksplisiittisesti
         method: 'POST',
         // Tällä otsakkeella paketti menee verkon yli
         headers: { 'Content-Type': 'application/json' },
