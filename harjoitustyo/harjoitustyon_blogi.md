@@ -11,15 +11,16 @@ ilman että versionhallinta on tukemassa työskentelyä. Koska tallennan
 kehitystyötä melko pienillä inkrementeillä, niin tämä poistaa tiettyä stressiä,
 jos jokin asia menee pahasti vikaan. Pahimmassakin tapauksessa menetän noin 10
 minuutin työn, joka on nopea paikata tarvittaessa. Gitin peruskäytön jälkeen
-opettelin samalla kehityshaarojen käyttöä. Kehityshaaraa en puskenut
+opettelin kurssin aikana kehityshaarojen käyttöä. Kehityshaaraa en puskenut
 etäpalvelimelle asti, mutta tein siellä kehitystä ja yhdistin sen aina aika
 ajoin päähaaraan. Jos tein kehitystä muilla koneilla, niin silloin pidin
 kehityksen pelkästään main-haarassa. Kehityshaarat on hyvä ottaa haltuun, jotta
-pystytään riskittömästi kokeilemaan asioita rikkomatta pääkehityshaaraa. 
+pystytään riskittömästi kokeilemaan uusia sioita rikkomatta toimivaa sovellusta. 
 
+## Tehtävänanto ja vaatimusmäärittely
 Kokonaisen Full stack-sovelluksen tekeminen vaikutti aluksi melko abstraktilta,
 koska tällä kurssilla oppimiskäyrä on hyvin jyrkkä ja käytettäviä teknologioita
-ja kehikoita on lukematon määrä. Yritin aluksi tehdä mielessäni hyvin karkeaa
+ja kehikoita on niin paljon. Yritin aluksi tehdä mielessäni hyvin karkeaa
 jaottelua tulevista työvaiheista: mitkä asiat liittyvät tietokantaan ja
 taustapalveluihin, mitkä taas liittyvät enemmän käyttöliittymän ja siinä
 tapahtuvaan tilanhallintaan. Tämä karkea jaottelu auttoi luomaan edes
@@ -34,76 +35,82 @@ Tehtävässä oli annettu esitietoja, joita urheilijasta tulisi löytää. Täm�
 hyvänä ohjeena tietokannan muodostamiselle ja siitä löytyville kentille. Käytän
 monia käyttöjärjestelmiä, mutta eniten kuitenkin Macia. Vaikka Koodasin
 itsekseni, pyrin vaihtamaan työasemaa päivittäin. Näin pystyn simuloimaan
-tiimityöskentelyä, ja miten versionhallinta toimisi tiimin kanssa. Koska
-konfiguraatiotiedostot eivät mene versionhallintaan, eivätkä myöskään
-kehitysaikaiset riippuvuudet. Alussa jouduin näitä riippuvuuksia  konfiguroimaan
-eri koneille, koska näitä ei ole mitään järkeä viedä version hallintaan.
-Pikemminkin ne pystytään asentamaan jokaisen kehityskoneelle erikseen. Asioiden
-toistaminen on kuitenkin tässä ainoastaan hyvä asia, jolloin asiat eivät
-paremmin selkärankaan. Koneillani pyörii MysSql tietokantamoottorina, ja
-graafisena tietokannan ohjaimena käytin DataGrip-sovellusta, koska pidän
-JetBrains-IDE:n visuaalisesta ilmeestä hyvin paljon. Tässä on myös
-tuttuuselementti, eli kaikki JetBrainsin kehitysympäristöt näyttävät hyvin
-samankaltaisilta, jolloin työn aloittaminen on kivutttomampaa. Samat kyselyt ja
-logiikka toimisi MariaDB:n, Heidi SQL:n kanssa, mutta Windowsin käyttämäminen
-kehityskoneena on paljon tahmaisempaa. 
+tiimityöskentelyä, ja miten versionhallinta toimisi tiimin kanssa. Jonkun verran
+oli ongelmia konfigauraatioden kanssa, koska konfiguraatiotiedostot eivät mene
+versionhallintaan, eivätkä myöskään kehitysaikaiset riippuvuudet. Alussa jouduin
+näitä riippuvuuksia  konfiguroimaan eri koneille, koska näitä ei ole mitään
+järkeä viedä versionhallintaan. Pikemminkin ne pystytään asentamaan jokaisen
+kehityskoneelle erikseen Etenkin node-modules -kirjasto vie paljon tilaa, joten
+tällainen tukkisi GitHubin nopeasti. Asioiden toistaminen on kuitenkin tässä
+ainoastaan hyvä asia, jolloin asentamiseen liittyvät asiat menevät  paremmin
+selkärankaan. Koneillani pyörii MysSql tietokantamoottorina, ja graafisena
+tietokannan ohjaimena käytin DataGrip-sovellusta, koska pidän JetBrains-IDE:n
+visuaalisesta ilmeestä hyvin paljon. Tässä on myös tuttuuselementti, eli kaikki
+JetBrainsin kehitysympäristöt näyttävät hyvin samankaltaisilta, jolloin työn
+aloittaminen on kivutttomampaa. Samat kyselyt ja logiikka toimisi MariaDB:n,
+Heidi SQL:n kanssa, mutta Windowsin käyttämäminen kehityskoneena on itselläni
+paljon tahmaisempaa. 
 
 ## Tietokanta ja sen luominen
 Tein tietokannanluontiskriptin, joka loi tietokannan `urheilija_db` ja sinne
-`urheilijat`-taulun ja tauluun tehtävässä vaaditut sarakkeet. ID:n luomisesta
+`urheilijat`-taulun ja tauluun tehtävässä vaaditut sarakkeet. Sarakkeet ovat
+urheilijaan liittyviä ominaisuuksia, kuten nimi ja laji. ID:n luomisesta
 tietokanta huolehtii itse, mutta muut tiedot pitää syöttää. Tässä oli jonkun
 verran ongelmia projektin myöhemmissä vaiheissa, esimerkiksi ID:llä lisätessa
 poistaessa. Tämä liittyi esim. Front endin puolella olevaan
 addUrheilija-metodiin.
 
-Mietin, olisiko urheilijan syntymäaikaan riittänyt pelkästään vuosiluku, jolloin
-olisin voinut käsitellä yksinkertaisempaa tietotyyppiä, kuten numeroa
-päivämäärän sijasta. Urheilijaa lisätessä tiedot eivät välttämättä päivityneet
-kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös aikaleiman
-automaattinen lisääminen päivämäärään teki kannan päivittämisen mahdottomaksi.
-Koska tietoa on muunnetaan olioista tekstiksi, näitä ihmeellisiä muunnosvirheitä
-voi ilmetä myöhemmissä kehitysvaiheissa. 
-
-Tietokannan pystyttämisen jälkeen loin käyttäjä `user` salasanalla `user1`. Eli
+Tietokannan pystyttämisen jälkeen loin käyttäjän `user` salasanalla `user1`. Eli
 ohjenuorana tietoturvaan oli, että mitään järjestelmänvalvojan oikeuksia ei
-tietokantaan anneta. Tässä tapauksessa riittää pelkät CRUD-ominaisuuddet ja
-nämäkin vain tietyn tietokannan `urheilijat`-taulussa. Annoin aluksi ehkä liian
-lyhyitä rajoituksia nimille ja etenkin URL osoitteelle, joka tarvitsi
-mahdollisuuden olla huomattavasti pidempi. Nyt nimillä ja osoitteilla on
-riittävästi merkkejä varattu, kuten URL-osoitteella mahdollisuus olla 255
-merkkiä pitkä.  Alkuun pohdin myös saavutuksille oman taulun tekemistä, koska
-yhdellä urheilijalla voi olla monia saavutuksia. Tämän jätin kommentteihin
-vertailua helpottamaan, mutta nyt tietokannan rakenne jätettiin mahdollisimman
-yksinkertaiseksi. Useampi saavutus voidaan pätkiä muilla tavoilla osiin. 
+tietokantaan anneta. Tässä tapauksessa riittää pelkät CRUD-ominaisuudet ja
+nämäkin vain tämän tietyn tietokannan `urheilijat`-tauluun. Annoin aluksi ehkä
+liian lyhyitä rajoituksia nimille ja etenkin URL osoitteelle, joka tarvitsi
+mahdollisuuden olla huomattavasti pidempi. Nyt nimille ja osoitteille on varattu
+riittävästi merkkejä, kuten esim. URL-osoitteella mahdollisuus olla 255 merkkiä
+pitkä.  Alkuun pohdin myös saavutuksille oman taulun tekemistä, koska yhdellä
+urheilijalla voi olla monia saavutuksia. Tämän jätin luontiskriptiin
+kommentteihin vertailua helpottamaan, mutta nyt tietokannan rakenne jätettiin
+mahdollisimman yksinkertaiseksi. Jos urheilijalla on useampi saavutus, niin tämä
+voidaan pätkiä muilla tavoilla osiin. 
 
 ## Arkkitehtuurimalli
 Tämä projekti on ollut aiempia koulun projekteja laajempi arkkitehtuuriltaan,
-joten hyvä suunnittelu ja käsitys projektin rakenteesta ylätasolla auttoi.
-Paljon hahmottamista vaikeuttaa Web1-kurssin puuttuminen, sekä
-perusteknologioidenkin harjoitteluun pitäisi varata vielä paljon aikaa ennen
-kehysten käyttämistä. Sovelluksen arkkitehtuuri jaettiin kolmeen erilliseen
-osaan, eli tietokantaan, ja sitä ohjaavan välikerrokseen, sekä käyttäjälle
-näkyvään käyttöliittymään. Middleware toteutettiin Express-kehyksellä, koska
-sitä käytettiin kurssilla ja se on hyvin käytetty tapa hallinnoida SQL-kyselyitä
-middlewaressa. Käyttöliittymä pyrittiin toteuttamaan Reactilla ja sovelluksen
-globaali tila Context-Apilla. Bootstrap oli tarkoitus ottaa käyttöön myös, jotta
-käyttöliittymästä saataisiin responsiivinen. Lopullisesta versiosta tämä
-käyttöliittymän tyylittely/ viilaus on jätetty ajanpuutteen vuoksi pois. Tämä
+joten hyvä suunnittelu ja käsitys projektin rakenteesta ylätasolla oli
+välttämätöntä. Oikeastaan projektin alussa ei ollut mitään käsitystä tehtävän
+todellisesta vaikeudesta. Paljon omaa hahmottamista vaikeuttaa Web1-kurssin
+puuttuminen. Myös Web:n liittyvien perusteknologioidenkin harjoitteluun pitäisi
+varata vielä paljon aikaa. Tämän jälkeen erilaisten frameworkien käyttäminen
+olisi helpompaa. 
+
+Sovelluksen arkkitehtuuri jaettiin kolmeen erilliseen osaan, eli tietokantaan,
+ja sitä ohjaavan välikerrokseen, sekä käyttäjälle näkyvään käyttöliittymään.
+Middleware toteutettiin Express-kehyksellä, koska sitä käytettiin kurssilla ja
+se on hyvin käytetty tapa hallinnoida SQL-kyselyitä. Kerrokset pyrittiin
+pitämään mahdollisimman puhtaana. Tämä tarkoittaa sitä, että esim. Middleware
+käyttää puhdasta typescriptia, eikä tiedä muiden kerrosten toteutuksesta mitään.
+Se toimii vain palvelukerroksena, joka tekee tietokantaan kyselyitä.
+
+Käyttöliittymä pyrittiin toteuttamaan Reactilla ja sovelluksen globaali
+tilanhallinta Context-Apilla. Bootstrap-kehys oli tarkoitus ottaa käyttöön myös,
+jotta käyttöliittymästä saataisiin responsiivinen. Lopullisesta versiosta tämä
+käyttöliittymän tyylittely/ viilaus jätettiin ajanpuutteen vuoksi pois. Tämä
 olisi kuitenkin hyvä vapaa-ajan projekti tehdä myöhemmin loppuun. Tällä hetkellä
-pidän tärkeämpänä, että perus SQL-kyselyt toimivat ja yhteystieto tietokantaan
-toimii käyttöliittymästä, sekä sovelluksen kokonaistilan hallinta. Esteettisesti
+pidän tärkeämpänä, että perus SQL-kyselyt toimivat ja yhteys tietokantaan toimii
+käyttöliittymästä. Tärkeä oppi on myös globaali tilankäsittely ilman, että tätä
+joudutaan ketjuttamaan komponenttien läpi komponenttipuussa.  Esteettisesti
 miellyttävämpi käyttöliittymä ei mielestäni tuo juurikaan lisää tuohon
 logiikkapuoleen, ja käyttöliittymien suunnittelua ja responsiivisuutta on
 sivuttu muilla koulun kursseilla aiemmin. 
 
-
 ### Ympäristön alustus
 
 Aluksi oli tärkeä saada kehitysympäristö pystyyn. Tietoturva otettiin huomioon
-ympäristön avustuksesta niin, että tietokanta yhteys otettiin erilliseen
-.env-tiedostoon. Lisäksi luotiin gitignore- sääntö, että tätä tiedostoa ei
-koskaan vielä versionhallintaan mukaan. Suuret node modules -riippuvuudet
-jätettiin luonnollisesti versionhallinasta myös pois. 
+ympäristön alustuksessa niin, että tietokantayhteys otettiin erilliseen
+`.env`-tiedostoon. Lisäksi luotiin gitignore- sääntö, että tätä
+konfiguraatiotiedostoa ei koskaan viedä versionhallintaan mukaan. Suuret node
+modules -riippuvuudet jätettiin luonnollisesti versionhallinasta myös pois.
+Näillä kredentiaaleilla saadaan yhteys tietokantaan ja tämän jälkeen voidaan
+käydä rakentamaan taustapalvelua.
 
 ```
 PORT=3000
@@ -117,12 +124,12 @@ Back endissa teknologiat olivat:
 * Node.js typescriptin ajamiseen paikallisesti
 * Express-framework toimi middlewarena
 * Typescript valittiin ohjelmointikieleksi, koska tämä on tyyppiturvallisempi
-  kieli kuin javascript ja tämä on ollut Web2-kurssin oleellinen kieli
+  kieli kuin javascript ja tämä on ollut Web2-kurssin oleellisin kieli
   
 
 ## Kehitysaikaiset riippuvuudet
 
-Avuksi piti asentaa kehitystyökalut komennolla:
+Aluksi piti asentaa kehitystyökalut ja riippuvuudet komennolla:
 
 ```
 npm install -D typescript ts-node nodemon @types/node @types/express @types/cors
@@ -136,44 +143,44 @@ riippuvuudet saatiin kuntoon. Myös scripts-osioon voidaan kirjoittaa haluttu
 käsky, jolloin ohjelman ajaminen onnistuu helposti muistettavalla komennolla,
 kuten `npm run dev`. 
 
-tsconfig-tiedosto asennettiin komennolla.
+Typescriptin asetustiedosto, eli `tsconfig`-tiedosto asennettiin komennolla.
 ```
 npx tsc --init
 ```
-Riippuvuudet back endiin saatiin kätevästi yhdellä komennolla:
-```
-typescript, ts-node, @types/express, @types/node, @types/cors
-````
-TS-asetustiedoston luominen:
-```
-npx tsc --init
-```
+
 Tämän jälkeen näitä komponentteja ja pystytään tuomaan taustajärjestelmään
 mukaan.
 
 ## Yhteysallas
 Ensimmäisenä tehtävänä oli tuoda back endissa käyttöön `mysql2`, jotta
-yhteysaltaan avulla voidaan tehdä kyselyjä tietokantaan. Samassa tiedostossa
-otettiin käyttöön dotenv, jonka avulla tietokantayhteyden kredentiaalit voidaan
-lukea suoraan konfiguraatiotiedostosta. Luotiin konekohtaisille
-ympäristömuuttujille oma yhteysallas, jotta SQL-kyselyiden tekeminen olisi
-jatkossa kätevämpää. Tähän jouduttiin antamaan myös vaihtoehtoiset
-kirjautumistavat sen takia, jos tietokantayhteys ympäristömuuttujien avulla ei
-jostain syystä olisi onnistunut. Kuitenkin pyrittiin ensisijaisesti käyttämään
-konfiguraatiotiedoston kredentiaaleja, eli ts. kehityskoneen ympäristömuuttujia.
-Näiden perusmääritysten jälkeen tietokantayhteyden pitäisi toimia oikein. 
+yhteysaltaan avulla voidaan tehdä kyselyjä tietokantaan. Yhteysallas on parempi
+vaihtoehto kyselyjen tekemiseen, koska allas pysyy koko ajan käynnissä.
+Asiakkaita palvellaa ja yhteydet vapautetaan tämän jälkeen takaisin käyttöön.
+Yksittäisten kyselyiden ongelma on se, että yhtyes kantaan joudutaan jatkuvasti
+avaamaan ja sulkemaan. Samassa tiedostossa otettiin käyttöön dotenv, jonka
+avulla tietokantayhteyden kredentiaalit voidaan lukea suoraan
+konfiguraatiotiedostosta. Luotiin konekohtaisille ympäristömuuttujille oma
+yhteysallas, jotta SQL-kyselyiden tekeminen olisi jatkossa kätevämpää. Tähän
+jouduttiin antamaan myös vaihtoehtoiset kirjautumistavat sen takia, jos
+tietokantayhteys ympäristömuuttujien avulla ei jostain syystä olisi onnistunut.
+Kuitenkin pyrittiin ensisijaisesti käyttämään konfiguraatiotiedoston
+kredentiaaleja, eli ts. kehityskoneen ympäristömuuttujia. Näiden
+perusmääritysten jälkeen tietokantayhteyden pitäisi toimia oikein. Koska käytin
+useita kehityskoneita, niin nämä kredentiaalit piti konfiguroida luonnollisesti
+jokaisella koneella erikseen.
 
 ## Typescript
 Koska TS on tyypitetty kieli, niin urheilija voidaan mallintaa omalla oliolla,
 joka pitää sisällään kaikki urheilijan liittyvät tiedot. Tämä dataluokka/
-rajapinta helpottaa kokonaisen olion tietojen hakemista ja päivittämistä
-myöhemmin. Nämä Urheilija-rajapinnan ominaisuudet vastaavat myös tietokannassa
-olevia taulun sarakkeita. Tätä mallia käytetään myöhemmin, kun palautetaan
-urheilijan tietoja, tai päivitetään niitä. Kaikki luokan ominaisuudet voidaan
-asettaaa myöhemmin käyttöliittymässä, mutta ID-kentän tietokanta generoi
-automaattisesti primary keyn avulla. Tässä vaiheessa kehitystä serveri pyörii
-paikallisesti osoitteessa 3 000 ilman virheitä, data mallin urheilijaa varten
-oli valmis ja tarvittavat kehitysaikaiset riippuvuudet asennettu. 
+rajapinta helpottaa kokonaisen olion tietojen hakemista ja urheilijan tietojen
+päivittämistä myöhemmin. Nämä Urheilija-rajapinnan ominaisuudet vastaavat myös
+tietokannassa olevia taulun sarakkeita. Tätä mallia käytetään myöhemmin, kun
+palautetaan urheilijan tietoja, tai päivitetään niitä. Kaikki luokan
+ominaisuudet voidaan asettaaa myöhemmin käyttöliittymässä, mutta ID-kentän
+tietokanta generoi automaattisesti primary keyn avulla. Tässä vaiheessa
+kehitystä serveri pyörii paikallisesti osoitteessa 3 000 ilman virheitä, data
+mallin urheilijaa varten oli valmis ja tarvittavat kehitysaikaiset riippuvuudet
+asennettu. 
 
 ## Middleware ja Express-tyyppinen palvelin
 Seuraavaksi alkoi varsinainen Middlewaren rakentaminen, eli kuinka saadaan
@@ -350,7 +357,11 @@ muokkaustilaa.
 
 Sovelluksen käyttöliittymä eriytettiin alun perin kahdesta suuremmasta
 tiedostosta viiteen (5) erilliseen komponenttiin Single Responsibility Principle
-(SRP) -periaatteen mukaisesti:
+(SRP) -periaatteen mukaisesti. UserList sisälsi lomakkeet urheilijan poistoon ja
+lisäämiseen. Tässä nimeäminen oli harhaanjohtavaa ja tiedostosta tuli hyvin
+pitkä. Komponentit refaktoroitiin omiin tiedostoihinsa. Näistä lomakkeen
+eristäminen omaksi komponenetiksi oli hankalaa, koska jouduttiin käyttämään
+paikallista tilanhallintaa kontekstin sijasta. 
 
 1. **`UrheilijaForm.tsx`**: Uuden urheilijan lisäyslomake 
 2. **`HaeUrheilijaTunnuksella.tsx`**: Yksittäisen urheilijan haku ID:lla ja
@@ -362,7 +373,59 @@ tiedostosta viiteen (5) erilliseen komponenttiin Single Responsibility Principle
    ruudulla
 
 Kokoavan juurikomponentin (`App.tsx`) tehtäväksi jäi vain näiden itsenäisten
-komponenttien kytkeminen `<AthleteProvider>`:n  sisään.
+komponenttien kytkeminen `<AthleteProvider>`:n  sisään. Tällä tavalla pääohjelma
+toimi vain kapellimestarin tavoin ja kokosi elementit yhteen oikeassa
+järjestyksessä. 
+
+  ## Ongelmat ja niiden ratkaisut
+
+ Eniten hankaluuksia aiheutti arkkitehtuurin hahmottaminen, eli tähän oli pakko
+ piirtää kaaviokuvia datan liikkumisesta. Tämä lienee myös koko harjoituksen
+ suurin oppi, eli miten eri abstraktiokerrokset keskustelevat keskenään. 
+
+ Kaavio datan liikkeistä:
+```
+  [ Tietokanta ] 
+  ▲
+  │  1. HTTP Fetch (getUrheilijat, updateUrheilija...)
+  ▼
+  [ athleteService.ts ]
+  ▲
+  │  2. Palauttaa datan / vahvistuksen
+  ▼
+  [ AthleteProvider ]  ── (Päivittää `useState`-tilan `.map()` / `.filter()` 
+  -metodeilla)
+  │
+  │  3. Syöttää tilan ja metodit `value={{ ... }}` -pakettiin
+  ▼
+  [ useAthletes() ]
+  ▲
+  │  4. Lukee Contextin
+  ▼
+  [ UrheilijaList / UrheilijaForm ]  ── (Päivittää näytön)
+  ```
+
+Koodia kirjoittaessa monesti tuli vastaan joko musta- tai valkea ruutu. Yleensä
+nämä ongelmat liittyvät turvatarkistuksien puuttumiseen ja näytön renderöintiin.
+Esim. jos komponentilla ei ole tilaa alustettuna ennen renderöintiä, niin
+tällainen musta ruutu saattoi tulla eteen. Etenkin pitkissä tiedostoissa tuli
+paljon erilaisia sulkuvirheitä, eli aina ei ollut selvää, mikä asia kuuluu
+minkäkin metodin sisälle. Samanlaista ongelmaa on tosin melkein kaikkien
+ohjelmointikielten kanssa. 
+
+Tietokannan päivittämispäivittäminen ja sen epäonnistuminen. Tämä liittyi
+monesti yksilöivään ID-kenttään, jonka tietokanta generoi automaattisesti. Jos
+ID yritetään lisätä urheilijaa lisättäessä/ päivitettäessä, niin tämä
+aiheutti  virheitä. Tässä ratkaisuna oli eristää ID muusta oliosta, jolloin
+pystyttiin päivittämään urheilijaa muilta osin, mutta ID jätettiin rauhaan. 
+
+Mietin, olisiko urheilijan syntymäaikaan riittänyt pelkästään vuosiluku, jolloin
+olisin voinut käsitellä yksinkertaisempaa tietotyyppiä, kuten numeroa
+päivämäärän sijasta. Urheilijaa lisätessä tiedot eivät välttämättä päivityneet
+kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös aikaleiman
+automaattinen lisääminen päivämäärään teki kannan päivittämisen mahdottomaksi.
+Koska tietoa muunnetaan olioista tekstiksi, näitä ihmeellisiä muunnosvirheitä
+voi ilmetä myöhemmissä kehitysvaiheissa. 
 
 # Bootstrap ja inline CSS-muotoilut
 
@@ -372,4 +435,3 @@ inline-tyylejä sekä perinteistä HTML-rakennetta. Tällä ratkaisulla sääste
 aikaa sovelluksen ydintoiminnallisuuden, eli tietokantakyselyiden,
 REST-rajapinnan, Context API-tilanhallinnan ja komponenttiarkkitehtuurin
 ymmärtämiseen.
-
