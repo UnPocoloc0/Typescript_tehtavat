@@ -177,10 +177,14 @@ päivittämistä myöhemmin. Nämä Urheilija-rajapinnan ominaisuudet vastaavat 
 tietokannassa olevia taulun sarakkeita. Tätä mallia käytetään myöhemmin, kun
 palautetaan urheilijan tietoja, tai päivitetään niitä. Kaikki luokan
 ominaisuudet voidaan asettaaa myöhemmin käyttöliittymässä, mutta ID-kentän
-tietokanta generoi automaattisesti primary keyn avulla. Tässä vaiheessa
-kehitystä serveri pyörii paikallisesti osoitteessa 3 000 ilman virheitä, data
-mallin urheilijaa varten oli valmis ja tarvittavat kehitysaikaiset riippuvuudet
-asennettu. 
+tietokanta generoi automaattisesti primary keyn avulla. Tämän vuoksi ID-kenttä
+jätettiin valinnaiseksi, eli sitä ei ole pakko syöttää. Esim. urheilijaa
+lisättäessä ID-kenttää ei vielä ole olemassakaan, koska tämä generoidaan
+luontihetkellä. Jos ei oltaisi käytetty valinnaista olion ominaisuuksissa, niin
+ohjelma kaatuisi. Ainoastaan etu- ja sukunimet määriteltiin pakollisiksi
+tiedoiksi. Tässä vaiheessa kehitystä serveri pyörii paikallisesti osoitteessa 3
+000 ilman virheitä, datamalli urheilijaa varten oli valmis ja tarvittavat
+kehitysaikaiset riippuvuudet asennettu. 
 
 ## Middleware ja Express-tyyppinen palvelin
 Seuraavaksi alkoi varsinainen Middlewaren rakentaminen, eli kuinka saadaan
@@ -189,13 +193,13 @@ rakentaa täydellinen CRUD-toiminnallisuus, jonka avulla voidaan hakea
 urheilijoita, muokata, päivitä ja poistaa kannassa olevaa urheilijalistaa. Tämä
 oli mielestäni järkevä tapa edetä, koska eihän ole mitään järkeä kutsua
 sellaisia funktioita, joiden toiminnallisuutta ei ole vielä olemassa. Siksi
-etenin yksi metodi kerrallaan ja joita tallensin versionhallintaan ahkerasti.   
+eteninaina yksi metodi kerrallaan ja tallensin edistymistä versionhallintaan ahkerasti.   
 
 Kirjoitin Back endiin tyhjät metodirungot seuraaville metodeille: `GET, GET by
 ID, POST, PUT ja DELETE`. Tavoitteena oli täydellisen CRUD-toiminnallisuuden
 tekeminen sovellukseen, vaikka käyttöliittymä jäisikin ulkoasultaan
-vaillinaiseksi. Express otettiin omaan muuttujan talteen, jonka jälkeen tämä
-express-ilmentymä tarjoaa käyttöön hyödyllisiä metodeita, kuten json-muotoisen
+vaillinaiseksi. Express otettiin omaan muuttujan talteen. Tämän jälkeen 
+express-ilmentymä tarjoaa  hyödyllisiä metodeita käyttöön, kuten json-muotoisen
 datan muuttaminen objektiksi. Kaikki http-metodit muistuttavat rakenteeltaan
 toisiaan, eli ne ovat esim. kaikki asynkronisia. Tämä tarkoittaa sitä, että
 metodin suoritus keskeytyy, kunnes tietokannasta tulee vastaus. Se ei jää siis
@@ -219,34 +223,36 @@ koska nyt pitää antaa kutsun body-osioon kokonainen Urheilija-olio
 JSON-muodossa. Koodissa olevassa SQL-kyselyssä kysymysmerkin tilalle sijoitetaan
 kokonainen uusi urheilija-olio. Eli koodissa ja kyselyssä käsitellään samaa
 Urheilijaa, mutta eri muodoissa (JSON ja typescript-olio). Validoitaessa
-minimitietoja, tässä unohtui not-operaation käyttäminen, joka esti urheilijan
-päivittämisen. Eli pelkkä pieni !-merkin puuttuminen aiheutti kyselyn
-epäonnistumisen. 
+urheilijaan liittyviä minimitietoja, tässä unohtui joskus not-operaattori,
+joka esti urheilijan päivittämisen. Eli pelkkä pieni !-merkin puuttuminen
+saattoi aiheuttaa kyselyn epäonnistumisen. 
 
 `Delete`-metodi oli toteutukseltaan siinä mielessä yksinkertaisempi muihin
-metodeihin verrattuna, koska sen ei tarvitse palauttaa mitään. Tässäkin pitää
-tietää, mikä on poistettavan urheilijan ID. Päivitys, eli `PUT`-metodi oli
-monessakin mielessä hankala, koska tässä sotki tietokannan automaattisesti luotu
-ID, sekä urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä
+metodeihin verrattuna, koska sen ei tarvitse palauttaa mitään. Tässäkin piti
+kuitenkin tietää, mikä on poistettavan urheilijan ID. Päivitys, eli `PUT`-metodi
+oli monessakin mielessä hankala, koska tässä sotki tietokannan automaattisesti
+luotu ID, sekä urheilijan syntymävuoden käsittely DATE-tyyppisenä. Myöhemmissä
 vaiheessa syntymävuoden ollessa väärässä muodossa, yksistään tämä esti tietojen
-päivittymisen kantaan. 
+päivittymisen kantaan. Aikaleimaan tuli liian tarkkaa dataa mukaan, jolloin
+tietokanta ei hyväksynyt tätä tarkkaa muotoa.  
 
-Syntaksellisesti tässä vaiheessa oli hankalaa piilotettu tieto. Eli, kun
-käytetään esim. yhteysallasta, niin kyselyt tuottavat taulukon, jossa on
-varsinainen data ensimmäisessä indeksissä ja metadata toisessa indeksissä.
-Kysymysmerkin käyttö kyselyssä tarkoittaa paikanpitäjää, eli tämän kysymysmerkin
-tilalle laitetaan jokin haluttu tieto. Useassa tapauksessa tämä oli juuri tuo
-urheilijan ID-tunnus. Haettava palvelin on sinänsä aivan sama kuin aiemminkin,
-mutta nyt parametreihin tarvitaan tämä urheilijan yksilöivä tieto. Jonkun verran
-oli ongelmia tiedon menemisestä tietokantaan, mutta perusustulostuslauseet
-koodissa auttoivat vikojen selvittelyssä. Myös selaimen kehitystyökalut olivat
-ahkerassa käytössä. Pelkästään statuskoodeista pystytään päättelemään, oliko
-kysely onnistunut, tai tuliko tietokannan päässä jotain virhettä jne.
-Spread-operaattori oli myös syntaksellisesti hieman hämmentävä. Toisaalta jos
-jokainen tieto olisi pitänyt kirjoittaa käsin, niin ymmärrän miksi tätä
-syntaksia käytetään. Tällä tavalla saadaan syötettyä koko olion kerralla. Eli
-tämä liittyi olion ominaisuuksien ja tietokannan taulun kenttien vastaavuuteen,
-joka pystytään spread-operaattorilla automatisoimaan.
+Syntaksellisesti tässä vaiheessa oli hankalaa hahmottaa typescriptin piilotettu
+tieto. Eli, kun käytetään esim. yhteysallasta, niin kyselyt tuottavat taulukon,
+jossa on varsinainen data ensimmäisessä indeksissä ja metadata toisessa
+indeksissä. Kysymysmerkin käyttö kyselyssä tarkoittaa paikanpitäjää, eli tämän
+kysymysmerkin tilalle laitetaan jokin haluttu tieto. Useassa tapauksessa tämä
+oli juuri tuo urheilijan ID-tunnus. Haettava palvelin on sinänsä aivan sama kuin
+aiemminkin, mutta nyt parametreihin tarvitaan tämä urheilijan yksilöivä tieto.
+
+Jonkun verran oli ongelmia tiedon menemisestä tietokantaan, mutta
+perusustulostuslauseet koodissa auttoivat vikojen selvittelyssä. Myös selaimen
+kehitystyökalut olivat ahkerassa käytössä. Pelkästään statuskoodeista pystytään
+päättelemään, oliko kysely onnistunut, tai tuliko tietokannan päässä jotain
+virhettä jne. Spread-operaattori oli myös syntaksellisesti hieman hämmentävä.
+Toisaalta jos jokainen tieto olisi pitänyt kirjoittaa käsin, niin ymmärrän miksi
+tätä syntaksia käytetään. Tällä tavalla saadaan syötettyä koko olion tiedot
+kerralla. Eli tämä liittyi olion ominaisuuksien ja tietokannan taulun kenttien
+vastaavuuteen, joka pystytään spread-operaattorilla automatisoimaan.
 
 ## Backendin testaus
 Kun metodit valmistuivat yksi kerrallaan, testasin niitä VSCodeen integroidulla
@@ -270,21 +276,21 @@ omaan hakemistoon, jotta koko projektia on helpompi hahmottaa kehityksen aikana.
 Kaikki lähdekoodi kirjoitettiin hyvien käytänteiden mukaisesti src-kansioon. 
 
 ## Front end kansiorakenne
-`services/ athleteService.ts`- tekee kutsuja palvelimelle `context/
-AthleteContext.ts`- tässä on sovelluksen globaali tila `components/
-Urheilijalist.tsx`    - näissä on sekaisin html-tyylistä koodia ja
+`services/ athleteService.ts`- tekee kutsuja palvelimelle 
+`context/AthleteContext.ts`- tässä on sovelluksen globaali tila 
+`components/Urheilijalist.tsx`    - näissä on sekaisin html-tyylistä koodia ja
 typescript-logiikkaa.  
 
 Kaikki tietokantaan tehtävät kutsut eristettiin omaan palvelukerrokseensa. Jotta
 kirjoitusvirheiltä vältyttäisiin, pitkä URL-osoite otettiin muuttujaan talteen.
 Monesti pienikin virhe osoitteessa aiheuttaa kyselyn epäonnistumisen, muuttujan
-avulla  myös itse kutsut ovat  helpommin luettavia. Tässä kohtaa oli syntaksin
-kanssa myös hieman ongelmia, eli esim. ellei http-metodia olla erikseen
-määritetty, se tekee oletuksena GET-pyynnön. Tässä kerroksessa tapahtuu myös
-muutoksia JSON-muodosta oliomuotoon, jolloin voi tulla helposti erilaisia
-virheitä. Koska pelkästä statuskoodi ei aina kertonut virheen syytä, niin
-jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin päästiin paremmin
-selville virheen syystä. 
+avulla  myös itse kutsut ovat  helpommin luettavia, koska parametrina oleva arvo
+on lyhyempi. Tässä kohtaa oli syntaksin kanssa myös hieman ongelmia, eli esim.
+ellei http-metodia olla erikseen määritetty, se tekee oletuksena GET-pyynnön.
+Tässä kerroksessa tapahtuu myös muutoksia JSON-muodosta oliomuotoon, jolloin voi
+tulla helposti erilaisia virheitä. Koska pelkästä statuskoodi ei aina kertonut
+virheen syytä, niin jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin
+päästiin paremmin selville virheen syystä. 
 
 ## Palvelukerros AtheletServices
 Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi. Melkein
@@ -302,8 +308,10 @@ Valmiit palvelukerroksen metodit tuodaan `AtheletContext`-tiedostoon. Tässä
 tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa.
 Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta
 toiselle. Muussa tapauksessa komponentit joutuisivat käsittelemään niille
-kuulumatonta tietoa, ja tilanhallinnasta tulisi raskasta ylläpitää. 
-
+kuulumatonta tietoa, ja tilanhallinnasta tulisi tällä tavoin raskasta ylläpitää.
+Koodi muuttuisi myös paljon sotkuisammaksi ilman Context API:n käyttämistä.
+Ongelmia aiheutti etenkin lomakekentän paikallinen tilanhallinta, vaikka
+sovelluksen globaalia tilaa hallittiin Context API:n kautta. 
 
 ### Rajapintamäärittely
 
@@ -320,7 +328,7 @@ Urheilija-olioita sisältävä taulukko. Globaali tila päivittyy kun haetaan
 palvelukerroksessa olevalla funktiolla kaikki urheilijat ruudulle. Tilapäivitys
 pitää tehdä aina asetusfunktion kautta, jotta React havaitsee muutoksen.
 Context-rajapinnassa on vain metodien nimet ja parametrit, mutta varsinainen
-määrittely tehdään funktionaalisen komponentin sisällä. 
+määrittely tehdään aina funktionaalisen komponentin sisällä. 
 
 Varsinaiset funktioiden toteutukset tehtiin Providerin sisälle ja funktion nimen
 eteen laitettiin handle merkkaamaan, että nyt käsitellään tilanmuutosta. Tämä
@@ -340,10 +348,10 @@ import { useAthletes } from '../context/AthleteContext';
 tässä kansiossa sijaitsevat käyttöliittymän komponentit: `UrheilijaForm.tsx`ja
 `UrheilijaList.tsx`. Lomakkeen avulla lisätään uusi urheilija tietokantaan ja
 listan avulla näytetään kaikki tietokannassa olevat urheilijat.  Näissä
-tiedostoissa on sekaisin type script logiikkaa ja HTML-tyyppistä syntaksia.
+tiedostoissa on sekaisin typescript logiikkaa ja HTML-tyyppistä syntaksia.
 Sovelluksen tilaa hallitaan useStaten avulla, tämä on alustettu tyhjäksi
 merkkijonoksi. Lukumuuttuja ja päivitysfunktio saadaan näppärästi purettua
-taulukosta omiin muuttujiin. Urheilijaa lisättäessä annetaan syöttökenttiin
+taulukosta omiin muuttujiinsa. Urheilijaa lisättäessä annetaan syöttökenttiin
 vähintään etu-ja sukunimi -tiedot. HTML-lomakekeella kytketään tila ja kenttä
 yhteen. Ensin luetaan lukumuuttujasta arvo, jonka jälkeen  tapahtumankuuntelija
 päivittää näppäilyn tuloksen ja renderöi tämän ruudulle. 
@@ -351,17 +359,13 @@ päivittää näppäilyn tuloksen ja renderöi tämän ruudulle.
 UrheilijaList vastaa haku- ja poistotoiminnosta, sekä kaikkien urheilijoiden
 esittämisestä ruudulla. Ruudulla näkyvät urheilijat saadaan urheilija-olioita
 sisältävästä listasta. Tässä käytettiin sekä globaalia tilaa, että paikallista
-muokkaustilaa.
-
-## Components - käyttöliittymän komponentit
-
-Sovelluksen käyttöliittymä eriytettiin alun perin kahdesta suuremmasta
-tiedostosta viiteen (5) erilliseen komponenttiin Single Responsibility Principle
-(SRP) -periaatteen mukaisesti. UserList sisälsi lomakkeet urheilijan poistoon ja
-lisäämiseen. Tässä nimeäminen oli harhaanjohtavaa ja tiedostosta tuli hyvin
-pitkä. Komponentit refaktoroitiin omiin tiedostoihinsa. Näistä lomakkeen
-eristäminen omaksi komponenetiksi oli hankalaa, koska jouduttiin käyttämään
-paikallista tilanhallintaa kontekstin sijasta. 
+muokkaustilaa. Tässä vaiheessa urheilijalist.tsx alkoi kasvaa massivisiin
+mittoihin, eikä se myöskään kuvannut kovin hyvin, mitä tämä komponentti tekee.
+UrheilijaList ei enää näyttänyt urheilijoita, vaan se hallitsi myös haku, poisto
+ja muokkaustoimintoja. Tässä vaiheessa tuli tarve refaktoroinnille ja lisätä
+haku, poisto ja muokkauslomake omiin käyttöliittymäkomponentteihin. Näistä
+lomakkeen eristäminen omaksi komponenetiksi oli hankalaa, koska jouduttiin
+käyttämään paikallista tilanhallintaa kontekstin sijasta. 
 
 1. **`UrheilijaForm.tsx`**: Uuden urheilijan lisäyslomake 
 2. **`HaeUrheilijaTunnuksella.tsx`**: Yksittäisen urheilijan haku ID:lla ja
@@ -406,7 +410,7 @@ järjestyksessä.
   ```
 
 Koodia kirjoittaessa monesti tuli vastaan joko musta- tai valkea ruutu. Yleensä
-nämä ongelmat liittyvät turvatarkistuksien puuttumiseen ja näytön renderöintiin.
+nämä ongelmat liittyvät turvatarkistuksien puuttumiseen tai näytön renderöintiin.
 Esim. jos komponentilla ei ole tilaa alustettuna ennen renderöintiä, niin
 tällainen musta ruutu saattoi tulla eteen. Etenkin pitkissä tiedostoissa tuli
 paljon erilaisia sulkuvirheitä, eli aina ei ollut selvää, mikä asia kuuluu
@@ -422,16 +426,16 @@ pystyttiin päivittämään urheilijaa muilta osin, mutta ID jätettiin rauhaan.
 Mietin, olisiko urheilijan syntymäaikaan riittänyt pelkästään vuosiluku, jolloin
 olisin voinut käsitellä yksinkertaisempaa tietotyyppiä, kuten numeroa
 päivämäärän sijasta. Urheilijaa lisätessä tiedot eivät välttämättä päivityneet
-kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös aikaleiman
-automaattinen lisääminen päivämäärään teki kannan päivittämisen mahdottomaksi.
-Koska tietoa muunnetaan olioista tekstiksi, näitä ihmeellisiä muunnosvirheitä
-voi ilmetä myöhemmissä kehitysvaiheissa. 
+kantaan, ellei syntymäaika ollut juuri oikeassa muodossa. Myös tarkan aikaleiman
+automaattinen lisääminen päivämäärän perään teki kannan päivittämisen
+mahdottomaksi. Koska tietoa muunnetaan olioista tekstiksi ja tekstistä olioksi,
+näitä ihmeellisiä muunnosvirheitä saattoi ilmetä myöhemmissä kehitysvaiheissa. 
 
 # Bootstrap ja inline CSS-muotoilut
 
 Käyttöliittymän visuaalisen tyylittelyn osalta tehtiin tietoinen rajaus:
 Bootstrap-kehyksen laajempi pystytys jätettiin pois ja tilalla käytettiin
-inline-tyylejä sekä perinteistä HTML-rakennetta. Tällä ratkaisulla säästettiin
+inline-tyylejä, sekä perinteisiä HTML-rakenteita. Tällä ratkaisulla säästettiin
 aikaa sovelluksen ydintoiminnallisuuden, eli tietokantakyselyiden,
 REST-rajapinnan, Context API-tilanhallinnan ja komponenttiarkkitehtuurin
-ymmärtämiseen.
+ymmärtämiseen. 
