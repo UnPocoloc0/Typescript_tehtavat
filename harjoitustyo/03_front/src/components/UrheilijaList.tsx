@@ -1,3 +1,4 @@
+// Tämä komponentti listaa tietokantaan tallennetut urheilijat
 // Paikallisen muistin ylläpito
 import React, { useState } from 'react';
 // Custom hook -> Kytkeydetään yhteiseen keskusmuistiin

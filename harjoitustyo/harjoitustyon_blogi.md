@@ -36,7 +36,7 @@ hyvänä ohjeena tietokannan muodostamiselle ja siitä löytyville kentille. Kä
 monia käyttöjärjestelmiä, mutta eniten kuitenkin Macia. Vaikka Koodasin
 itsekseni, pyrin vaihtamaan työasemaa päivittäin. Näin pystyn simuloimaan
 tiimityöskentelyä, ja miten versionhallinta toimisi tiimin kanssa. Jonkun verran
-oli ongelmia konfigauraatioden kanssa, koska konfiguraatiotiedostot eivät mene
+oli ongelmia konfiguraatioden kanssa, koska konfiguraatiotiedostot eivät mene
 versionhallintaan, eivätkä myöskään kehitysaikaiset riippuvuudet. Alussa jouduin
 näitä riippuvuuksia  konfiguroimaan eri koneille, koska näitä ei ole mitään
 järkeä viedä versionhallintaan. Pikemminkin ne pystytään asentamaan jokaisen
@@ -78,9 +78,9 @@ Tämä projekti on ollut aiempia koulun projekteja laajempi arkkitehtuuriltaan,
 joten hyvä suunnittelu ja käsitys projektin rakenteesta ylätasolla oli
 välttämätöntä. Oikeastaan projektin alussa ei ollut mitään käsitystä tehtävän
 todellisesta vaikeudesta. Paljon omaa hahmottamista vaikeuttaa Web1-kurssin
-puuttuminen. Myös Web:n liittyvien perusteknologioidenkin harjoitteluun pitäisi
-varata vielä paljon aikaa. Tämän jälkeen erilaisten frameworkien käyttäminen
-olisi helpompaa. 
+puuttuminen. Myös Web-kehitykseen liittyvien perusteknologioidenkin
+harjoitteluun pitäisi varata vielä paljon aikaa. Tämän jälkeen erilaisten
+frameworkien käyttäminen olisi helpompaa. 
 
 Sovelluksen arkkitehtuuri jaettiin kolmeen erilliseen osaan, eli tietokantaan,
 ja sitä ohjaavan välikerrokseen, sekä käyttäjälle näkyvään käyttöliittymään.
@@ -292,7 +292,7 @@ tulla helposti erilaisia virheitä. Koska pelkästä statuskoodi ei aina kertonu
 virheen syytä, niin jouduttiin tulostamaan konsoliin virheen aiheuttaja, jolloin
 päästiin paremmin selville virheen syystä. 
 
-## Palvelukerros AtheletServices
+## Palvelukerros AthleteServices
 Tietokannasta palautuva data menee ensimmäisenä palvelukerroksen läpi. Melkein
 kaikki metodit tässä palvelukerroksessa palautuvat json-muotoista dataa, paitsi
 delete-metodi, joka ei palauta mitään. Hankalin asia oli uuden urheilijan
@@ -303,7 +303,7 @@ tämän Urheilija-tyypin tietoja. Jos haetaan kaikki urheilijat, niin Promise on
 Urheilijat-taulukko, muissa tapauksissa vain palautetaan yhden, halutun ID:n
 urheilija-olion tiedot. 
 
-## Tilanhallinta AtheletContext
+## Tilanhallinta AthleteContext
 Valmiit palvelukerroksen metodit tuodaan `AtheletContext`-tiedostoon. Tässä
 tiedostossa kootaan asioita yhteen ja hallitaan sovelluksen globaalia tilaa.
 Globaalin tilanhallinnan avulla estetään tilan välittäminen käsin komponenttilta

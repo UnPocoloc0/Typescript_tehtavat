@@ -517,7 +517,7 @@ Yritin tyhjentää Syötekenttiä Return-sanan alapuolella, eikä tämä onnistu
 ---
 
 #### Haaste 4:
-* Harjoittelin myös käyttöliittymän tyylittelyä perus tavalla. Nyt kaikki tyylit
+* Harjoittelin myös käyttöliittymän tyylittelyä perustavalla. Nyt kaikki tyylit
   on kirjoitettuna inline-tyyppisesti, tehtävän refaktorointi olisi ollut
   hyödyllistä, mutta jätin sen ajanpuutteen takia tekemättä. Tämä voi olla hyvä
   haaste myöhempää aikaa varten. Koodi on hieman sekavan näköistä, koska tyylit
@@ -552,66 +552,4 @@ Yritin tyhjentää Syötekenttiä Return-sanan alapuolella, eikä tämä onnistu
   oppi ennen projektin lisäämistä olisi tarkistaa, että viimeisimmät muutokset
   ovat mukana. 
 
-## Viikko 7 (1.9.- 6.9.2020)
 
-### Mitä opin tällä viikolla
-
-Kuvaa tähän ...
-
-### Mitä harjoituksia tein
-
-Kuvaa tähän osioon millaisia harjoituksia teit
-
-#### Harjoitus 1
-
-Harjoitus 1:ssä opettelin... Ongelmaksi muodostui...
-
-#### Harjoitus 2
-
-Harjoitus 2:ssa opettelin...
-
----
-
-## Viikko 8 (1.9.- 6.9.2020)
-
-### Mitä opin tällä viikolla
-
-Kuvaa tähän ...
-
-### Mitä harjoituksia tein
-
-Kuvaa tähän osioon millaisia harjoituksia teit
-
-#### Harjoitus 1
-
-Harjoitus 1:ssä opettelin... Ongelmaksi muodostui...
-
-#### Harjoitus 2
-
-Harjoitus 2:ssa opettelin...
-
----
-
-## Viikko 9 (1.9.- 6.9.2020)
-
-### Mitä opin tällä viikolla
-
-Kuvaa tähän ...
-
-### Mitä harjoituksia tein
-
-Kuvaa tähän osioon millaisia harjoituksia teit
-
-#### Harjoitus 1
-
-Harjoitus 1:ssä opettelin... Ongelmaksi muodostui...
-
-#### Harjoitus 2
-
-Harjoitus 2:ssa opettelin...
-
----
-
-\*Käytä 1 viikon mukaista pohjaa tämän ja kaikkien loppujen viikkojen toimintasi
-kuvaamiseen. Arviointisi tehdään osittain myös niiden tässä blogissa kuvaamasi
-toimintasi kautta.
